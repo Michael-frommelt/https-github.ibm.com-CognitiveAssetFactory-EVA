@@ -1,0 +1,22 @@
+{
+  "_id": "_design/0c803213c8023b7398f75c52b281a01da51076fc",
+  "language": "query",
+  "views": {
+    "sessionId-sort-index": {
+      "map": {
+        "fields": {
+          "session_id": "asc"
+        },
+        "partial_filter_selector": {}
+      },
+      "reduce": "_count",
+      "options": {
+        "def": {
+          "fields": [
+            "session_id"
+          ]
+        }
+      }
+    }
+  }
+}

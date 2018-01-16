@@ -1,0 +1,53 @@
+.table {
+  table-layout: fixed;
+}
+
+.table-scroll {
+  height: 500px;
+  overflow: scroll;
+}
+
+.table > thead > tr > th, .table > thead > tr > td, .table > tbody > tr > th, .table > tbody > tr > td, .table > tfoot > tr > th, .table > tfoot > tr > td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  max-width: calc(100% - 30px);
+}
+
+.checkbox-inline {
+  display: block;
+  float: left;
+  width: 20%;
+  margin-left: 75px !important;
+}
+
+.additional-info h1 {
+  color: #9220a1;
+  font-weight: bold;
+  line-height: 4.25rem;
+  padding-left: 26px;
+  margin-top: 10px;
+}
+
+.additional-info p {
+  margin: 30px 15px;
+}
+
+.flex-container {
+  display: flex !important;
+  align-items: center;
+}
+
+.margin-horizontal-5 {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.margin-bottom-0 {
+  margin-bottom: 0px;
+}

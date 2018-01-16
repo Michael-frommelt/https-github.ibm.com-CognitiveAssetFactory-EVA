@@ -1,0 +1,198 @@
+$icon-font-path: "../../../fonts/bootstrap/";
+@import '../../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+@import '../lib/angular-chips';
+@import '../lib/summernote';
+
+html, body, main {
+  height: 100%;
+}
+
+main {
+  min-height: 300px;
+  flex-direction: column;
+}
+
+.container-fluid {
+  padding: 0;
+}
+
+p:not([class]), p[class=""] {
+  margin: 0px !important;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.admin-panel {
+  padding-bottom: 0px;
+}
+
+@media (max-width: 768px) {
+  .admin-panel {
+  }
+}
+
+.tag-chips {
+  display: inline-block;
+}
+
+.proposal-chip {
+  border-radius: 20px;
+  padding: 5px 10px;
+}
+
+.table-container {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.well-margin {
+  margin: 0px 2px 2px 2px;
+}
+
+.answer-option-cell-1 {
+  border: none !important;
+  width: 60px;
+  padding-left: 28px !important;
+}
+
+.answer-option-cell-2 {
+  border-right: none !important;
+  width: 70px;
+  padding-left: 10px !important;
+}
+
+.answer-option-cell-3 {
+  border-left: none !important;
+  padding-left: 10px !important;
+}
+
+th {
+  line-height: 33px !important;
+}
+
+th.tags-column {
+  width: 16%;
+}
+.tags-column {
+  width: 15%;
+}
+
+.bold {
+  font-weight: 800;
+}
+
+.button-header {
+  flex-wrap: wrap;
+  align-items: flex-end !important;
+}
+
+.header-inputs {
+  margin: 5px;
+}
+
+.flex-container {
+  display: flex !important;
+  align-items: center;
+}
+
+.align-items-top {
+  align-items: flex-start !important;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.flex-grow {
+  flex: 1;
+}
+
+.margin-top-15 {
+}
+
+.margin-bottom-0 {
+  margin-bottom: 0px;
+}
+
+.margin-bottom-5 {
+  margin-bottom: 5px;
+}
+
+.margin-bottom-20 {
+  margin-bottom: 20px;
+}
+
+.padding-0 {
+  padding: 0px !important;
+}
+
+.padding-vertical-3 {
+  padding: 0 3px;
+}
+
+.padding-10-5 {
+  padding: 10px 5px;
+}
+
+.padding-vertical-5 {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.st-selected {
+  background-color: #337ab7;
+  color: white;
+}
+
+// sort indicator icons
+.st-sort-descent::after {
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -moz-osx-font-smoothing: grayscale;
+  content: '\e156';
+}
+
+.st-sort-ascent::after {
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -moz-osx-font-smoothing: grayscale;
+  content: '\e155';
+}
+
+// styles for Bootstrap navigation pills with buttons
+.nav-pills > li > button {
+  border-radius: 4px;
+}
+.nav-pills > li.active > button,
+.nav-pills > li.active > button:hover,
+.nav-pills > li.active > button:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+    color: #fff;
+    background-color: #a51598;
+}
+
+.st-selected {
+    background-color: #e2e2e1;
+      color: black;
+}
+
+// disabling spin buttons in number input fields
+input[type=number].form-control::-webkit-outer-spin-button,
+input[type=number].form-control::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number].form-control {
+    -moz-appearance:textfield;
+}

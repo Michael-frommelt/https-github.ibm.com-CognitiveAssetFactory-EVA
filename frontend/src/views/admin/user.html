@@ -1,0 +1,327 @@
+<div ng-include="'views/admin/nav.html'"></div>
+<main class="container-fluid admin-panel" st-table="displayedUsers" st-safe-src="users" ng-cloak>
+  <!-- show animation || HIDE CONTENT CONTAINER-->
+  <div id="blur_hide">
+    <div class="loader">Loading...</div>
+    <div id="loadingParagraph">Loading</div>
+  </div>
+  <!-- || -->
+  <header class="button-header flex-container space-between">
+    <h3 class="header-text" translate>USERSTORE</h3>
+    <form class="form-inline flex-container flex-grow margin-left-15" role="toolbar" novalidate>
+      <span class="flex-container flex-grow input-group header-inputs" st-search>
+        <input type="text" class="form-control flex-grow" placeholder="{{'SEARCH' | translate}}"
+            ng-model="searchText" ng-init="oldSearchText = ''" ng-focus="oldSearchText = searchText" ng-change="onSearch(searchText, oldSearchText)"/>
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </span>
+      </span>
+    </form>
+  </header>
+    <div class="alert alert-danger" ng-show="error" uib-alert close="error = null">
+      <strong>{{error.status}}</strong> {{error.data.message || error.data}}
+    </div>
+    <div class="table-container">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th st-sort="change">
+              <span style="line-height: 33px" translate>CHANGE</span>
+            </th>
+            <th st-sort="userName">
+              <span style="line-height: 33px" translate>USER_NAME</span>
+            </th>
+            <th st-sort="debugmode">
+              <span style="line-height: 33px" translate>DEBUGMODE</span>
+            </th>
+            <th st-sort="clients">
+              <span style="line-height: 33px" translate>CLIENTS</span>
+            </th>
+            <th st-sort="role">
+              <span style="line-height: 33px" translate>ROLE</span>
+            </th>
+            <th st-sort="permissions">
+              <span style="line-height: 33px" translate>PERMISSIONS</span>
+              <button class="btn btn-primary pull-right" type="button" ng-click="openRegisterModal()">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span translate>USER_NEW</span>
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody ng-show="isLoading">
+          <tr>
+            <td class="text-center" colspan="6">
+              <i class="glyphicon glyphicon-refresh spinning"></i>
+              <span translate>LOADING</span>
+            </td>
+          </tr>
+        </tbody>
+        <tbody ng-show="!isLoading && !displayedUsers.length">
+          <tr>
+            <td class="text-center" translate colspan="6">USER_SEARCH_NOT_FOUND</td>
+          </tr>
+        </tbody>
+        <tbody ng-show="!isLoading && displayedUsers.length">
+          <tr ng-repeat="user in displayedUsers | orderBy: 'username'">
+            <td class="padding-0">
+              <div class="flex-container">
+                <div class="padding-10-5">
+                  <button class="btn btn-link padding-vertical-3" type="button" ng-click="openPasswordModal(user)" uib-tooltip="{{'EDIT_PASSWORD' | translate}}" tooltip-placement="bottom-left">
+                    <i class="glyphicon glyphicon-lock"></i>
+                  </button>
+                  <button class="btn btn-link padding-vertical-3" type="button" ng-click="openEditModal(user)" uib-tooltip="{{'EDIT_PRIVILEGES' | translate}}" tooltip-placement="bottom-left">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                  </button>
+                  <button class="btn btn-link padding-vertical-3" type="button" ng-click="openDeleteModal(user.username)" uib-tooltip="{{'DELETE_USER_TITLE' | translate}}" tooltip-placement="bottom-left">
+                    <i class="glyphicon glyphicon-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span ng-bind-html="user.username | highlightFilter:searchText"></span>
+            </td>
+            <td>
+              <span ng-bind-html="user.debugmode_translated | highlightFilter:searchText"></span>
+            </td>
+            <td>
+              <span ng-repeat="clients_fullName in user.clients_fullName | orderBy">{{clients_fullName}}<br></span>
+            </td>
+            <td>
+              <span ng-bind-html="user.role | highlightFilter:searchText"></span>
+            </td>
+            <td>
+              <span ng-repeat="permission in user.permissions | orderBy">{{permission}}<br></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- end of area only visible to users with edit function -->
+  <!-- area only visible to users withOUT edit function -->
+  <div permission permission-only="'isAdmin'" permission-except="'editUsers'">
+    <h3 class="header-text" translate>USERSTORE</h3>
+    <div ng-show="failed_change" class="alert alert-danger">
+      {{failed_change}}
+    </div>
+    <div>
+      <dl>
+        <dt translate>EDIT_PASSWORD</dt>
+        <dd class="form-group">
+          <input type="password" class="user-input form-control" ng-model="password" name="password" placeholder="{{'FORM_PLACEHOLDER_PW' | translate}}" required>
+        </dd>
+        <dd class="form-group">
+          <input type="password" class="user-input form-control" ng-model="check_password" name="check_password" placeholder="{{'FORM_PLACEHOLDER_PW2' | translate}}" required>
+        </dd>
+      </dl>
+    </div>
+    <button type="button pull-right" class="btn btn-primary" ng-click="changeUserPassword()">
+      <span translate>SAVE</span>
+      <i class="glyphicon glyphicon-refresh spinning" ng-show="isSaving"></i>
+    </button>
+  </div>
+
+  <!-- delete modal -->
+  <script type="text/ng-template" id="deleteModal.html">
+    <div class="modal-header">
+      <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+      <h4 class="modal-title" translate>DELETE_USER_TITLE</h4>
+    </div>
+    <div class="modal-body">
+      <span translate>DELETE_USER_TEXT</span>
+      <span>{{ userToDelete }}</span>
+      <span>?</span>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>NO</button>
+      <button type="button" class="btn btn-primary" ng-click="deleteUser()">
+        <span translate>YES</span>
+        <i class="glyphicon glyphicon-refresh spinning" ng-show="isDeleting"></i>
+      </button>
+    </div>
+  </script>
+
+  <!-- change password modal -->
+  <script type="text/ng-template" id="passwordModal.html">
+    <div class="modal-header">
+      <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+      <h4 class="modal-title">{{'EDIT_USER_PASSWORD'| translate}}: {{ user.username }}</h4>
+    </div>
+    <div class="modal-body">
+      <div ng-if="errorText && errorText.length > 0" class="alert alert-danger alert-dismissable">
+        <i class="close" ng-click="deleteError()" aria-label="close">&times;</i> {{errorText}}
+      </div>
+      <div ng-show="failed_change" class="alert alert-danger">
+        {{failed_change}}
+      </div>
+      <div>
+        <dl>
+          <dt><span translate>PASSWORD</span>*</dt>
+          <dd class="form-group">
+            <input type="password" class="user-input form-control" ng-model="password" name="password" placeholder="{{'FORM_PLACEHOLDER_PW' | translate}}" required>
+          </dd>
+          <dd class="form-group">
+            <input type="password" class="user-input form-control" ng-model="check_password" name="check_password" placeholder="{{'FORM_PLACEHOLDER_PW2' | translate}}" required>
+          </dd>
+        </dl>
+        <hr>
+        <p>*<span translate>REQUIRED_INPUT</span></p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>CANCEL</button>
+      <button type="button" class="btn btn-primary" ng-click="saveUser()">
+         <span translate>SAVE</span>
+         <i class="glyphicon glyphicon-refresh spinning" ng-show="isSaving"></i>
+       </button>
+    </div>
+  </script>
+
+  <!-- new modal -->
+  <script type="text/ng-template" id="registerModal.html">
+    <div class="modal-header">
+      <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+      <h4 class="modal-title" translate>FORM_REGISTER_USER</h4>
+    </div>
+    <div class="modal-body">
+      <div ng-if="errorText && errorText.length > 0" class="alert alert-danger alert-dismissable">
+        <i class="close" ng-click="deleteError()" aria-label="close">&times;</i> {{errorText}}
+      </div>
+      <div ng-show="failed_register" class="alert alert-danger">
+        {{failed_register}}
+      </div>
+          <dl>
+            <dt><span translate>USER_NAME</span>*</dt>
+            <dd class="form-group">
+              <input type="text" class="user-input form-control" ng-model="username" name="username" placeholder="{{'FORM_PLACEHOLDER_USER' | translate}}" required>
+            </dd>
+          </dl>
+          <div>
+            <dl>
+              <dt><span translate>PASSWORD</span>*</dt>
+              <dd class="form-group">
+                <input type="password" class="user-input form-control" ng-model="password" name="password" placeholder="{{'FORM_PLACEHOLDER_PW' | translate}}" required>
+              </dd>
+              <dd class="form-group">
+                <input type="password" class="user-input form-control" ng-model="check_password" name="check_password" placeholder="{{'FORM_PLACEHOLDER_PW2' | translate}}" required>
+              </dd>
+              <dt><span translate>CLIENTS</span>*</dt>
+              <dd class="form-group" ng-repeat="client in clients">
+                <label><input type="checkbox" ng-init="checkedClients[client.id]=false" ng-model="checkedClients[client.id]" value="{{client.id}}"> {{client.name}} </label></dd>
+              </dl>
+                <dt>{{'DEBUGMODE' | translate}}</dt>
+              <dd> <label><input type="checkbox" ng-init="debugmode=false" ng-model="debugmode" value="debug"> {{'ENABLED' | translate}}</label></dd>
+            </dl>
+            <dl class="clearfix">
+              <dt class="col-sm-2" style="padding-left: 0px" translate>ROLE</dt>
+              <dd class="col-sm-8">
+                <select class="form-control" id="role" ng-model="user.role" ng-change="setCheckboxes()">
+                  <option></option>
+                  <option ng-repeat="role in availableRoles" ng-value="role.id">{{role.name}}</option>
+                </select>
+              </dd>
+            </dl>
+            <table class="table" style="margin-bottom: 0px">
+              <tr>
+                <th translate>PERMISSION</th>
+                <th translate>ALLOWS</th>
+              </tr>
+              <tr ng-repeat="permission in availablePermissions">
+                <td class="text-nowrap">
+                  <label style="font-weight: normal">
+                    <input type="checkbox" ng-value="permission" ng-checked="userPermissions.indexOf(permission) > -1"
+                      ng-disabled="checkboxReadonlies[permission]" ng-click="togglePermissionSelection(permission)">
+                    {{permission}}
+                  </label>
+                </td>
+                <td>{{'PERMISSION_TEXT_' + permission | translate}}</td>
+              </tr>
+            </table>
+          </div>
+          <hr>
+          <p>* <span translate>REQUIRED_INPUT</span></p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>CANCEL</button>
+            <button type="button" class="btn btn-primary" ng-click="registerUser()">
+               <span translate>REGISTER</span>
+               <i class="glyphicon glyphicon-refresh spinning" ng-show="isSaving"></i>
+             </button>
+          </div>
+    </div>
+  </script>
+
+  <!-- edit modal -->
+  <script type="text/ng-template" id="editModal.html">
+    <div class="modal-header">
+      <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+      <h4 class="modal-title">{{'EDIT_USER_NAME' | translate}}: {{ user.username }}</h4>
+    </div>
+    <div class="modal-body">
+      <div ng-if="errorText && errorText.length > 0" class="alert alert-danger alert-dismissable">
+        <i class="close" ng-click="deleteError()" aria-label="close">&times;</i> {{errorText}}
+      </div>
+      <div>
+        <dl style="margin-bottom: 0" class="user_management_clients">
+          <dt style="width: 300px;" translate>CLIENTS</dt>
+          <dd style="flex-grow: 1;" class="form-group" ng-repeat="client in clientsForUser">
+            <label class="checkbox-inline">
+                <input type="checkbox" ng-model="client.checked">
+                <span class="checkbox_checker"></span>
+                {{client.name}} {{client.notice | translate}}
+            </label>
+          </dd>
+        </dl>
+        <dl style="margin-top: 0" class="user_management_clients">
+          <dt style="width:300px;">{{'DEBUGMODE' | translate}}</dt>
+          <dd style="flex-grow: 6;">
+            <!-- <label>
+              <input type="checkbox" ng-model="user.debugmode" value="debug"> {{'ENABLED' | translate}}
+            </label> -->
+            <label class="checkbox-inline">
+                <input type="checkbox" ng-model="user.debugmode" value="debug">
+                <span class="checkbox_checker"></span>
+                {{'ENABLED' | translate}}
+            </label>
+          </dd>
+        </dl>
+        <dl class="clearfix">
+          <dt class="col-sm-2" style="padding-left: 0px; width: 285px;" translate>ROLE</dt>
+          <dd class="col-sm-8">
+            <select class="form-control" id="role" ng-model="user.role" ng-change="setCheckboxes()">
+              <option></option>
+              <option ng-repeat="role in availableRoles" ng-value="role.id">{{role.name}}</option>
+            </select>
+          </dd>
+        </dl>
+        <table class="table" style="margin-bottom: 0px">
+          <tr>
+            <th translate>PERMISSION</th>
+            <th translate>ALLOWS</th>
+          </tr>
+          <tr ng-repeat="permission in availablePermissions">
+            <td class="text-nowrap">
+              <label class="checkbox-inline">
+                  <input type="checkbox" ng-value="permission" ng-checked="userPermissions.indexOf(permission) > -1"
+                    ng-disabled="checkboxReadonlies[permission]" ng-click="togglePermissionSelection(permission)">
+                  <span class="checkbox_checker"></span>
+                  {{permission}}
+              </label>
+            </td>
+            <td>{{'PERMISSION_TEXT_' + permission | translate}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>CANCEL</button>
+      <button type="button" class="btn btn-primary" ng-click="saveUser()">
+        <span translate>SAVE</span>
+        <i class="glyphicon glyphicon-refresh spinning" ng-show="isSaving"></i>
+      </button>
+    </div>
+  </script>
+</main>

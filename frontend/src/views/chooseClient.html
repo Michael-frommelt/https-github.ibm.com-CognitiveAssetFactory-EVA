@@ -1,0 +1,13 @@
+<h1>Bitte wählen Sie einen Client aus:</h1>
+<div ng-show="failed_login" class="alert">
+  {{failed_login}}
+</div>
+<div id="login_form">
+  <select class="user-input form-control" ng-model="chosenClient" ng-change="updateClient()" style="margin: 5px;">
+    <option ng-repeat="client in availableClients" value="{{client.id}}" ng-selected="clientId == client.id">{{client.name}}</option>
+  </select>
+</div>
+<div id="logo">
+  <img src="images/EVA2.png" width="65%" style="margin: 0 auto;">
+</div>
+<div id="clear"></div>

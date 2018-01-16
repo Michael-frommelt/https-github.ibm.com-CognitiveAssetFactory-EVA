@@ -1,0 +1,144 @@
+<div ng-include="'views/admin/nav.html'"></div>
+<main class="container-fluid admin-panel" st-table="displayedRoles" st-safe-src="roles" ng-cloak>
+  <header class="button-header flex-container space-between">
+    <h3 class="header-text" translate>ROLESTORE</h3>
+    <form class="form-inline flex-container flex-grow margin-left-15" role="toolbar" novalidate>
+      <span class="flex-container flex-grow input-group header-inputs" st-search>
+        <input type="text" class="form-control flex-grow" placeholder="{{'SEARCH' | translate}}" ng-model="searchText"/>
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </span>
+      </span>
+    </form>
+  </header>
+  <div class="alert alert-danger" ng-show="error" uib-alert close="error = null">
+    <strong>{{error.status}}</strong> {{error.data.message || error.data}}
+  </div>
+  <div class="table-container">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th style="line-height:33px" st-sort="id">
+            <span translate>ROLE_ID</span>
+          </th>
+          <th style="line-height:33px" st-sort="name" st-sort-default="true">
+            <span translate>ROLE_NAME</span>
+          </th>
+          <th style="line-height:33px">
+            <span translate>PERMISSIONS</span>
+            <button class="btn btn-primary pull-right" type="button" ng-click="openEditModal(true)">
+              <i class="glyphicon glyphicon-plus"></i>
+              <span translate>ROLE_NEW</span>
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody ng-show="isLoading">
+        <tr><td class="text-center" colspan="3">
+          <i class="glyphicon glyphicon-refresh spinning"></i>
+          <span translate>LOADING</span>
+        </td></tr>
+      </tbody>
+      <tbody ng-show="!isLoading && !displayedRoles.length">
+        <tr><td class="text-center" translate colspan="3">ROLE_SEARCH_NOT_FOUND</td></tr>
+      </tbody>
+      <tbody ng-show="!isLoading && displayedRoles.length">
+        <tr ng-repeat="role in displayedRoles">
+          <td class="padding-0">
+            <div class="flex-container">
+              <div class="padding-10-5">
+                <button class="btn btn-link padding-vertical-3" type="button" ng-click="openEditModal(false, role)">
+                  <i class="glyphicon glyphicon-pencil"></i>
+                </button>
+                <button class="btn btn-link padding-vertical-3" type="button" ng-click="openDeleteModal(role)">
+                  <i class="glyphicon glyphicon-trash"></i>
+                </button>
+              </div>
+              <div class="padding-10-5" ng-bind-html="role.id | highlightFilter:searchText"></div>
+            </div>
+          </td>
+          <td style="vertical-align: middle" ng-bind-html="role.name | highlightFilter:searchText"></td>
+          <td style="vertical-align: middle" ng-bind-html="role.permissions.join(', ') | highlightFilter:searchText"></td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-primary margin-bottom-20 pull-right" type="button" ng-click="buttonCleanUpUsers()">
+      <span translate>CLEAN_UP_USERS</span>
+      <i class="glyphicon glyphicon-refresh spinning" ng-show="isCleaning"></i>
+    </button>
+  </div>
+
+  <!-- delete modal -->
+  <script type="text/ng-template" id="deleteModal.html">
+    <div class="modal-header">
+      <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+      <h4 class="modal-title" translate>DELETE_ROLE_TITLE</h4>
+    </div>
+    <div class="modal-body">
+      <span translate>DELETE_ROLE_TEXT</span>
+      {{roleName}}?
+      <p ng-if="roleWarningCount > 0" class="text-danger">
+        <span translate>ROLE_WARNING_TEXT_1</span>
+        {{roleWarningCount}}
+        <span translate>ROLE_WARNING_TEXT_2</span>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>NO</button>
+      <button type="button" class="btn btn-primary" ng-click="deleteRole()">
+        <span translate>YES</span>
+        <i class="glyphicon glyphicon-refresh spinning" ng-show="isDeleting"></i>
+      </button>
+    </div>
+  </script>
+
+  <!-- edit modal -->
+  <script type="text/ng-template" id="editModal.html">
+    <div class="modal-header">
+      <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+      <h4 class="modal-title" ng-if="isNew" translate>NEW_ROLE_TITLE</h4>
+      <h4 class="modal-title" ng-if="!isNew" translate>EDIT_ROLE_TITLE</h4>
+    </div>
+    <div class="modal-body">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label for="roleName" class="col-sm-4 control-label" translate>ROLE_NAME</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="roleName" ng-model="role.name" ng-change="syncIdIfNew()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="roleId" class="col-sm-4 control-label" translate>ROLE_ID</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="roleId" readonly ng-model="role.id">
+          </div>
+        </div>
+        <table class="table" style="margin-bottom: 0px">
+          <tr>
+            <th translate>PERMISSION</th>
+            <th translate>ALLOWS</th>
+          </tr>
+          <tr ng-repeat="permission in availablePermissions">
+            <td class="text-nowrap">
+              <label style="font-weight: normal">
+                <input type="checkbox" ng-value="permission" ng-checked="role.permissions.indexOf(permission) > -1"
+                  ng-click="togglePermissionSelection(permission)">
+                {{permission}}
+              </label>
+            </td>
+            <td>{{'PERMISSION_TEXT_' + permission | translate}}</td>
+          </tr>
+        </table>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>CANCEL</button>
+      <button type="button" class="btn btn-primary" ng-click="saveRole()" ng-disabled="!isValid()">
+        <span translate>SAVE</span>
+        <i class="glyphicon glyphicon-refresh spinning" ng-show="isSaving"></i>
+      </button>
+    </div>
+  </script>
+</main>

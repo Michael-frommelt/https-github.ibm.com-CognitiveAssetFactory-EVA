@@ -1,0 +1,6 @@
+memory: 512M
+instances: 1
+random-route: true
+applications:
+- name: "EVA-Backend"
+- name: "EVA-Frontend"

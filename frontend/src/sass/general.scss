@@ -1,0 +1,79 @@
+/* decoration for tooltips
+ was: a[title]:after / changed by axel.foehr@de.ibm.com / 2017-06-29  */
+.eva_tooltip {
+  color: #003080;
+}
+
+// tooltips transparency
+// .tooltip.in{
+//   opacity:1!important;
+// }
+
+// tooltips decoration edited
+.tooltip-inner {
+  background-color: #003080 !important;
+  // background-color: #a8b8d0 !important;
+  // color: #000000 !important;
+  color: #484847;
+}
+
+.tooltip.top .tooltip-arrow {
+  border-top-color: #003080 !important;
+  // border-top-color: #a8b8d0 !important;
+  // background-color: #003080 !important;
+}
+
+.eva_tooltip:after {
+    content: "i";
+    font-size: .8em;
+    /*font-family: 'Glyphicons Halflings';*/
+    font-style: italic;
+    font-weight: bold;
+    padding-left: 2px;
+    padding-right: 2px;
+    vertical-align:super;
+}
+
+/* Liste Tarifleistungen*/
+/* 2017-07-04 / axel.foehr@de.ibm.com*/
+
+.liste_tarifleistung {
+	padding:4px 8px 0 8px;
+	border:solid 1px #003080;
+	border-radius:8px;
+	max-width:320px;
+}
+.liste_tarifleistung h4 {
+	margin:0;
+	border:solid #003080;
+	border-width:0 0 1px 0;
+	padding:4px 4px;
+  color: #003080;
+}
+.liste_tarifleistung ul {
+  padding:4px 0 0 2.5em;
+  list-style-position:outside;
+  list-style-type:none;
+}
+
+.liste_tarifleistung li {
+  margin:0;
+  padding: 4px 2px 0;
+}
+
+.liste_tarifleistung li:before {
+  /*Using a Bootstrap glyphicon as the bullet point*/
+  text-indent:-2em;
+  content: "\e013\2002";
+  font-family: 'Glyphicons Halflings';
+  float: left;
+  margin-top: -0px;
+  color: #003080;
+  font-size:1em;
+}
+
+
+/* better highlighting with bootstrap's info class in tables - blue = 94cdea */
+.chat_table {
+	background:#94cdea;
+}

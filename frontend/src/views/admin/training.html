@@ -1,0 +1,31 @@
+<div ng-include="'views/admin/nav.html'"></div>
+<main class="container">
+  <style type="text/css">
+    .container {
+      width: auto;
+      max-width: calc(100% - 30px);
+    }
+  </style>
+  <div ng-if="errorText" class="alert alert-danger alert-margin-top" role="alert">{{errorText}}</div>
+  <!-- Choose Client -->
+  <h3 ng-if="!clientSelection.chosen" id="choose_client" class="header-text">Choose Client</h3>
+  <div ng-if="!clientSelection.chosen" class="conversation-flow-container clearfix" style="padding: 1rem;">
+    <select class="user-input form-control" ng-model="clientSelection.chosen" ng-change="setClient()">
+      <option ng-repeat="client in clientSelection.availableClients" value="{{client.id}}">{{client.name}}</option>
+    </select>
+  </div>
+  <h3 ng-if="clientSelection.chosen" class="header-text">Client: {{clientSelection.chosen}}</h3>
+  <div ng-if="clientSelection.chosen" class="conversation-flow-container clearfix" style="padding: 1rem;">
+    <button class="btn btn-primary" ng-click="deleteClient()">Mandant neu auswählen</button>
+  </div>
+  <!-- Choose Client -->
+  <!-- Training Table -->
+  <div ng-if="clientSelection.chosen">
+    <h3 class="header-text">{{'NAV_TRAINING' | translate}}</h3>
+    <div class="conversation-flow-container clearfix">
+      <reporting-table class="trainingTable" data-definition="tableDefinition" data-content-queries="contentQueries" data-output="dataFromTrainingTable"></reporting-table>
+    </div>
+  </div>
+  <!-- Training Table -->
+</main>
+<div class="spacer"></div>

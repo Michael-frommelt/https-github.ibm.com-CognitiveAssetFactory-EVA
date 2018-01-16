@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html ng-app="main">
+  <head>
+    <meta charset="utf8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ 'META_TITLE' | translate }}</title>
+    <link rel="stylesheet" href="css/general.css">
+    <link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="stylesheet" href="./fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    <main ng-view></main>
+    <script type="text/javascript" src="js/lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="js/lib/moment/moment.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular/angular.js"></script>
+    <script type="text/javascript" src="js/lib/angular-sanitize/angular-sanitize.js"></script>
+    <script type="text/javascript" src="js/lib/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="js/lib/angular-css/angular-css.js"></script>
+    <script type="text/javascript" src="js/lib/angular-translate/angular-translate.js"></script>
+    <script type="text/javascript" src="js/lib/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-smart-table/dist/smart-table.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-chips/dist/angular-chips.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-permission/dist/angular-permission.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-permission/dist/angular-permission-ng.min.js"></script>
+    <script type="text/javascript" src="js/lib/chart.js/dist/Chart.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-chart.js/dist/angular-chart.min.js"></script>
+    <script type="text/javascript" src="js/lib/ng-file-upload/ng-file-upload-shim.min.js"></script>
+    <script type="text/javascript" src="js/lib/ng-file-upload/ng-file-upload.min.js"></script>
+    <script type="text/javascript" src="js/lib/clipboard/dist/clipboard.min.js"></script>
+    <script type="text/javascript" src="js/lib/d3/d3.min.js"></script>
+    <script type="text/javascript" src="js/lib/summernote/dist/summernote.js"></script>
+    <script type="text/javascript" src="js/lib/summernote/dist/lang/summernote-de-DE.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-summernote/dist/angular-summernote.js"></script>
+    <script type="text/javascript" src="js/local_lib/d3-sankey.js"></script>
+
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="api/permission/import.js"></script>
+    <script type="text/javascript" src="js/answerStoreModule.js"></script>
+    <script type="text/javascript" src="js/variableStoreModule.js"></script>
+    <script type="text/javascript" src="js/userManagementModule.js"></script>
+    <script type="text/javascript" src="js/insightsOverviewModule.js"></script>
+    <script type="text/javascript" src="js/kfoldOverviewModule.js"></script>
+    <script type="text/javascript" src="js/roleStoreModule.js"></script>
+    <script type="text/javascript" src="js/testingModule.js"></script>
+    <script type="text/javascript" src="js/configModule.js"></script>
+    <script type="text/javascript" src="js/statisticsModule.js"></script>
+    <script type="text/javascript" src="js/conversationFeedbackModule.js"></script>
+    <script type="text/javascript" src="js/controller/configController.js"></script>
+    <script type="text/javascript" src="js/controller/conversationController.js"></script>
+    <script type="text/javascript" src="js/controller/extendedFeedbackModalController.js"></script>
+    <script type="text/javascript" src="js/controller/navigationController.js"></script>
+    <script type="text/javascript" src="js/controller/loginController.js"></script>
+    <script type="text/javascript" src="js/controller/logoutController.js"></script>
+    <script type="text/javascript" src="js/controller/navigationController.js"></script>
+    <script type="text/javascript" src="js/controller/switchClientsController.js"></script>
+    <script type="text/javascript" src="js/controller/userController.js"></script>
+    <script type="text/javascript" src="js/controller/trainingController.js"></script>
+    <script type="text/javascript" src="js/controller/adminController.js"></script>
+    <script type="text/javascript" src="js/controller/reportingController.js"></script>
+    <script type="text/javascript" src="js/controller/insightsController.js"></script>
+    <script type="text/javascript" src="js/controller/kfoldController.js"></script>
+    <script type="text/javascript" src="js/controller/roleStoreController.js"></script>
+    <script type="text/javascript" src="js/controller/testingController.js"></script>
+    <script type="text/javascript" src="js/controller/trainingModalController.js"></script>
+    <script type="text/javascript" src="js/controller/answerStoreController.js"></script>
+    <script type="text/javascript" src="js/controller/answerStoreDetailController.js"></script>
+    <script type="text/javascript" src="js/controller/variableStoreController.js"></script>
+    <script type="text/javascript" src="js/controller/settingsController.js"></script>
+    <script type="text/javascript" src="js/controller/statisticsController.js"></script>
+    <script type="text/javascript" src="js/controller/conversationFeedbackController.js"></script>
+    <script type="text/javascript" src="js/controller/testComparisonController.js"></script>
+    <script type="text/javascript" src="js/services/answerStoreService.js"></script>
+    <script type="text/javascript" src="js/services/authenticationService.js"></script>
+    <script type="text/javascript" src="js/services/variableStoreService.js"></script>
+    <script type="text/javascript" src="js/services/userManagementService.js"></script>
+    <script type="text/javascript" src="js/services/conversationService.js"></script>
+    <script type="text/javascript" src="js/services/configService.js"></script>
+    <script type="text/javascript" src="js/services/syncService.js"></script>
+    <script type="text/javascript" src="js/services/conversationFeedbackService.js"></script>
+    <script type="text/javascript" src="js/services/testComparisonService.js"></script>
+    <script type="text/javascript" src="js/directives/reportingtableDirective.js"></script>
+    <script type="text/javascript" src="js/directives/answerStoreFilters.js"></script>
+    <script type="text/javascript" src="js/directives/settingsValidators.js"></script>
+    <script type="text/javascript" src="js/directives/bindHtmlIfSafeDirective.js"></script>
+    <script type="text/javascript" src="js/scripts01.js"></script>
+  </body>
+</html>

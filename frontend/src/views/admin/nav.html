@@ -1,0 +1,256 @@
+<nav class="navbar navbar-default">
+  <!-- <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet">  -->
+  <link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
+  <script>
+    //Statistic Dropdown
+    $(document).ready(function(){
+      $(".testing").click(function(){
+        if($(".dropdown-header-stores").is(":visible")) {
+          $(".dropdown-header-stores").slideToggle("fast");
+          setTimeout(function(){
+              $(".dropdown-header-statistic").slideToggle("fast");
+          }, 500);
+        } else {
+          $(".dropdown-header-statistic").slideToggle("fast");
+        }
+      });
+    });
+    // Stores Dropdown
+    $(document).ready(function(){
+      $(".stores").click(function(){
+        if($(".dropdown-header-statistic").is(":visible")) {
+          $(".dropdown-header-statistic").slideToggle("fast");
+          setTimeout(function(){
+              $(".dropdown-header-stores").slideToggle("fast");
+          }, 500);
+        } else {
+          $(".dropdown-header-stores").slideToggle("fast");
+        }
+      });
+    });
+  </script>
+  <div class="container-fluid">
+    <!--  -->
+    <header ng-controller="NavigationCtrl">
+        <h1 role="heading"><a href="/#">Example 1</a></h1>
+      <div id=logo_top>
+        <a href="/#!/admin"><img src="images/EVA0.png" alt="logo" /></a>
+      </div>
+        <nav id="top-nav" class="horizontal directional-nav" role="navigation">
+            <ul role="menubar" aria-label="Main Navigation">
+                <li class="hoverli" permission permission-only="'viewReport'" ng-class="{'active': location == '/admin/report'}" role="top-navigation" aria-selected="false">
+                    <a href="/#!/admin/report">
+                      <span>
+                        {{ 'NAV_REPORT' | translate }}
+                      </span>
+                    </a>
+                </li>
+                <!--  -->
+                <li class="hoverli" permission permission-only="'viewReport'" ng-class="{'active': location == '/admin/statistics'}" role="top-navigation" aria-selected="false">
+                    <a href="/#!/admin/statistics">
+                      <span>
+                       {{ 'NAV_STATISTICS' | translate }}
+                      </span>
+                    </a>
+                </li>
+                <!-- Conversation Feedback -->
+                <li class="hoverli" permission permission-only="'viewReport'" ng-class="{active: location === '/admin/conversationFeedback'}">
+                  <a href="/#!/admin/conversationFeedback">
+                    <span>{{ 'NAV_CONVERSATIONFEEDBACK' | translate }}</span>
+                  </a>
+                </li>
+                <!-- Testing  -->
+                <li class="testing" permission permission-only="'editTesting'" ng-class="{'active': (location == '/admin/testing' || location == '/admin/insights' || location == '/admin/kfold' || location == '/admin/test-comparison')}" role="presentation" aria-selected="false">
+                  <a>
+                    <span>
+                      {{ 'NAV_TESTING' | translate }}
+                    </span>
+                  </a>
+                </li>
+                <!-- DropDown following -->
+                <li class="user" permission permission-only="['isAdmin', 'editUsers']" ng-class="{active: location == '/admin/user'}" role="presentation" aria-selected="false">
+                  <a href="/#!/admin/user">
+                    <span>
+                      {{ 'NAV_USER' | translate }}
+                    </span>
+                  </a>
+                </li>
+                <!-- Stores -->
+                <li class="stores" permission permission-only="['editAnswers', 'editQuestions', 'editVariables', 'editRoles']" ng-class="{'active': (location == '/admin/answerStore' || location == '/admin/variableStore')}" role="presentation" aria-selected="false">
+                  <a>
+                    <span>
+                      Stores
+                    </span>
+                  </a>
+                </li>
+                <!-- DropDown following  -->
+                <li class="training" permission permission-only="'viewReport'" ng-class="{active: location == '/admin/training'}" role="presentation" aria-selected="false">
+                  <a href="/#!/admin/training">
+                    <span>
+                      {{ 'NAV_TRAINING' | translate }}
+                    </span>
+                  </a>
+                </li>
+                <li class="training" permission permission-only="'editConfiguration'" ng-class="{active: location == '/admin/config'}" role="presentation" aria-selected="false">
+                  <a href="/#!/admin/config">
+                    <span>
+                      {{ 'NAV_CONFIG' | translate }}
+                    </span>
+                  </a>
+                </li>
+                <li class="active-bar-horizontal"></li>
+            </ul>
+        </nav>
+        <div id="input_user">
+          <p class="navbar-right" style="margin-right: 10px;" ng-controller="SwitchClientsCtrl">
+            <select class="user-input form-control" ng-model="chosenClient" ng-change="updateClient()" style="margin: 5px; background-color:#FFF; outline:none; border:none; box-shadow:none;color: #501e58;">
+              <option ng-repeat="client in availableClients" value="{{client.id}}" ng-selected="clientId == client.id">{{client.name}}</option>
+            </select>
+          </p>
+        </div>
+
+        <div id="arrow">
+            <img src="images/arrow.png" alt="logo" />
+        </div>
+        <div id="user_settings" permission permission-only="'editSettings'">
+          <a href="/#!/admin/settings" title="Settings">
+            <img src="images/cog-wheel.png" alt="logo" />
+          </a>
+        </div>
+        <div id="justify">
+          <a href="/#!/logout" title="Log Out">
+            <img src="images/logout.png" alt="logo" />
+          </a>
+        </div>
+    </header>
+    <!-- Testing DropDown -->
+    <div class="dropdown-header-statistic" ng-controller="NavigationCtrl">
+      <div id="space-holder"></div>
+      <div class="dropdown-button" ng-class="{active: location == '/admin/insights'}">
+        <a href="/#!/admin/insights">
+          <span>
+            {{ 'NAV_INSIGHTS' | translate }}
+          </span>
+        </a>
+      </div>
+      <div class="dropdown-button" ng-class="{active: location == '/admin/kfold'}">
+        <a href="/#!/admin/kfold">
+          <span>
+            {{ 'NAV_KFOLD' | translate }}
+          </span>
+        </a>
+      </div>
+      <div class="dropdown-button" ng-class="{active: location == '/admin/testing'}">
+        <a href="/#!/admin/testing">
+          <span>
+            Tests
+          </span>
+        </a>
+      </div>
+      <div class="dropdown-button" ng-class="{active: location == '/admin/test-comparison'}">
+        <a href="/#!/admin/test-comparison">
+          <span>
+            {{ 'NAV_TEST_COMPARISON' | translate }}
+          </span>
+        </a>
+      </div>
+    </div>
+    <!-- ### -->
+
+    <!-- Stores DropDown -->
+    <div class="dropdown-header-stores" ng-controller="NavigationCtrl">
+      <div id="space-holder"></div>
+      <div class="dropdown-button" permission permission-only="'editAnswers'" ng-class="{active: location == '/admin/answerStore'}">
+        <a href="/#!/admin/answerStore">
+          <span>
+            {{ 'NAV_ANSWERSTORE' | translate }}
+          </span>
+        </a>
+      </div>
+      <div class="dropdown-button" permission permission-only="'editVariables'" ng-class="{active: location == '/admin/variableStore'}">
+        <a href="/#!/admin/variableStore">
+          <span>
+            {{ 'NAV_VARIABLESTORE' | translate }}
+          </span>
+        </a>
+      </div>
+      <div class="dropdown-button" permission permission-only="'editRoles'" ng-class="{active: location === '/admin/roles'}">
+        <a href="/#!/admin/roles">
+          <span>
+              {{ 'NAV_ROLESTORE' | translate }}
+          </span>
+        </a>
+      </div>
+    <!-- ### -->
+
+
+    <!--  -->
+    <!-- <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" ng-href="/#!/conversation">
+        <img id="logo" ng-cloak src="images/EVA0.png" alt=""/>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li permission permission-only="'isAdmin'" ng-class="{active: location === '/admin'}">
+          <a href="/#!/admin">{{ 'NAV_HOME' | translate }}</a>
+        </li>
+        <li permission permission-only="'viewReport'" ng-class="{active: location === '/admin/report'}">
+          <a href="/#!/admin/report">{{ 'NAV_REPORT' | translate }}</a>
+        </li>
+        <li permission permission-only="'viewReport'" ng-class="{active: location === '/admin/statistics'}">
+          <a href="/#!/admin/statistics">{{ 'NAV_STATISTICS' | translate }}</a>
+        </li>
+        <li permission permission-only="'viewReport'" ng-class="{active: location === '/admin/conversationFeedback'}">
+          <a href="/#!/admin/conversationFeedback">{{ 'NAV_CONVERSATIONFEEDBACK' | translate }}</a>
+        </li>
+        <li permission permission-only="'editTesting'" ng-class="{active: location === '/admin/insights'}">
+          <a href="/#!/admin/insights">{{ 'NAV_INSIGHTS' | translate }}</a>
+        </li>
+        <li permission permission-only="'editTesting'" ng-class="{active: location === '/admin/kfold'}">
+          <a href="/#!/admin/kfold">{{ 'NAV_KFOLD' | translate }}</a>
+        </li>
+        <li permission permission-only="'editTesting'" ng-class="{active: location === '/admin/testing'}">
+          <a href="/#!/admin/testing">{{ 'NAV_TESTING' | translate }}</a>
+        </li>
+        <li permission permission-only="['isAdmin', 'editUsers']" ng-class="{active: location === '/admin/user'}">
+          <a href="/#!/admin/user">{{ 'NAV_USER' | translate }}</a>
+        </li>
+        <li permission permission-only="'editRoles'" ng-class="{active: location === '/admin/roles'}">
+          <a href="/#!/admin/roles">{{ 'NAV_ROLESTORE' | translate }}</a>
+        </li>
+        <li permission permission-only="'editAnswers'" ng-class="{active: location.indexOf('/admin/answerStore') !== -1}">
+          <a href="/#!/admin/answerStore">{{ 'NAV_ANSWERSTORE' | translate }}</a>
+        </li>
+        <li permission permission-only="'editVariables'" ng-class="{active: location === '/admin/variableStore'}">
+          <a href="/#!/admin/variableStore">{{ 'NAV_VARIABLESTORE' | translate }}</a>
+        </li>
+        <li permission permission-only="'viewReport'" ng-class="{active: location === '/admin/training'}">
+          <a href="/#!/admin/training">{{ 'NAV_TRAINING' | translate }}</a>
+        </li>
+        <li permission permission-only="'editConfiguration'" ng-class="{active: location === '/admin/config'}">
+          <a href="/#!/admin/config">{{ 'NAV_CONFIG' | translate }}</a>
+        </li>
+        <li permission permission-only="'editSettings'" ng-class="{active: location === '/admin/settings'}">
+          <a href="/#!/admin/settings">{{ 'NAV_SETTINGS' | translate }}</a>
+        </li>
+        <li>
+          <a href="/#!/logout">{{ 'NAV_LOGOUT' | translate }}</a>
+        </li>
+      </ul>
+      <p class="navbar-text navbar-right">{{ 'NAV_SIGNEDINAS' | translate }}
+        {{ loggedInUser }}
+      </p>
+      <p class="navbar-right" style="margin: 0;" ng-controller="SwitchClientsCtrl">
+        <select class="user-input form-control" ng-model="chosenClient" ng-change="updateClient()" style="margin: 5px;">
+          <option ng-repeat="client in availableClients" value="{{client.id}}" ng-selected="clientId == client.id">{{client.name}}</option>
+        </select>
+      </p>
+    </div>
+  </div> -->
+<!-- </nav> -->

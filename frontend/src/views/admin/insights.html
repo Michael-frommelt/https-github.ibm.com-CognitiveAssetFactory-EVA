@@ -1,0 +1,55 @@
+<div ng-include="'views/admin/nav.html'"></div>
+<style type="text/css">
+    .container {
+        width: 100%;
+        max-width: calc(100% - 30px);
+    }
+</style>
+<main ng-if="!clientSelection.chosen" class="container" ng-cloak>
+    <div ng-if="errorText" class="container alert alert-danger alert-margin-top" role="alert">{{errorText}}</div>
+    <header class="button-header flex-container space-between">
+        <div>
+            <h3 class="header-text" translate>CHOOSE_CLIENT</h3>
+        </div>
+    </header>
+
+    <select class="user-input form-control" ng-model="clientSelection.chosen" ng-change="setClient()">
+      <option ng-repeat="client in clientSelection.availableClients" value="{{client.id}}">{{client.name}}</option>
+    </select>
+</main>
+<main ng-if="clientSelection.chosen" class="container" style="min-height: unset;" ng-cloak>
+    <button class="btn btn-primary" ng-disabled="disableClientChange" ng-click="changeClient()" translate>CHOOSE_NEW_CLIENT</button>
+</main>
+<main class="container" st-table="displayedIntents" st-safe-src="insights" ng-if="clientSelection.chosen" ng-cloak>
+
+    <!-- show animation || HIDE CONTENT CONTAINER-->
+    <div id="blur_hide" ng-if="!showControls">
+        <div class="loader">Loading...</div>
+        <div id="loadingParagraph">Loading</div>
+    </div>
+    <!-- || -->
+    <div ng-if="errorText" class="alert alert-danger alert-margin-top" role="alert">{{errorText}}</div>
+    <header class="button-header flex-container space-between">
+        <h3 class="header-text">{{'MATRIX' | translate}}: {{clientSelection.chosen}}</h3>
+        <div ng-if="testTimes[0]" class="flex-container-wrap">
+            <select class="form-control date_configuration_margin" style='width:175px' name="timeSelect" id="timeSelect" ng-options="option._id for option in testTimes track by option._id" ng-model="selectedTime" ng-change="reloadMatrix(selectedTime)"></select></br>
+        </div>
+    </header>
+    <div ng-if="testTimes[0]">
+        <div ng-if="!showControls" class="flex-container-center" style="font-size: 20px">
+            <div class "flex-item">
+                <i class="glyphicon glyphicon-refresh spinning"></i>
+                <span translate>LOADING</span>
+            </div>
+        </div>
+        <div class="flex-container">
+
+        </div>
+        <div class="flex-container">
+            <div class="flex-item" id="dataView"></div>
+            <div class="flex-item" id="container"></div>
+            <!-- <div class="flex-item" id="legend"></div> -->
+        </div>
+    </div>
+    <div ng-if="!testTimes[0]" translate>NO_TESTRESULTS_CLIENT</div>
+</main>

@@ -1,0 +1,593 @@
+<div ng-include="'views/admin/nav.html'"></div>
+<main ng-if="!clientSelection.chosen" class="container" ng-cloak>
+    <div ng-if="errorText" class="container alert alert-danger alert-margin-top" role="alert">{{errorText}}</div>
+    <header class="button-header flex-container space-between">
+        <div>
+            <h3 class="header-text" translate>CHOOSE_CLIENT</h3>
+        </div>
+    </header>
+
+    <select class="user-input form-control" ng-model="clientSelection.chosen" ng-change="setClient()">
+      <option ng-repeat="client in clientSelection.availableClients" value="{{client.id}}">{{client.name}}</option>
+    </select>
+</main>
+<main ng-if="clientSelection.chosen" class="container" ng-cloak>
+    <header ng-if="clientSelection.chosen" class="button-header flex-container space-between">
+        <div>
+            <h3 class="header-text">Client: {{clientSelection.chosen}}</h3>
+        </div>
+    </header>
+    <button class="btn btn-primary" ng-disabled="disableClientChange" ng-click="changeClient()" translate>CHOOSE_NEW_CLIENT</button>
+</main>
+<main ng-if="clientSelection.chosen" class="container" ng-cloak>
+    <div ng-if="errorText" class="container alert alert-danger alert-margin-top" role="alert">{{errorText}}</div>
+
+    <header class="button-header flex-container space-between">
+        <div ng-if='testStatus === "failed"'>
+            <h3 class="header-text">Test Management (Status: <span style="color: red;">FAILED</span>)</h3>
+        </div>
+        <div ng-if='testStatus === "inProgress"'>
+            <h3 class="header-text">Test Management (Status: <span style="color:orange;">IN PROGRESS</span>)</h3>
+        </div>
+        <div ng-if='testStatus === "watsonIsTraining"'>
+            <h3 class="header-text">Test Management (Status: <span style="color:orange;">WATSON IS TRAINING</span>)</h3>
+        </div>
+        <div ng-if='testStatus === "finished"'>
+            <h3 class="header-text">Test Management (Status: <span style="color:green;">FINISHED {{testDate}}</span>)</h3>
+        </div>
+        <div ng-if='testStatus === "no status"'>
+            <h3 class="header-text">Test Management (Status: <span style="color:grey;">NO STATUS</span>)</h3>
+        </div>
+    </header>
+    <div ng-show="testInProgress && testInProgress != null" class="progress" style="margin: 10px 0">
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{testProgress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{testProgress}}%">
+                {{testProgress}}%
+            </div>
+        </div>
+    </div>
+    <div ng-if="isLoadingFiles">
+        <div id="blur_hide2">
+            <div class="loaderSmall"></div>
+            <div id="loadingParagraph2"></div>
+        </div>
+    </div>
+    <div ng-if="!isLoadingFiles">
+        <br>
+        <div ng-if="testFiles.length !== 0">
+            <div>
+                <label><b>{{'SELECT_ALL'| translate}}</b>
+                    <input type="checkbox" ng-model="selectedAll" ng-click="selectAll()" />
+                </label>
+            </div>
+            <br>
+            <div class="checkbox-column" ng-repeat="file in testFiles">
+                <span>
+      <label>
+          <input type="checkbox" ng-model="file.selected" ng-click="checkIfAllSelected()" />
+          <button class="btn btn-link padding-vertical-3" type="button" ng-click="openEditModal(file.name)" uib-tooltip="{{'EDIT_TESTCASE' | translate}}">
+            <i class="glyphicon glyphicon-pencil"></i>
+          </button>
+          <button class="btn btn-link padding-vertical-3" type="button" ng-click="openDeleteModal(file.name)" uib-tooltip="{{'DELETE_TESTCASE' | translate}}">
+            <i class="glyphicon glyphicon-trash"></i>
+          </button>
+    {{file.name}}
+    </label>
+    </span>
+            </div>
+        </div>
+        <div ng-if="testFiles.length === 0" translate>NO_TESTCASES_FOUND</div>
+        <div>
+            <button style="margin-top:15px" type="button" class="btn btn-primary" ng-click="openRunModal()" ng-disabled="testInProgress" ng-if="testFiles.length !== 0" translate>RUN_TEST</button>
+            <button style="margin-top:15px" type="button" class="btn btn-primary" ng-click="openAddModal()" ng-disabled="testInProgress" translate>ADD_TESTCASE</button>
+        </div>
+    </div>
+
+    <!-- run modal -->
+    <script type="text/ng-template" id="runModal.html">
+        <div class="modal-header">
+            <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+            <h4 class="modal-title" translate>RUN_TEST</h4>
+        </div>
+        <div ng-if="selectedFiles.length == 0">
+            <div class="modal-body">
+                <b><span translate>SELECTION_REQ</span></b><br>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="$dismiss()">OK</button>
+            </div>
+        </div>
+        <div ng-if="selectedFiles.length !== 0">
+            <div class="modal-body">
+                <b><span translate>START_TEST</span></b><br>
+                <div ng-repeat="file in selectedFiles">
+                    {{file}}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>NO</button>
+                <button type="button" class="btn btn-primary" ng-click="runTest()">
+        <span translate>YES</span>
+      </button>
+            </div>
+        </div>
+    </script>
+
+    <!-- edit modal -->
+    <script type="text/ng-template" id="editModal.html">
+        <style type="text/css">
+            .container {
+                width: auto;
+                max-width: calc(100% - 30px);
+                margin-left: 15px;
+                margin-right: 15px;
+            }
+
+            .modal-dialog {
+                width: 1000px;
+            }
+
+            .modal-body {
+                height: 500px;
+                overflow-y: scroll;
+            }
+
+            .updateQuestion {
+                width: 200px;
+            }
+
+            .inputFieldModal {
+                background-color: transparent;
+                border: none;
+                padding: 10px 5px;
+                width: 100%;
+            }
+        </style>
+        <div class="modal-header">
+            <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+            <h4 class="modal-title">{{'EDIT_TESTCASE'| translate}}: {{selectedTestCase}}</h4>
+        </div>
+        <div class="modal-body" style="overflow-y: hidden">
+            <div class="modal-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span style="line-height: 33px">UUID</span>
+                            </th>
+                            <th>
+                                <span style="line-height: 33px">Input</span>
+                            </th>
+                            <th>
+                                <span style="line-height: 33px">Intent</span>
+                            </th>
+                            <th>
+                                <span style="line-height: 33px">AnswerID</span>
+                            </th>
+                            <th>
+                                <span style="line-height: 33px"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody ng-if="isLoadingTestPerformance">
+                        <tr>
+                            <td class="text-center" colspan="5">
+                                <i class="glyphicon glyphicon-refresh spinning"></i>
+                                <span translate>LOADING</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-if="!isLoadingTestPerformance">
+                        <tr ng-repeat="case in testCases">
+                            <td>
+                                <input class="inputFieldModal" type="text" ng-model="case.id" name="" required>
+                            </td>
+                            <td>
+                                <input class="inputFieldModal" type="text" ng-model="case.input" name="" required>
+                            </td>
+                            <td>
+                                <input class="inputFieldModal" type="text" ng-model="case.intent" name="" required>
+                            </td>
+                            <td>
+                                <input class="inputFieldModal" type="text" ng-model="case.answerId" name="" required>
+                            </td>
+                            <td>
+                                <button style="width: 30%" class="btn btn-default" ng-click="removeRow($index)">-</button>
+                                <button style="width: 30%" class="btn btn-default" ng-click="addRow($index)" translate>+</button>
+                                <button style="width: 30%" class="btn btn-default" ng-click="generateUuid($index)" translate>ID</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>CANCEL</button>
+            <button type="button" class="btn btn-primary" ng-click="updateTestcase()">
+<span translate>UDPATE_TESTCASE</span>
+</button>
+        </div>
+    </script>
+
+    <!-- delete modal -->
+    <script type="text/ng-template" id="deleteModal.html">
+        <div class="modal-header">
+            <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+            <h4 class="modal-title">{{'DELETE_TESTCASE'| translate}}</h4>
+        </div>
+        <div class="modal-body">
+            {{'TEXT_DELETE_TESTCASE' | translate}} <br>
+            <b> {{selectedTestCaseForDeletion}} </b>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>CANCEL</button>
+                <button type="button" class="btn btn-primary" ng-click="deleteTestcase()">
+                    <span translate>YES</span>
+                </button>
+            </div>
+        </div>
+    </script>
+
+    <!-- add modal -->
+    <script type="text/ng-template" id="addModal.html">
+        <style type="text/css">
+            .container {
+                width: auto;
+                max-width: calc(100% - 30px);
+                margin-left: 15px;
+                margin-right: 15px;
+            }
+
+            .modal-dialog {
+                width: 1000px;
+            }
+
+            .modal-body {
+                height: 500px;
+                overflow-y: scroll;
+            }
+
+            .updateQuestion {
+                width: 200px;
+            }
+
+            .inputFieldModal {
+                background-color: transparent;
+                border: none;
+                padding: 10px 5px;
+                width: 100%;
+            }
+        </style>
+        <div class="modal-header">
+            <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+            <h4 class="modal-title">{{'ADD_TESTCASE'| translate}}</h4>
+        </div>
+        <div class="modal-body" style="overflow-y: hidden">
+            <div class="modal-body">
+                <div ng-if="errorAddingTestCase" class="alert alert-danger alert-margin-top" role="alert">
+                    {{errorAddingTestCaseMessage}}
+                </div>
+                <div>
+                    <h4 class="addTestcaseNameLabel">Name:</h4><input class="inputFieldModal" id="addTestcaseNameValue" type="text" ng-model="addTestCaseName" name="" required>
+                </div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span style="line-height: 33px">UUID</span>
+                            </th>
+                            <th>
+                                <span style="line-height: 33px">Input</span>
+                            </th>
+                            <th>
+                                <span style="line-height: 33px">Intent</span>
+                            </th>
+                            <th>
+                                <span style="line-height: 33px">AnswerID</span>
+                            </th>
+                            <th>
+                                <span style="line-height: 33px"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody ng-if="isAddingCase">
+                        <tr>
+                            <td class="text-center" colspan="5">
+                                <i class="glyphicon glyphicon-refresh spinning"></i>
+                                <span translate>LOADING</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-if="!isAddingCase">
+                        <tr ng-repeat="case in testCases">
+                            <td>
+                                <input class="inputFieldModal" type="text" ng-model="case.id" name="" required>
+                            </td>
+                            <td>
+                                <input class="inputFieldModal" type="text" ng-model="case.input" name="" required>
+                            </td>
+                            <td>
+                                <input class="inputFieldModal" type="text" ng-model="case.intent" name="" required>
+                            </td>
+                            <td>
+                                <input class="inputFieldModal" type="text" ng-model="case.answerId" name="" required>
+                            </td>
+                            <td>
+                                <button style="width: 30%" class="btn btn-default" ng-click="removeRow($index)">-</button>
+                                <button style="width: 30%" class="btn btn-default" ng-click="addRow($index)" translate>+</button>
+                                <button style="width: 30%" class="btn btn-default" ng-click="generateUuid($index)" translate>ID</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>CANCEL</button>
+            <button type="button" class="btn btn-primary" ng-click="createTestcase()">
+<span translate>CREATE_TESTCASE</span>
+</button>
+        </div>
+    </script>
+
+    <!-- view modal -->
+    <script type="text/ng-template" id="viewModal.html">
+        <style type="text/css">
+            .container {
+                width: auto;
+                max-width: calc(100% - 30px);
+                margin-left: 15px;
+                margin-right: 15px;
+            }
+
+            .modal-dialog {
+                width: 80%;
+            }
+
+            .modal-body {
+                height: 700px;
+                overflow-y: scroll;
+            }
+        </style>
+        <div class="modal-header">
+            <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+            <h4 class="modal-title">{{'RESULT_TESTCASES'| translate}} {{selectedObjectForDetail}}</h4>
+        </div>
+        <div>
+            <div ng-if="isLoadingTestPerformanceDetail">
+                <div id="blur_hide4">
+                    <div class="loaderSmall" style="margin-bottom: 45px"></div>
+                    <div id="loadingParagraph4"></div>
+                </div>
+            </div>
+            <div class="modal-body" ng-if="!isLoadingTestPerformanceDetail">
+                <fieldset style="margin: 15px auto">
+                    <input type="radio" value="conf" ng-model="displayOptionModal" checked>
+                    <ratio-label translate>CONF</ratio-label>
+                    <input type="radio" value="numId" ng-model="displayOptionModal">
+                    <ratio-label translate>NUMID</ratio-label>
+                    <input type="radio" value="numInt" ng-model="displayOptionModal">
+                    <ratio-label translate>NUMINT</ratio-label>
+                </fieldset>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span style="line-height: 33px">Input</span>
+                            </th>
+                            <th>
+                                <span style="line-height: 33px">Actual</span>
+                            </th>
+                            <th>
+                                <span style="line-height: 33px">UUID</span>
+                            </th>
+
+                            <th>
+                                <span style="line-height: 33px">Counter</span>
+                            </th>
+
+                            <th ng-repeat="runDate in runDates">
+                                <span style="line-height: 33px">{{runDate._id.date}}</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="input in rowResult track by $index" ng-init="inputIndex = $index">
+                            <td class="ng-scope">
+                                <div class="flex-container">
+                                    <div class="padding-10-5">
+                                    </div>
+                                    <div class="flex-container space-between flex-grow padding-10-5">
+                                        <span>{{input._id}}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="ng-scope">
+                                <div class="flex-container">
+                                    <div class="padding-10-5">
+                                    </div>
+                                    <div ng-switch="displayOptionModal" class="flex-container space-between flex-grow padding-10-5">
+                                        <span ng-if="input.result[0].intent != null" ng-switch-when="conf">{{input.result[0].intent}}</span>
+                                        <span ng-if="input.result[0].intent != null" ng-switch-when="numInt">{{input.result[0].intent}}</span>
+                                        <span ng-if="input.result[0].intent == null" ng-switch-when="conf">{{selectedObjectForDetail}}</span>
+                                        <span ng-if="input.result[0].intent == null" ng-switch-when="numInt">{{selectedObjectForDetail}}</span>
+                                        <span ng-switch-when="numId">{{input.result[0].answerId}}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="ng-scope">
+                                <div class="flex-container">
+                                    <div class="padding-10-5">
+                                    </div>
+                                    <div class="flex-container space-between flex-grow padding-10-5">
+                                        <span>{{input.result[0].uuid}}</span>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="ng-scope">
+                                <div class="flex-container">
+                                    <div class="padding-10-5">
+                                    </div>
+                                    <div class="flex-container space-between flex-grow padding-10-5">
+                                        <span ng-if="input.result[0].intent != null">{{input.result[0].counter}}</span>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td ng-repeat="run in input.result" class="ng-scope">
+                                <div class="flex-container">
+                                    <div class="padding-10-5">
+                                    </div>
+                                    <div ng-switch="displayOptionModal" class="flex-container space-between flex-grow padding-10-5">
+                                        <!-- <span ng-if="run && !run.equalToCurrentFile">Test file changed!</span> -->
+                                        <span ng-if="run.date == null"> - </span>
+                                        <!-- <span ng-if="run && run.equalToCurrentFile"> -->
+                                        <span ng-switch-when="conf">{{run.confidence}}</span>
+                                        <span ng-switch-when="numInt"><span ng-if="run.correctIntent == 1">true</span>
+                                        <span ng-if="run.correctIntent == 0">false</span>
+                                        </span>
+                                        <span ng-switch-when="numId"><span ng-if="run.correctAnswerId == 1">true</span>
+                                        <span ng-if="run.correctAnswerId == 0">false</span>
+                                        </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>CANCEL</button>
+            </div>
+        </div>
+    </script>
+
+    <!-- delete test run modal -->
+    <script type="text/ng-template" id="deleteTestrunModal.html">
+        <div class="modal-header">
+            <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+            <h4 class="modal-title">{{'DELETE_TESTRUN'| translate}}</h4>
+        </div>
+        <div ng-if="isDeletingTestrun">
+            <div id="blur_hide2">
+                <div class="loaderSmall" style="margin-bottom: 45px"></div>
+                <div id="loadingParagraph2"></div>
+            </div>
+        </div>
+        <div ng-if="!isDeletingTestrun">
+            <div class="modal-body">
+                {{'TEXT_DELETE_TESTRUN' | translate}} <br>
+                <b> {{selectedTestRunForDeletion}} </b>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>CANCEL</button>
+                <button type="button" class="btn btn-primary" ng-click="deleteTestrun();">
+                    <span translate>YES</span>
+                </button>
+            </div>
+        </div>
+    </script>
+</main>
+<main ng-if="clientSelection.chosen" class="container" st-table="displayedIntents" st-safe-src="testing" ng-cloak>
+    <header class="button-header flex-container space-between">
+        <h3 class="header-text" translate>TEST_HIST</h3>
+    </header>
+    <div class="alert alert-danger" ng-show="error" uib-alert close="error = null">
+        <strong>{{error.status}}</strong> {{error.data.message || error.data}}
+    </div>
+    <div ng-if="isLoadingTestPerformance">
+        <div id="blur_hide2">
+            <div class="loaderSmall"></div>
+            <div id="loadingParagraph2"></div>
+        </div>
+    </div>
+    <div ng-if="!isLoadingTestPerformance">
+        <br>
+        <div ng-if="runDates.length !== 0">
+            <div>
+                <fieldset style="margin: 10px auto">
+                    <label style="width: 100px;"><b>GROUP BY:</b></label>
+                    <input type="radio" value="TEST_FILE" ng-model="groupBy" ng-change="changeGroupBy(groupBy)" ng-disabled="isLoadingTestPerformance" checked>
+                    <ratio-label translate>TEST_FILE</ratio-label>
+                    <input type="radio" value="ACTUAL_INTENT" ng-model="groupBy" ng-change="changeGroupBy(groupBy)" ng-disabled="isLoadingTestPerformance">
+                    <ratio-label translate>ACTUAL_INTENT</ratio-label>
+                </fieldset>
+                <fieldset style="margin: 10px auto">
+                    <label style="width: 100px;"><b>SHOW:</b></label>
+                    <input type="radio" value="conf" ng-model="displayOption" ng-disabled="isLoadingTestPerformance" checked>
+                    <ratio-label translate>CONF</ratio-label>
+                    <input type="radio" value="numId" ng-model="displayOption" ng-disabled="isLoadingTestPerformance">
+                    <ratio-label translate>NUMID</ratio-label>
+                    <input type="radio" value="numInt" ng-model="displayOption" ng-disabled="isLoadingTestPerformance">
+                    <ratio-label translate>NUMINT</ratio-label>
+                    <input type="radio" value="numCases" ng-model="displayOption" ng-disabled="isLoadingTestPerformance">
+                    <ratio-label translate>NUMCASES</ratio-label>
+                </fieldset>
+                <br>
+            </div>
+            <div class="table-container">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th st-sort="intent">
+                                <span style="line-height: 33px" translate>{{groupBy}}</span>
+                            </th>
+                            <th ng-repeat="runDate in runDates">
+                                <span style="line-height: 33px">{{runDate._id.date}}</span>
+                                <button class="btn btn-link padding-vertical-3" type="button" ng-click="openRemoveRunModal(runDate)" uib-tooltip="{{'DELETE_TESTRUN' | translate}}">
+              <i class="glyphicon glyphicon-minus-sign"></i>
+            </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="entry in tableArray | orderBy: '_id'">
+                            <td class="padding-0" ng-click="openViewModal(entry._id)">
+                                <div class="flex-container">
+                                    <div class="padding-10-5">
+                                    </div>
+                                    <div class="flex-container space-between flex-grow padding-10-5">
+                                        <span>{{entry._id}}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td ng-repeat="runPerformance in entry.resultPerDate" class="padding-0">
+                                <div class="flex-container">
+                                    <div class="padding-10-5">
+                                    </div>
+                                    <div ng-if="runPerformance.date == null" class="flex-container space-between flex-grow padding-10-5">
+                                        <span> - </span>
+                                    </div>
+                                    <div ng-if="runPerformance.date != null" ng-switch="displayOption" class="flex-container space-between flex-grow padding-10-5">
+                                        <span ng-switch-when="conf">{{runPerformance.avgConfidence}}</span>
+                                        <span ng-switch-when="numId">{{runPerformance.correctAnswerIdRatio}}</span>
+                                        <span ng-switch-when="numInt">{{runPerformance.correctIntentRatio}}</span>
+                                        <span ng-switch-when="numCases">{{runPerformance.testTotal}}</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div ng-if="runDates.length === 0" translate>NO_TESTRESULTS_CLIENT</div>
+    </div>
+</main>
+<main ng-if="clientSelection.chosen" class="container" st-table="displayedIntents" st-safe-src="testing" ng-cloak>
+    <header class="button-header flex-container space-between">
+        <h3 class="header-text" translate>TREND_OVERVIEW</h3>
+    </header>
+    <div ng-if="isLoadingTrend">
+        <div id="blur_hide1">
+            <div class="loaderSmall"></div>
+            <div id="loadingParagraph1"></div>
+        </div>
+    </div>
+    <br>
+    <div ng-if="runDates.length !== 0">
+        <div class="flex-item" id="container"></div>
+    </div>
+    <div ng-if="runDates.length === 0" translate>NO_TREND_RESULTS</div>
+</main>

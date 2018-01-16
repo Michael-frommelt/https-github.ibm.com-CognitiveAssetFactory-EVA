@@ -1,0 +1,5 @@
+---
+root:
+  $ref: ./nls/messages.yml
+de:
+  $ref: ./nls/messages_de.yml

@@ -1,0 +1,414 @@
+{
+  "answers_business_asset": [{
+    "_id": "_design/00912db7a87dbb236e097fce244b5091effaa1ce",
+    "language": "query",
+    "views": {
+      "answerId-index": {
+        "map": {
+          "fields": {
+            "answerId": "asc"
+          },
+          "partial_filter_selector": {}
+        },
+        "reduce": "_count",
+        "options": {
+          "def": {
+            "fields": [
+              "answerId"
+            ]
+          }
+        }
+      }
+    }
+  }],
+  "answers_chitchat_asset": [{
+    "_id": "_design/00912db7a87dbb236e097fce244b5091effaa1ce",
+    "language": "query",
+    "views": {
+      "answerId-index": {
+        "map": {
+          "fields": {
+            "answerId": "asc"
+          },
+          "partial_filter_selector": {}
+        },
+        "reduce": "_count",
+        "options": {
+          "def": {
+            "fields": [
+              "answerId"
+            ]
+          }
+        }
+      }
+    }
+  }],
+  "config": [{
+    "_id": "_design/33eb9afcf39ad12ba02d807b119b7bf71cf3785e",
+    "language": "query",
+    "views": {
+      "id-index": {
+        "map": {
+          "fields": {
+            "id": "asc"
+          },
+          "partial_filter_selector": {}
+        },
+        "reduce": "_count",
+        "options": {
+          "def": {
+            "fields": [
+              "id"
+            ]
+          }
+        }
+      }
+    }
+  }],
+  "conversation_feedback": [{
+    "_id": "_design/994bff42c03e78b4fe981327438badd914131ad0",
+    "language": "query",
+    "views": {
+      "foo-json-index": {
+        "map": {
+          "fields": {
+            "created": "desc"
+          },
+          "partial_filter_selector": {}
+        },
+        "reduce": "_count",
+        "options": {
+          "def": {
+            "fields": [{
+              "created": "desc"
+            }]
+          }
+        }
+      }
+    }
+  }, {
+    "_id": "_design/b6983ed6516450240cb0b6cadc84f37dd26dcb7d",
+    "language": "query",
+    "views": {
+      "foo-json-index": {
+        "map": {
+          "fields": {
+            "created": "asc"
+          },
+          "partial_filter_selector": {}
+        },
+        "reduce": "_count",
+        "options": {
+          "def": {
+            "fields": [{
+              "created": "asc"
+            }]
+          }
+        }
+      }
+    }
+  }],
+  "conversation_logs": [{
+    "_id": "_design/bc4e4851785229b8a3f5488892f3e83167afdead",
+    "language": "query",
+    "views": {
+      "created-sortIndex": {
+        "map": {
+          "fields": {
+            "created": "asc"
+          },
+          "partial_filter_selector": {}
+        },
+        "reduce": "_count",
+        "options": {
+          "def": {
+            "fields": [{
+              "created": "asc"
+            }]
+          }
+        }
+      }
+    }
+  }, {
+    "_id": "_design/distinctViews",
+    "views": {
+      "clientId": {
+        "reduce": "_count",
+        "map": "function (doc) {\n  emit(doc.clientId, 1);\n}"
+      },
+      "username": {
+        "reduce": "_count",
+        "map": "function (doc) {\n  emit(doc.username, 1);\n}"
+      },
+      "feedback": {
+        "reduce": "_count",
+        "map": "function (doc) {\n  emit(doc.feedback, 1);\n}"
+      }
+    },
+    "language": "javascript"
+  }, {
+    "_id": "_design/statistics",
+    "views": {
+      "getClientStatisticView": {
+        "reduce": "_sum",
+        "map": "function (doc) {\n  if(doc.clientId && doc.clientId !== null) {\n  if (doc.feedback === false) {\n    emit(doc.clientId, [0,0,1]);\n  }\n  if (doc.feedback === 'negative') {\n    emit(doc.clientId, [0,1,0]);\n  }\n  if (doc.feedback === 'positive') {\n    emit(doc.clientId, [1,0,0]);\n  }\n  }\n}"
+      },
+      "getFirstDate": {
+        "map": "function (doc) {\n  if(doc.created) {\n   emit(doc.created, 1); \n  }\n  \n}"
+      }
+    },
+    "language": "javascript"
+  }],
+  "kfold_results": [ {
+    "_id": "_design/testing",
+    "language": "javascript",
+    "views": {
+      "getTestTimes": {
+        "reduce": "_count",
+        "map": "function (doc) {\n  emit([doc.clientId, doc.date], 1);\n}"
+      },
+      "aggregateTestResults": {
+        "map": "function (doc) {\n  for (var index in doc.result) {\n    for(var secondaryIndex in doc.result[index]) {\n      emit([doc.date, doc.result[index][secondaryIndex].intent],[doc.result[index][secondaryIndex].confidence, doc.result[index][secondaryIndex].successRatio, doc.result[index][secondaryIndex].totalTestCases, 1]);\n    }\n  }\n}",
+        "reduce": "_sum"
+      }
+    }
+  }],
+  "sessions": [{
+    "_id": "_design/c093526cb0baaf486bdd4d9c41a76352b0b1c500",
+    "language": "query",
+    "views": {
+      "sessionId-index": {
+        "map": {
+          "fields": {
+            "session_id": "asc"
+          },
+          "partial_filter_selector": {}
+        },
+        "reduce": "_count",
+        "options": {
+          "def": {
+            "fields": [
+              "session_id"
+            ]
+          }
+        }
+      }
+    }
+  }],
+  "test": [{
+    "_id": "_design/testing_chainedTwice",
+    "views": {
+      "secondary_chainedView_intent": {
+        "map": "function (doc) {\n  if (doc.key[2] == \"getTestResultByFile\") {\n    emit([doc.key[1], doc.key[3]], [doc.key[0], doc.value]);\n  }\n}",
+        "reduce": "function (keys, values, rereduce) {\n  return values;\n}"
+      },
+      "secondary_chainedView_file": {
+        "reduce": "function (keys, values, rereduce) {\n  return values;\n}",
+        "map": "function (doc) {\n  if (doc.key[2] == \"getTestResultByIntent\") {\n    emit([doc.key[1], doc.key[3]], [doc.key[0], doc.value]);\n  }\n}"
+      }
+    },
+    "language": "javascript"
+  }],
+  "test_files": [{
+    "_id": "_design/c48f920d130eea44840366ac64cde81858bed902",
+    "language": "query",
+    "views": {
+      "c48f920d130eea44840366ac64cde81858bed902": {
+        "map": {
+          "fields": {
+            "name": "asc"
+          },
+          "partial_filter_selector": {}
+        },
+        "reduce": "_count",
+        "options": {
+          "def": {
+            "fields": [{
+              "name": "asc"
+            }]
+          }
+        }
+      }
+    }
+  }],
+  "test_results": [{
+    "_id": "_design/3921ebfb6739a71d307b5a44a0fa4585922cb80c",
+    "language": "query",
+    "views": {
+      "3921ebfb6739a71d307b5a44a0fa4585922cb80c": {
+        "map": {
+          "fields": {
+            "date": "desc"
+          },
+          "partial_filter_selector": {}
+        },
+        "reduce": "_count",
+        "options": {
+          "def": {
+            "fields": [{
+              "date": "desc"
+            }]
+          }
+        }
+      }
+    }
+  }, {
+    "_id": "_design/ea0e6019ad5550d70970c675ac448ff2229b2e7d",
+    "language": "query",
+    "views": {
+      "date-index": {
+        "map": {
+          "fields": {
+            "date": "asc"
+          },
+          "partial_filter_selector": {}
+        },
+        "reduce": "_count",
+        "options": {
+          "def": {
+            "fields": [
+              "date"
+            ]
+          }
+        }
+      }
+    }
+  }, {
+    "_id": "_design/testing",
+    "options": {
+      "epi": {
+        "dbcopy": {
+          "getTestResultByFile_conf": "view_result_testing",
+          "getTestResultByFile_id": "view_result_testing",
+          "getTestResultByFile_intent": "view_result_testing",
+          "getTestResultByFile_total": "view_result_testing",
+          "getTestResultByIntent_conf": "view_result_testing",
+          "getTestResultByIntent_id": "view_result_testing",
+          "getTestResultByIntent_intent": "view_result_testing",
+          "getTestResultByIntent_total": "view_result_testing",
+          "getTestcasePerformance": "view_result_testing",
+          "getTeststepPerformance": "view_result_testing",
+          "getIntentsForTests": "view_result_testing"        }
+      }
+    },
+    "value": {
+      "rev": "63-8bfcc3ee4777bf03cdf7d16f809b4d65"
+    },
+    "key": "_design/testing",
+    "language": "javascript",
+    "views": {
+      "getTestcasePerformance": {
+        "map": "function (doc) {\n  emit([doc.date, doc.id, doc.clientId, 'getTestcasePerformance'], doc.correctAnswerId);\n}",
+        "reduce": "function (keys, values, rereduce) {\n  for (var index in values) {\n    if (!values[index]) {\n      return 0;\n    }  \n  }\n  return 1;\n}"
+      },
+      "getTestTimes": {
+        "reduce": "_count",
+        "map": "function (doc) {\n  emit([doc.date, doc.timestamp, doc.clientId], 1);\n}"
+      },
+      "getTestRuns": {
+        "reduce": "_count",
+        "map": "function (doc) {\n  emit([doc.timestamp, doc.date, doc.clientId], 1);\n}"
+      },
+      "getTeststepPerformance": {
+        "map": "function (doc) {\n  emit([doc.date, doc.id, doc.clientId, 'getTeststepPerformance'], doc.correct);\n}",
+        "reduce": "function (keys, values, rereduce) {\n  for (var index in values) {\n    if (!values[index]) {\n      return 0;\n    }  \n  }\n  return 1;\n}"
+      },
+      "getTestResultByFile_conf": {
+        "reduce": "_sum",
+        "map": "function (doc) {\n    emit([doc.date, doc.test.test_file, doc.timestamp, doc.clientId, 'getTestResultByFile', 'avgConfidence', doc.clientId], doc.body.confidence)\n}"
+      },
+      "getTestResultByFile_id": {
+        "reduce": "_sum",
+        "map": "function (doc) {\n    emit([doc.date, doc.test.test_file, doc.timestamp, doc.clientId, 'getTestResultByFile', 'numCorrectAnswerId', doc.clientId], (doc.correctAnswerId ? 1:0))\n}"
+      },
+      "getTestResultByFile_total": {
+        "reduce": "_count",
+        "map": "function (doc) {\n    emit([doc.date, doc.test.test_file, doc.timestamp, doc.clientId, 'getTestResultByFile', 'testTotal', doc.clientId], 1)\n}"
+      },
+      "getTestResultByFile_intent": {
+        "reduce": "_sum",
+        "map": "function (doc) {\n    emit([doc.date, doc.test.test_file, doc.timestamp, doc.clientId, 'getTestResultByFile', 'numCorrectIntent', doc.clientId], (doc.correctTopIntent ? 1:0))\n}"
+      },
+      "getIntentsForTests": {
+        "reduce": "_count",
+        "map": "function (doc) {\n  if (doc.test.intent !== \"INTENTLESS\" && doc.test.intent !== \"\" && doc.test.intent !== \"ABC\" && doc.test.intent !== \"abc\"){\n  emit([doc.clientId, doc.test.intent, doc.body.topIntent, 'getIntentsForTests', doc.date], 1);\n  }\n}"
+      },
+      "getTestResultByIntent_conf": {
+        "reduce": "_sum",
+        "map": "function (doc) {\n    emit([doc.date, doc.test.intent, doc.timestamp, doc.clientId, 'getTestResultByIntent', 'avgConfidence', doc.clientId], doc.body.confidence)\n}"
+      },
+      "getTestResultByIntent_id": {
+        "reduce": "_sum",
+        "map": "function (doc) {\n    emit([doc.date, doc.test.intent, doc.timestamp, doc.clientId, 'getTestResultByIntent', 'numCorrectAnswerId', doc.clientId], (doc.correctAnswerId ? 1:0))\n}"
+      },
+      "getTestResultByIntent_intent": {
+        "reduce": "_sum",
+        "map": "function (doc) {\n    emit([doc.date, doc.test.intent, doc.timestamp, doc.clientId, 'getTestResultByIntent', 'numCorrectIntent', doc.clientId], (doc.correctTopIntent ? 1:0))\n}"
+      },
+      "getTestResultByIntent_total": {
+        "reduce": "_count",
+        "map": "function (doc) {\n    emit([doc.date, doc.test.intent, doc.timestamp, doc.clientId, 'getTestResultByIntent', 'testTotal', doc.clientId], 1)\n}"
+      },
+      "aggregateTestResults": {
+        "reduce": "_sum",
+        "map": "function (doc) {\n  emit([doc.timestamp, doc.date], [(doc.correctAnswerId ? 1:0), (doc.correctAnswerId ? 0:1), (doc.correctTopIntent ? 1:0), (doc.correctTopIntent ? 0:1) ,1]);\n}"
+      }
+    }
+  }],
+  "test_sessions": [{
+    "_id": "_design/0c803213c8023b7398f75c52b281a01da51076fc",
+    "language": "query",
+    "views": {
+      "sessionId-sort-index": {
+        "map": {
+          "fields": {
+            "session_id": "asc"
+          },
+          "partial_filter_selector": {}
+        },
+        "reduce": "_count",
+        "options": {
+          "def": {
+            "fields": [
+              "session_id"
+            ]
+          }
+        }
+      }
+    }
+  }],
+  "view_result_testing": [{
+    "_id": "_design/chainedQueries",
+    "options": {
+      "epi": {
+        "dbcopy": {
+          "getTestResultByIntent_chained": "test",
+          "getTestResultByFile_chained": "test"
+        }
+      }
+    },
+    "language": "javascript",
+    "views": {
+      "getTestCasePerformance_chained": {
+        "reduce": "_stats",
+        "map": "function (doc) {\n  if (doc.key[3] == \"getTestcasePerformance\") {\n     emit([doc.key[0],doc.key[2]], doc.value);\n  }\n}"
+      },
+      "getTestStepPerformance_chained": {
+        "map": "function (doc) {\n  if (doc.key[3] == \"getTeststepPerformance\") {\n     emit([doc.key[0],doc.key[2]], doc.value);\n  }\n}",
+        "reduce": "_stats"
+      },
+      "getTestResultByFile_chained": {
+        "map": "function (doc) {\n  \n  if (doc.key[4] == \"getTestResultByFile\") {\n    var result = {};\n  result[doc.key[5]] = doc.value;  \n      emit([doc.key[0], doc.key[1], doc.key[4], doc.key[6]], result);\n  }\n  \n}",
+        "reduce": "function (keys, values, rereduce) {\n return values;\n}"
+      },
+      "getIntentsForTests_chained": {
+        "reduce": "_count",
+        "map": "function (doc) {\n  if (doc.key[3] == \"getIntentsForTests\") {\n  emit([doc.key[0], doc.key[1], doc.key[4]], 1);\n  }\n}"
+      },
+      "getTestResultByIntent_chained": {
+        "map": "function (doc) {\n  \n  if (doc.key[4] == \"getTestResultByIntent\") {\n    var result = {};\n  result[doc.key[5]] = doc.value;  \n      emit([doc.key[0], doc.key[1], doc.key[4], doc.key[6]], result);\n  }\n  \n}",
+        "reduce": "function (keys, values, rereduce) {\n return values;\n}"
+      }
+    }
+  }]
+}

@@ -1,0 +1,307 @@
+<div ng-include="'views/admin/nav.html'"></div>
+<main class="container-fluid admin-panel" ng-cloak>
+  <header class="flex-container space-between">
+    <h3 class="header-text" ng-if="!isNewAnswer">{{answer.answerId}}</h3>
+    <form class="form-inline flex-container flex-grow" ng-if="isNewAnswer" novalidate>
+      <input class="form-control input-lg margin-bottom-5 flex-grow" type="text" placeholder="{{'NEW_ANSWER_ID' | translate }}" ng-model="answer.answerId">
+    </form>
+    <ul class="nav nav-pills margin-left-15">
+      <li role="presentation" ng-show="isNewAnswer || showAnswerOptionView" ng-class="{active: displayMode === 'answerOption'}"><a href ng-click="$parent.displayMode = 'answerOption'" class="btn btn-default" translate>ANSWEROPTION</a></li>
+      <li role="presentation" ng-class="{active: displayMode === 'answer'}"><a href ng-click="$parent.displayMode = 'answer'" class="btn btn-default" translate>ANSWER</a></li>
+    </ul>
+  </header>
+  <div class="alert alert-danger" ng-show="error" uib-alert close="error = null">
+    <strong>{{error.status}}</strong> {{error.data.message || error.data}}
+  </div>
+
+  <!-- Answer Option View -->
+  <div class="row" ng-show="displayMode === 'answerOption'">
+    <div class="col-xs-12 col-md-6">
+      <div class="form-group" ng-show="oldAnswerText">
+        <label for="oldTextarea" translate>CURRENT_TEXT</label>
+        <textarea id="oldTextarea" class="form-control" rows="5" readonly="true" ng-model="oldAnswerText"></textarea>
+      </div>
+      <form name="textForm" class="form-group" ng-class="{'has-error': textForm.$invalid && editorInvalid(), 'has-warning': answerOption.answerText.length > recAnswerTextSize}" novalidate>
+        <label class="control-label" translate>NEW_TEXT</label>
+        <div>
+          <textarea ng-if="!showWYSIWYGEditor" name="newTextarea" class="form-control" rows="5" required="true" ng-model="answerOption.answerText"></textarea>
+          <summernote ng-if="showWYSIWYGEditor" config="WYSIWYGoptions" ng-model="answerOption.answerText" lang="de-DE" editor="WYSIWYGeditor"></summernote>
+        </div>
+        <div class="help-block margin-bottom-0" ng-show="textForm.newTextarea.$error.required && editorInvalid()" translate>REQUIRED_TEXT</div>
+        <div class="help-block margin-bottom-0" ng-show="answerOption.answerText.length > recAnswerTextSize" translate>TOO_LONG_TEXT</div>
+      </form>
+      <form class="form-group flex-container" novalidate>
+        <label class="control-label margin-right-5" for="answerOptionTags"><span translate>TAGS</span>:</label>
+        <chips class="tag-chips flex-grow chip-out-focus" name="answerOptionTags" ng-model="answerOption.tags">
+          <chip-tmpl>
+            <div class="default-chip proposal-chip">
+              {{chip}}
+              <i class="glyphicon glyphicon-remove margin-left-10" remove-chip></i>
+            </div>
+          </chip-tmpl>
+          <input chip-control>
+        </chips>
+      </form>
+    </div>
+    <div class="col-xs-12 col-md-6">
+      <div class="panel-group">
+        <!-- Properties Panel -->
+        <div class="panel panel-default">
+          <div class="panel-heading flex-container space-between" ng-click="propertiesCollapsed = !propertiesCollapsed">
+            <h4 class="panel-title" translate>ANSWER_PROPERTIES</h4>
+            <i class="glyphicon" ng-class="{'glyphicon-chevron-down': propertiesCollapsed, 'glyphicon-chevron-up': !propertiesCollapsed}"></i>
+          </div>
+          <div class="collapse in" uib-collapse="propertiesCollapsed">
+            <form class="panel-body form-horizontal" name="propertiesForm" novalidate>
+              <div class="form-group" ng-repeat="property in answerProperties" ng-class="{'has-error': propertyForm.$invalid}">
+                <ng-form name="propertyForm">
+                  <label for="{{property.name}}" class="col-sm-2 control-label">{{property.displayName}}</label>
+                  <div class="col-sm-10" ng-if="property.type === 'number'">
+                    <input id="{{property.name}}" name="number" class="form-control hideNativeNumberControls" ng-required="property.required"
+                      type="number" ng-model="answerOption.properties[property.name]" min="{{property.minValue}}" max="{{property.maxValue}}" step="any">
+                    <div class="help-block margin-bottom-0" ng-show="propertyForm.number.$error.min || propertyForm.number.$error.max">
+                      {{'INVALID_NUMBER_TEXT_1' | translate}} {{property.minValue}} {{'INVALID_NUMBER_TEXT_2' | translate}} {{property.maxValue}} {{'INVALID_NUMBER_TEXT_3' | translate}}
+                    </div>
+                    <div class="help-block margin-bottom-0" ng-show="propertyForm.number.$error.number" translate>NOT_A_NUMBER_TEXT</div>
+                    <div class="help-block margin-bottom-0" ng-show="propertyForm.number.$error.required" translate>REQUIRED_TEXT</div>
+                  </div>
+                  <div class="col-sm-10" ng-if="property.type === 'multipleChoice'">
+                    <select id="{{property.name}}" name="choice" class="form-control" ng-required="property.required" ng-model="answerOption.properties[property.name]">
+                      <option ng-if="!property.required"></option>
+                      <option ng-repeat="choice in property.choices">{{choice}}</option>
+                    </select>
+                    <div class="help-block margin-bottom-0" ng-show="propertyForm.choice.$error.required" translate>REQUIRED_TEXT</div>
+                  </div>
+                </ng-form>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- Properties Panel End -->
+        <!-- Additional Answer Proposals Panel -->
+        <div class="panel panel-default">
+          <div class="panel-heading flex-container space-between" ng-click="additionalProposalsCollapsed = !additionalProposalsCollapsed">
+            <h4 class="panel-title" translate>ADDITIONAL_PROPOSALS</h4>
+            <div>
+              <i class="glyphicon glyphicon-question-sign" uib-tooltip="{{'ADDITIONAL_PROPOSALS_TOOLTIP' | translate}}" tooltip-placement="left"></i>
+              <i class="glyphicon margin-left-15" ng-class="{'glyphicon-chevron-down': additionalProposalsCollapsed, 'glyphicon-chevron-up': !additionalProposalsCollapsed}"></i>
+            </div>
+          </div>
+          <div class="collapse in" uib-collapse="additionalProposalsCollapsed">
+            <div class="panel-body">
+              <form class="form-horizontal" name="additionalAnswerProposalsForm" novalidate>
+                <chips class="chip-out-focus" ng-model="answerOption.additionalAnswerProposals">
+                  <chip-tmpl>
+                    <div class="default-chip proposal-chip">
+                      {{chip}}
+                      <i class="glyphicon glyphicon-remove margin-left-10" remove-chip></i>
+                    </div>
+                  </chip-tmpl>
+                  <input chip-control>
+                </chips>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Additional Answer Proposals Panel End -->
+      <div class="pull-right margin-bottom-20">
+          <button type="button" class="btn btn-default" ng-click="cancel()" translate>GENERAL_CANCEL</button>
+          <button type="button" class="btn btn-primary" ng-click="saveAnswer()" ng-disabled="formsInvalid()"
+            uib-tooltip="{{'NEW_ANSWER_TOOLTIP' | translate}}" tooltip-placement="left" tooltip-enable="isNewAnswer && formsInvalid()">
+            <span translate>SAVE</span>
+            <i class="glyphicon glyphicon-refresh spinning" ng-show="isSaving"></i>
+          </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Answer View -->
+  <div class="row" ng-show="displayMode === 'answer'" >
+    <div class="col-xs-12 col-md-6">
+      <!-- General Answer Proposals Panel -->
+      <div class="panel panel-default">
+        <div class="panel-heading flex-container space-between" ng-click="generalProposalsCollapsed = !generalProposalsCollapsed">
+          <h4 class="panel-title" translate>GENERAL_PROPOSALS</h4>
+          <div>
+            <i class="glyphicon glyphicon-question-sign" uib-tooltip="{{'GENERAL_PROPOSALS_TOOLTIP' | translate}}" tooltip-placement="left"></i>
+            <i class="glyphicon margin-left-15" ng-class="{'glyphicon-chevron-down': generalProposalsCollapsed, 'glyphicon-chevron-up': !generalProposalsCollapsed}"></i>
+          </div>
+        </div>
+        <div class="collapse in" uib-collapse="generalProposalsCollapsed">
+          <div class="panel-body">
+            <form class="form-horizontal" name="generalAnswerProposalsForm" novalidate>
+              <chips ng-model="answer.answerProposals">
+                <chip-tmpl>
+                  <div class="default-chip proposal-chip">
+                    {{chip}}
+                    <i class="glyphicon glyphicon-remove margin-left-10" remove-chip></i>
+                  </div>
+                </chip-tmpl>
+                <input chip-control>
+              </chips>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- General Answer Proposals Panel End -->
+      <!-- Versions Panel -->
+      <div class="panel panel-default">
+        <div class="panel-heading flex-container space-between">
+          <h4 class="panel-title" translate>ANSWER_VERSIONS</h4>
+        </div>
+        <table st-table="answerVersions" class="table">
+          <thead>
+            <tr>
+              <th translate>VERSION_NUMBER</th>
+              <th translate>AUTHOR</th>
+              <th translate>VERSION_DATE</th>
+            </tr>
+          </thead>
+          <tbody ng-if="isLoadingVersions">
+            <tr> <td translate>LOADING</td> </tr>
+          </tbody>
+          <tbody ng-if="!isLoadingVersions && answerVersions.length === 0">
+            <tr> <td translate>NO_ANSWER_VERSIONS</td> </tr>
+          </tbody>
+          <tbody ng-if="answerVersions.length !== 0">
+            <tr st-select-row="version" st-select-mode="single" ng-repeat="version in answerVersions">
+              <td>{{version.number}}</td>
+              <td>{{version.user}}</td>
+              <td>{{version.date | date : 'dd.MM.yyyy HH:mm:ss'}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="panel-footer clearfix padding-vertical-5">
+          <div class="pull-right">
+            <button type="button" class="btn btn-primary" ng-click="previewVersion()" ng-disabled="getSelectedVersion() === null" translate>PREVIEW_VERSION</button>
+            <button type="button" class="btn btn-primary" ng-click="restoreVersion()" ng-disabled="getSelectedVersion() === null">
+              <span translate>RESTORE_VERSION</span>
+              <i class="glyphicon glyphicon-refresh spinning" ng-show="isRestoringVersion"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Versions Panel End -->
+    </div>
+    <div class="col-xs-12 col-md-6">
+      <!-- Media Panel -->
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading flex-container space-between" ng-click="mediaCollapsed = !mediaCollapsed">
+            <h4 class="panel-title" translate>MEDIA</h4>
+            <i class="glyphicon" ng-class="{'glyphicon-chevron-down': !mediaCollapsed, 'glyphicon-chevron-up': mediaCollapsed}"></i>
+          </div>
+          <div class="collapse" uib-collapse="!mediaCollapsed">
+            <div class="panel-body">
+              Coming soon...
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Media Panel End -->
+      <form class="form-group flex-container" novalidate>
+        <label class="control-label margin-right-5" for="answerOptionTags"><span translate>TAGS</span>:</label>
+        <chips class="tag-chips flex-grow chip-out-focus" name="answerTags" ng-model="answer.tags">
+          <chip-tmpl>
+            <div class="default-chip proposal-chip">
+              {{chip}}
+              <i class="glyphicon glyphicon-remove margin-left-10" remove-chip></i>
+            </div>
+          </chip-tmpl>
+          <input chip-control>
+        </chips>
+      </form>
+      <div class="pull-right margin-bottom-20">
+          <button type="button" class="btn btn-default" ng-click="cancel()" translate>GENERAL_CANCEL</button>
+          <button type="button" class="btn btn-primary" ng-click="saveAnswer()" ng-disabled="formsInvalid()"
+            uib-tooltip="{{'NEW_ANSWER_TOOLTIP' | translate}}" tooltip-placement="left" tooltip-enable="isNewAnswer && formsInvalid()">
+            <span translate>SAVE</span>
+            <i class="glyphicon glyphicon-refresh spinning" ng-show="isSaving"></i>
+          </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- version preview modal -->
+  <script type="text/ng-template" id="previewModal.html">
+    <div class="modal-header">
+      <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+      <h4 class="modal-title"><span translate>PREVIEW_VERSION</span>{{versionDoc.number}}</h4>
+    </div>
+    <div class="modal-body flex-container align-items-top">
+      <div class="flex-grow" ng-repeat="version in relevantVersions" ng-class="{'margin-right-5': $first, 'margin-left-5': !$first}">
+        <h4 ng-if="$first" translate>SELECTED_VERSION</h4>
+        <h4 ng-if="!$first" translate>CURRENT_VERSION</h4>
+        <form class="form-horizontal">
+          <div class="row">
+            <label class="col-sm-5 control-label" translate>ANSWER_ID</label>
+            <div class="col-sm-7">
+              <p class="form-control-static">{{version.answerId}}</p>
+            </div>
+          </div>
+          <div class="row" ng-if="version.answerProposals.length > 0">
+            <label class="col-sm-5 control-label" translate>GENERAL_PROPOSALS</label>
+            <div class="col-sm-7">
+              <p class="form-control-static">
+                <span ng-repeat='proposal in version.answerProposals'>{{proposal}}<br/></span>
+              </p>
+            </div>
+          </div>
+          <div class="row" ng-if="version.tags.length > 0">
+            <label class="col-sm-5 control-label" translate>TAGS</label>
+            <div class="col-sm-7">
+              <p class="form-control-static">
+                <span ng-repeat='tag in version.tags'>{{tag}}<br/></span>
+              </p>
+            </div>
+          </div>
+          <div ng-repeat='option in version.answerOptions'>
+            <br/>
+            <h5>{{$index+1}}. <span translate>ANSWEROPTION</span></h5>
+            <div class="row">
+              <label class="col-sm-5 control-label" translate>ANSWER_TEXT</label>
+              <div class="col-sm-7">
+                <p class="form-control-static">{{option.answerText}}</p>
+              </div>
+            </div>
+            <div class="row" ng-if="!isPropertiesEmpty(option.properties)">
+              <label class="col-sm-5 control-label" translate>ANSWER_PROPERTIES</label>
+              <div class="col-sm-7">
+                <p class="form-control-static">
+                  <span ng-repeat='(name, value) in option.properties'>{{name}}: {{value}}<br/></span>
+                </p>
+              </div>
+            </div>
+            <div class="row" ng-if="option.additionalAnswerProposals.length > 0">
+              <label class="col-sm-5 control-label" translate>ADDITIONAL_PROPOSALS</label>
+              <div class="col-sm-7">
+                <p class="form-control-static">
+                  <span ng-repeat='proposal in option.additionalAnswerProposals'>{{proposal}}<br/></span>
+                </p>
+              </div>
+            </div>
+            <div class="row" ng-if="option.tags.length > 0">
+              <label class="col-sm-5 control-label" translate>TAGS</label>
+              <div class="col-sm-7">
+                <p class="form-control-static">
+                  <span ng-repeat='tag in option.tags'>{{tag}}<br/></span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>DISMISS</button>
+    </div>
+  </script>
+
+  <style>
+    body {
+      min-height: 100%;
+      height: initial !important;
+    }
+  </style>
+</main>

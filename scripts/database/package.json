@@ -1,0 +1,26 @@
+{
+  "name": "DatabaseSetup",
+  "version": "1.0.0",
+  "description": "Initial setup of the EVA database",
+  "main": "app.js",
+  "files": [
+    "./config.json",
+    "./design_docs.json"
+  ],
+  "engines": {
+    "node": "8.9.3",
+    "npm": "5.5.1"
+  },
+  "dependencies": {
+    "async": "2.1.4",
+    "bcrypt-nodejs": "0.0.3",
+    "cfenv": "^1.0.4",
+    "cloudant": "^1.10.0",
+    "express": "^4.15.3",
+    "minimist": "^1.2.0",
+    "mongodb": "^2.2.29"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
+}

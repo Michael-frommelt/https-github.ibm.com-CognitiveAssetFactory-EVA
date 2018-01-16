@@ -1,0 +1,278 @@
+<div ng-include="'views/admin/nav.html'"></div>
+<main class="container-fluid margin-vertical-15" ng-cloak>
+  <h3 class="header-text" translate>SETTINGS</h3>
+  <div class="alert alert-danger" ng-show="error" uib-alert close="error = null">
+    <strong>{{error.status}}</strong> {{error.data.message || error.data}}
+  </div>
+  <div class="col-xs-12 col-md-6">
+    <!-- Answer Store Settings Panel -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title" translate>ANSWER_STORE_SETTINGS</h3>
+      </div>
+      <form name="ASform" class="panel-body form-horizontal" novalidate>
+        <div class="form-group">
+          <label for="ASupdateInterval" class="col-sm-6 control-label" translate>UPDATE_INTERVAL</label>
+          <div class="col-sm-6">
+            <div class="input-group">
+              <input id="ASupdateInterval" class="form-control" type="number" ng-model="answerStoreConfig.frontend.updateInterval" placeholder="300">
+              <span class="input-group-addon" translate>SECONDS</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-6 control-label">
+            <p style="font-weight: bold;" translate>SHOW_WYSIWYG_EDITOR</p>
+          </div>
+          <div class="col-sm-6">
+          <label for="ASshowWYSIWYG" class="checkbox-inline">
+              <input id="ASshowWYSIWYG" type="checkbox" ng-model="answerStoreConfig.frontend.showWYSIWYGEditor" checked>
+              <span class="checkbox_checker" style="margin-top: 5px;"></span>
+          </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ASanswerTextSize" class="col-sm-6 control-label" translate>ANSWER_TEXT_SIZE</label>
+          <div class="col-sm-6">
+            <div class="input-group">
+              <input id="ASanswerTextSize" class="form-control" type="number" ng-model="answerStoreConfig.frontend.answerTextSize" placeholder="250">
+              <span class="input-group-addon" translate>CHARACTERS</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ASdistanceMeasure" class="col-sm-6 control-label" translate>MULTIPLE_CHOICE_DISTANCE_MEASURE</label>
+          <div class="col-sm-6">
+            <input id="ASdistanceMeasure" class="form-control" type="number" ng-model="answerStoreConfig.multipleChoiceDistanceMeasure" placeholder="5">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ASfileSizeLimit" class="col-sm-6 control-label" translate>FILE_SIZE_LIMIT</label>
+          <div class="col-sm-6">
+            <div class="input-group">
+              <input id="ASfileSizeLimit" class="form-control" type="number" ng-model="answerStoreConfig.fileSizeLimit" placeholder="20480">
+              <span class="input-group-addon" translate>KILOBYTES</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ASanswerVersionLimit" class="col-sm-6 control-label" translate>ANSWER_VERSION_LIMIT</label>
+          <div class="col-sm-6">
+            <input id="ASanswerVersionLimit" class="form-control" type="number" ng-model="answerStoreConfig.answerVersionLimit" placeholder="5">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ASanswerVersionDeleteExpiration" class="col-sm-6 control-label" translate>ANSWER_VERSION_DELETE_EXPIRATION</label>
+          <div class="col-sm-6">
+            <div class="input-group">
+              <input id="ASanswerVersionDeleteExpiration" class="form-control" type="number" ng-model="answerStoreConfig.answerVersionDeleteExpiration" placeholder="30">
+              <span class="input-group-addon" translate>DAYS</span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- Answer Store Settings Panel End-->
+    <div class="panel panel-default">
+      <div class="panel-heading flex-container space-between">
+        <h3 class="panel-title" translate>DELETED_ANSWERS</h3>
+        <label class="form-inline margin-bottom-0">
+          <span translate>ANSWER_SET</span>
+          <select class="form-control" ng-model="versioningAnswerSet" ng-change="onVersioningAnswerSetChange()">
+            <option ng-repeat="set in availableAnswerSets" value="{{set.id}}" ng-selected="versioningAnswerSet == set.id">{{set.name}}</option>
+          </select>
+        </label>
+      </div>
+      <table st-table="deletedAnswers" class="table deleted-answers-table">
+        <tbody ng-if="deletedAnswers.length === 0">
+          <tr> <td translate>NO_DELETED_ANSWERS</td> </tr>
+        </tbody>
+        <tbody ng-if="deletedAnswers.length !== 0">
+          <tr st-select-row="deletedAnswer" st-select-mode="single" ng-repeat="deletedAnswer in deletedAnswers">
+            <td><span translate>ANSWER_ID</span>: {{deletedAnswer.answerId}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="panel-footer clearfix padding-vertical-5" ng-if="deletedAnswers.length !== 0">
+        <button type="button" class="btn btn-primary pull-right" ng-click="recoverDeletedAnswer()" ng-disabled="getSelectedDeletedAnswer() === null">
+          <span translate>RECOVER_ANSWER</span>
+          <i class="glyphicon glyphicon-refresh spinning" ng-show="isRecoveringAnswer"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-6">
+    <!-- Answer Properties Panel -->
+    <div class="panel panel-default">
+      <div class="panel-heading flex-container space-between">
+        <h3 class="panel-title" translate>ANSWER_PROPERTIES</h3>
+        <button class="btn btn-primary btn-xs" type="button" ng-click="newAnswerProperty()">
+          <i class="glyphicon glyphicon-plus"></i>
+        </button>
+      </div>
+      <form class="list-group" name="answerPropertiesForm">
+        <div class="list-group-item" ng-repeat="answerProperty in answerProperties">
+          <div class="flex-container space-between" ng-if="!answerProperty.isNew">
+            <h4>{{answerProperty.displayName}}</h4>
+            <button class="btn btn-link padding-vertical-3" type="button" ng-click="openDeleteModal(answerProperty.name)">
+              <i class="glyphicon glyphicon-trash"></i>
+            </button>
+          </div>
+          <ng-form name="answerPropertyForm" class="form-horizontal" novalidate>
+            <div class="form-group" ng-if="answerProperty.isNew" ng-class="{'has-error': answerPropertyForm.name.$invalid}">
+              <label for="{{answerProperty.name}}-name" class="col-sm-4 control-label" translate>NAME</label>
+              <div class="col-sm-8">
+                <input id="{{answerProperty.name}}-name" name="name" class="form-control" type="text" ng-model="answerProperty.name"
+                  name-used-validator="answerProperties" name-used-property="name" required>
+                <div class="help-block margin-bottom-0" ng-show="answerPropertyForm.name.$error.required" translate>REQUIRED_TEXT</div>
+                <div class="help-block margin-bottom-0" ng-show="answerPropertyForm.name.$error.nameUsed" translate>NAME_USED_TEXT</div>
+              </div>
+            </div>
+            <div class="form-group" ng-if="answerProperty.isNew" ng-class="{'has-error': answerPropertyForm.displayName.$invalid}">
+              <label for="{{answerProperty.name}}-displayName" class="col-sm-4 control-label" translate>DISPLAY_NAME</label>
+              <div class="col-sm-8">
+                <input id="{{answerProperty.name}}-displayName" name="displayName" class="form-control" type="text" ng-model="answerProperty.displayName"
+                  name-used-validator="answerProperties" name-used-property="displayName" required>
+                <div class="help-block margin-bottom-0" ng-show="answerPropertyForm.displayName.$error.required" translate>REQUIRED_TEXT</div>
+                <div class="help-block margin-bottom-0" ng-show="answerPropertyForm.displayName.$error.nameUsed" translate>NAME_USED_TEXT</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <!--  -->
+              <div class="col-sm-4 control-label">
+                <p style="font-weight: bold;" translate>REQUIRED</p>
+              </div>
+              <div class="col-sm-8">
+              <label for="{{answerProperty.name}}-required" class="checkbox-inline">
+                  <input id="{{answerProperty.name}}-required" type="checkbox" ng-model="answerProperty.required">
+                  <span class="checkbox_checker" style="margin-top: 5px;"></span>
+              </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="{{answerProperty.name}}-type" class="col-sm-4 control-label" translate>TYPE</label>
+              <div class="col-sm-8">
+                <select id="{{answerProperty.name}}" class="form-control" ng-model="answerProperty.type" required>
+                  <option value="number" translate>TYPE_NUMBER</option>
+                  <option value="multipleChoice" translate>TYPE_MULTIPLE_CHOICE</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group" ng-if="answerProperty.type === 'number'" ng-class="{'has-error': answerPropertyForm.minValue.$invalid}">
+              <label for="{{answerProperty.name}}-minValue" class="col-sm-4 control-label" translate>MIN_VALUE</label>
+              <div class="col-sm-8">
+                <input id="{{answerProperty.name}}-minValue" name="minValue" class="form-control" type="number" ng-model="answerProperty.minValue" required>
+                <div class="help-block margin-bottom-0" ng-show="answerPropertyForm.minValue.$error.number" translate>NOT_A_NUMBER_TEXT</div>
+                <div class="help-block margin-bottom-0" ng-show="answerPropertyForm.minValue.$error.required" translate>REQUIRED_TEXT</div>
+              </div>
+            </div>
+            <div class="form-group" ng-if="answerProperty.type === 'number'" ng-class="{'has-error': answerPropertyForm.maxValue.$invalid}">
+              <label for="{{answerProperty.name}}-maxValue" class="col-sm-4 control-label" translate>MAX_VALUE</label>
+              <div class="col-sm-8">
+                <input id="{{answerProperty.name}}-maxValue" name="maxValue" class="form-control" type="number" ng-model="answerProperty.maxValue" model-bigger-than-validator="answerProperty.minValue" required>
+                <div class="help-block margin-bottom-0" ng-show="answerPropertyForm.maxValue.$error.number" translate>NOT_A_NUMBER_TEXT</div>
+                <div class="help-block margin-bottom-0" ng-show="answerPropertyForm.maxValue.$error.required" translate>REQUIRED_TEXT</div>
+                <div class="help-block margin-bottom-0" ng-show="answerPropertyForm.maxValue.$error.modelBiggerThan" translate>BIGGER_THAN_MIN_TEXT</div>
+              </div>
+            </div>
+            <div class="form-group" ng-if="answerProperty.type === 'multipleChoice'" ng-class="{'has-error': answerPropertyForm.choices.$invalid}">
+              <label for="{{answerProperty.name}}-choices" class="col-sm-4 control-label" translate>CHOICES</label>
+              <div class="col-sm-8">
+                <chips id="{{answerProperty.name}}-choices" name="choices" ng-model="answerProperty.choices" model-array-empty-validator>
+                  <chip-tmpl>
+                    <div class="default-chip choice-chip">
+                      {{chip}}
+                      <i class="glyphicon glyphicon-remove margin-left-10" remove-chip></i>
+                    </div>
+                  </chip-tmpl>
+                  <input chip-control>
+                </chips>
+                <div class="help-block margin-bottom-0" ng-show="answerPropertyForm.choices.$error.modelArrayEmpty" translate>REQUIRED_TEXT</div>
+              </div>
+            </div>
+          </ng-form>
+        </div>
+      </form>
+    </div>
+    <!-- Answer Properties Panel End -->
+    <!-- Sync Button Panel -->
+    <div class="panel panel-default">
+      <div class="panel-heading flex-container space-between">
+        <h3 class="panel-title" translate>SYNC</h3>
+        <label class="form-inline margin-bottom-0">
+          <span translate>ANSWER_SET</span>
+          <select class="form-control" ng-model="syncAnswerSet">
+            <option ng-repeat="set in availableAnswerSets" value="{{set.id}}" ng-selected="syncAnswerSet == set.id">{{set.name}}</option>
+          </select>
+        </label>
+      </div>
+      <div class="panel-body flex-container space-around">
+        <button class="btn btn-primary" type="button" ng-click="computeAnswerIdDifference()">
+          <span translate>BTN_ANSWERID_SYNC</span>
+          <i class="glyphicon glyphicon-refresh spinning" ng-show="isSyncingAnswerIds"></i>
+        </button>
+        <button class="btn btn-primary" type="button" ng-click="computeVariablesDifference()">
+          <span translate>BTN_VARIABLE_SYNC</span>
+          <i class="glyphicon glyphicon-refresh spinning" ng-show="isSyncingVariables"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Sync Button Panel End -->
+    <div class="pull-right margin-bottom-20">
+        <button type="button" class="btn btn-default" ng-click="loadSettings()" translate>GENERAL_CANCEL</button>
+        <button type="button" class="btn btn-primary" ng-click="saveSettings()" ng-disabled="formsInvalid()">
+          <span translate>SAVE</span>
+          <i class="glyphicon glyphicon-refresh spinning" ng-show="isSaving"></i>
+        </button>
+    </div>
+  </div>
+
+  <!-- Sync display modal -->
+  <script type="text/ng-template" id="syncModal.html">
+    <div class="modal-header">
+      <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+      <h4 ng-if="mode === 'answerIds'" class="modal-title" translate>ANSWERID_SYNC</h4>
+      <h4 ng-if="mode === 'variables'" class="modal-title" translate>VARIABLES_SYNC</h4>
+    </div>
+    <div class="modal-body">
+      <table class="table">
+        <tr class="no-top-border">
+          <th class="no-top-border">
+            <span ng-if="mode === 'answerIds'" translate>ANSWERIDS_ONLY_WCS</span>
+            <span ng-if="mode === 'variables'" translate>VARIABLES_ONLY_VARIABLESTORE</span>
+          </th>
+          <th class="no-top-border">
+            <span ng-if="mode === 'answerIds'" translate>ANSWERIDS_ONLY_ANSWERSTORE</span>
+            <span ng-if="mode === 'variables'" translate>VARIABLES_ONLY_ANSWERSTORE</span>
+          </th>
+        <tr>
+        <tr>
+          <td>
+            <div ng-if="mode === 'answerIds'" ng-repeat="answerId in wcsAnswerIds">{{answerId}}</div>
+            <div ng-if="mode === 'variables'" ng-repeat="variable in variableStoreVariables">{{variable}}</div>
+          </td>
+          <td>
+            <div ng-if="mode === 'answerIds'" ng-repeat="answerId in ASanswerIds">{{answerId}}</div>
+            <div ng-if="mode === 'variables'" ng-repeat="variable in ASvariables">{{variable}}</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </script>
+
+  <!-- Delete modal -->
+  <script type="text/ng-template" id="deleteModal.html">
+    <div class="modal-header">
+      <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+      <h4 class="modal-title" translate>DELETE_ANSWER_PROPERTY</h4>
+    </div>
+    <div class="modal-body" translate>DELETE_ANSWER_PROPERTY_TEXT</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>NO</button>
+      <button type="button" class="btn btn-primary" ng-click="deleteAnswerProperty()">
+        <span translate>YES</span>
+        <i class="glyphicon glyphicon-refresh spinning" ng-show="isDeleting"></i>
+      </button>
+    </div>
+  </script>
+</main>

@@ -1,0 +1,58 @@
+@import '../lib/angular-chips';
+
+.choice-chip {
+  border-radius: 20px;
+  padding: 5px 10px;
+}
+
+.flex-container {
+  display: flex !important;
+  align-items: center;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.space-around {
+  justify-content: space-around;
+}
+
+.margin-bottom-0 {
+  margin-bottom: 0px;
+}
+
+.margin-vertical-15 {
+  margin: 0;
+}
+
+.margin-bottom-0 {
+  margin-bottom: 0px;
+}
+
+.no-top-border {
+  border-top: none !important;
+}
+
+.padding-top-7 {
+  padding-top: 7px;
+}
+
+.padding-vertical-5 {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.st-selected {
+  background-color: rgb(227, 225, 222);
+  color: black;
+}
+
+.deleted-answers-table {
+  max-height: 300px;
+}
+
+.glyphicon-trash:before {
+    content: "\e020";
+    font-size: 20px;
+}

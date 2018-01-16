@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<style>
+		.borderless {
+			border: 0px;
+		}
+
+		.left {
+			text-align: left;
+			border: 0px;
+			padding: 0px;
+		}
+
+		.right {
+			text-align: right;
+			border: 0px;
+			padding: 0px;
+		}
+	</style>
+	<meta charset="UTF-8">
+</head>
+
+<body>
+	<br>
+
+	<table class="borderless">
+		<tr>
+			<td class="right">
+				Eingang des Rückrufwunschs:
+			</td>
+			<td class="left">
+				[date] [time]
+			</td>
+		</tr>
+	</table>
+
+	<hr>
+	<strong>Bitte anrufen: Interessent [fullName] unter [callNumber] am [callDate] - [callHours]</strong>
+	<hr>
+
+	<p>Kommentar des Interessenten: [comment]</p>
+	<hr>
+
+	<p>Nachricht:</p>
+	<table cellspacing="0" cellpadding="0" style="width:100%; border: 1px solid black;border-collapse: collapse;padding: 10px;">
+		[chatHistory]
+	</table>
+	<br>
+</body>
+
+</html>

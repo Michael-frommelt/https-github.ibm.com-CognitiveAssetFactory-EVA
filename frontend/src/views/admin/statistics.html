@@ -1,0 +1,236 @@
+<div ng-include="'views/admin/nav.html'"></div>
+<main class="container">
+    <style type="text/css">
+        .container {
+            width: auto;
+            max-width: calc(100% - 30px);
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+    </style>
+
+    <!-- show animation || HIDE CONTENT CONTAINER-->
+    <div ng-if="statisticsLoading" id="blur_hide">
+        <div class="loader">Loading...</div>
+        <div id="loadingParagraph">Loading</div>
+    </div>
+    <!-- || -->
+    <div ng-if="!statisticsLoading">
+        <div ng-if="error" class="alert alert-danger alert-margin-top" role="alert">{{errorText}}</div>
+
+        <h3 class="header-text">{{'NAV_STATISTICS' | translate}}</h3>
+
+        <div class="conversation-flow-container clearfix">
+            <div class="col-md-12">
+                <h4>{{'FILTER_NOTE' | translate}}</h4><br>
+                <div class='col-md-6' style="padding-left: 0px;">
+                    <div class="col-md-6">
+                        <h5 class="select"> Select Client:</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <select class="user-input form-control" ng-model="filter.chosenClient" ng-change="setClientStatistics()">
+            <option value="{{client.id}}" ng-repeat="client in availableClients">{{client.name}}</option>
+          </select>
+                    </div>
+                </div>
+                <div class='col-md-6'>
+                    <div class="col-md-6">
+                        <h5 class="select">Select Startpoint:</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- <label for="meeting">Select Startpoint : </label><input id="start" type="date" value="2017-10-11"/> -->
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepickerFrom'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="select">Select Endpoint:</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepickerTill'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="!statisticsLoading" class="conversation-flow-container clearfix">
+            <div class="col-xs-12">
+                <div class="row diagramtitle">
+                    <div class="col-xs-6">
+                        <h4>{{'CONV_STATISTIC' | translate }}</h4>
+                        <h5>{{startOfMonth}} - {{today}}</h5></div>
+                    <div class="col-xs-6">
+                        <h4>{{'MSG_STATISTIC' | translate }}</h4>
+                        <h5>{{intervalStartDate}} - {{intervalEndDate}}</h5></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <table class="table table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{'TODAY' | translate }}</th>
+                                    <th>{{'WEEK' | translate }}</th>
+                                    <th>{{'MONTH' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{'USERS' | translate}}</td>
+                                    <td>{{numOfUserTableChart.numOfUsersToday}}</td>
+                                    <td>{{numOfUserTableChart.numOfUsersThisWeek}}</td>
+                                    <td>{{numOfUserTableChart.numOfUsersThisMonth}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{'MSG' | translate}}</td>
+                                    <td>{{numOfUserTableChart.numOfMessagesToday}}</td>
+                                    <td>{{numOfUserTableChart.numOfMessagesThisWeek}}</td>
+                                    <td>{{numOfUserTableChart.numOfMessagesThisMonth}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{'MSG_PER_USER' | translate}}</td>
+                                    <td>{{numOfUserTableChart.numOfUsersToday > 0 ? numOfUserTableChart.numOfMessagesToday / numOfUserTableChart.numOfUsersToday : 0 | number:1}}</td>
+                                    <td>{{numOfUserTableChart.numOfMessagesThisWeek / numOfUserTableChart.numOfUsersThisWeek | number:1}}</td>
+                                    <td>{{numOfUserTableChart.numOfMessagesThisMonth / numOfUserTableChart.numOfUsersThisMonth | number:1}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row diagramtitle">
+                            <div class="col-xs-6">
+                                <h4>{{'MORE_VALS' | translate }}</h4>
+                                <h5>{{intervalStartDate}} - {{intervalEndDate}}</h5></div>
+                        </div>
+                        <table class="table table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{'SEL_INTERVAL' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td translate>QUITRATE</td>
+                                    <td>{{messagesPerUserBarChart.quitRate | number:1}}%</td>
+                                </tr>
+                                <tr>
+                                    <td translate>USERS</td>
+                                    <td>{{messagesPerUserBarChart.usersInInterval}}</td>
+                                </tr>
+                                <tr>
+                                    <td translate>MSG</td>
+                                    <td>{{messagesPerUserBarChart.messagesInInterval}}</td>
+                                </tr>
+                                <tr>
+                                    <td translate>MSG_PER_USER</td>
+                                    <td>{{messagesPerUserBarChart.messagesPerUser | number:1}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-6">
+                        <canvas id="userStatistikBar" class="chart chart-bar" chart-options="messagesPerUserBarChart.options" chart-data="messagesPerUserBarChart.data" chart-labels="messagesPerUserBarChart.labels">
+            </canvas>
+                    </div>
+                </div>
+                <hr>
+                <div class="row diagramtitle">
+                    <div class="col-xs-6">
+                        <h4>{{'DAILY_CONV' | translate}}</h4>
+                        <h5>{{intervalStartDate}} - {{intervalEndDate}}</h5></div>
+                    <div class="col-xs-6">
+                        <h4>{{'WEEKLY_CONV' | translate}}</h4>
+                        <h5>{{weeklyBarChartStart}} - {{weeklyBarChartEnd}}</h5></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <canvas id="dailyUserLineChart" class="chart chart-line" chart-data="dailyUserLineChart.data" chart-labels="dailyUserLineChart.labels" chart-options="dailyUserLineChart.options">
+          </canvas>
+                    </div>
+                    <div class="col-xs-6">
+                        <canvas id="weeklyUserBarChart" class="chart chart-bar" chart-options="weeklyUserBarChart.options" chart-data="weeklyUserBarChart.data" chart-labels="weeklyUserBarChart.labels">
+          </canvas>
+                    </div>
+                </div>
+                <div class="row diagramtitle">
+                    <div class="col-xs-6">
+                        <h4>{{'LONGTERM_CONV' | translate}}</h4>
+                        <h5>{{intervalStartDate}} - {{intervalEndDate}}</h5></div>
+                    <div class="col-xs-6">
+                        <h4></h4></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <canvas id="longTermUserLineChart" class="chart chart-line" chart-options="longTermUserLineChart.options" chart-data="longTermUserLineChart.data" chart-labels="longTermUserLineChart.labels">
+          </canvas>
+                    </div>
+                </div>
+                <hr>
+                <div class="row diagramtitle">
+                    <div class="col-xs-6">
+                        <h4>{{'TOP_INTENTS' | translate}}</h4>
+                        <h5>{{intervalStartDate}} - {{intervalEndDate}}</h5></div>
+                    <div class="col-xs-6">
+                        <h4>{{'ANSWER_FROM' | translate}}</h4>
+                        <h5>{{intervalStartDate}} - {{intervalEndDate}}</h5></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <canvas id="topIntentBarChart" class="chart chart-bar" chart-options="topIntentBarChart.options" chart-data="topIntentBarChart.data" chart-labels="topIntentBarChart.labels">
+          </canvas>
+                    </div>
+                    <div class="col-xs-6">
+                        <canvas id="answerFromBarChart" class="chart chart-bar" chart-options="answerFromBarChart.options" chart-data="answerFromBarChart.data" chart-labels="answerFromBarChart.labels">
+          </canvas>
+                    </div>
+                </div>
+                <hr>
+                <div class="row diagramtitle">
+                    <div class="col-xs-6">
+                        <h4>{{'FEEDBACK_ABS' | translate}}</h4><br>
+                        <h5>{{firstDataEntry}} - {{today}}</h5></div>
+                    <div class="col-xs-6">
+                        <h4>{{'FEEDBACK_PERCENT' | translate}}</h4><br>
+                        <h5>{{firstDataEntry}} - {{today}}</h5></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <table class="table table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Client ID</th>
+                                    <th>{{'COUNT_UND' | translate}}</th>
+                                    <th>{{'COUNT_POS' | translate}}</th>
+                                    <th>{{'COUNT_NEG' | translate}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="feedback in clientTable">
+                                    <td>{{feedback.clientId}}</td>
+                                    <td>{{feedback.cnt_und}} ({{feedback.per_und * 100 | number : 1}}%)</td>
+                                    <td>{{feedback.cnt_pos}} ({{feedback.per_pos * 100 | number : 1}}%)</td>
+                                    <td>{{feedback.cnt_neg}} ({{feedback.per_neg * 100 | number : 1}}%)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-6">
+                        <canvas id="clientBarChart" class="chart chart-bar" chart-options="clientBarChart.options" chart-data="clientBarChart.data" chart-labels="clientBarChart.labels" chart-series="clientBarChart.series">
+          </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+<div class="spacer"></div>

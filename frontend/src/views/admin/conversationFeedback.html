@@ -1,0 +1,106 @@
+<div ng-include="'views/admin/nav.html'"></div>
+<main class="container-fluid view-container">
+  <button class="btn btn-link pull-right" ng-click="dataFromReportingTable.refresh()">
+    <img src="images/refresh.png" alt="refresh" style="width: 30px; height: 30px;" />
+  </button>
+  <button class="btn btn-link pull-right" ng-click="dataFromReportingTable.toggleFilters()">
+    <img src="images/filter.png" alt="filter" style="width: 30px; height: 30px;" />
+  </button>
+  <h3 class="header-text">{{'CONVERSATION_FEEDBACK' | translate}}</h3>
+  <div class="alert alert-danger" ng-show="error" uib-alert close="error = null">
+    <strong>{{error.status}}</strong> {{error.data.message || error.data}}
+  </div>
+  <div class="container-fluid reporting-table-container clearfix">
+    <reporting-table data-definition="tableDefinition" data-content-queries="contentQueries" data-output="dataFromReportingTable"></reporting-table>
+  </div>
+  <br />
+  <form class="form-inline flex-container">
+    <div class="btn-group margin-horizontal-5" uib-dropdown>
+      <button class="btn btn-primary" uib-dropdown-toggle ng-disabled="exportProgress !== null && exportProgress !== 100">
+        <span translate>GENERATE_EXPORT</span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" uib-dropdown-menu>
+        <li role="menuitem">
+          <a ng-click="generateConversationFeedbackExport(dataFromReportingTable.filter, dataFromReportingTable.sorting)" translate>
+            EXPORT_WITH_FILTER
+          </a>
+        </li>
+        <li role="menuitem">
+          <a ng-click="generateConversationFeedbackExport()" translate>EXPORT_ALL</a>
+        </li>
+      </ul>
+    </div>
+    <button class="btn btn-primary margin-horizontal-5" ng-click="cancelConversationFeedbackExport()"
+      ng-show="exportProgress !== null && exportProgress !== 100" translate>
+      CANCEL_GENERATION
+    </button>
+    <button class="btn btn-primary margin-horizontal-5" ng-click="downloadConversationFeedbackExport()"
+      ng-show="exportProgress === 100" translate>
+      DOWNLOAD_EXPORT
+    </button>
+    <div class="form-group margin-horizontal-5" ng-show="exportProgress !== null">
+      <label for="exportStatus" translate>EXPORT_STATUS</label>
+      <p class="form-control-static">{{exportProgress === 100 ? ('FINISHED' | translate) : ('EXPORTING' | translate)}}</p>
+    </div>
+    <div class="form-group margin-horizontal-5" style="flex: 1" ng-show="exportProgress !== null && exportProgress !== 100">
+      <uib-progressbar class="progress-striped active margin-bottom-0" value="exportProgress">{{exportProgress}} %</uib-progressbar>
+    </div>
+  </form>
+</main>
+<div class="spacer"></div>
+
+<script type="text/ng-template" id="additionalInfo.html">
+  <div class="modal-header">
+    <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+    <h4 class="modal-title" translate>FEEDBACK</h4>
+  </div>
+  <div class="modal-body form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-2 control-label" translate>CONVERSATION_ID</label>
+      <div class="col-sm-10">
+        <p class="form-control-static">{{feedback.conversationId}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label" translate>CLIENT_ID</label>
+      <div class="col-sm-10">
+        <p class="form-control-static">{{feedback.clientId}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label" translate>USERNAME</label>
+      <div class="col-sm-10">
+        <p class="form-control-static">{{feedback.username}}</p>
+      </div>
+    </div>
+    <hr>
+    <div class="form-group">
+      <label class="col-sm-2 control-label" translate>COMMENT</label>
+      <div class="col-sm-10">
+        <p class="form-control-static">{{feedback.comment}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label" translate>RATING</label>
+      <div class="col-sm-10">
+        <fieldset class="rating clearfix">
+          <input type="radio" readonly name="star5" value="5" ng-model="feedback.rating"/><label for="star5"></label>
+          <input type="radio" readonly name="star4" value="4" ng-model="feedback.rating"/><label for="star4"></label>
+          <input type="radio" readonly name="star3" value="3" ng-model="feedback.rating"/><label for="star3"></label>
+          <input type="radio" readonly name="star2" value="2" ng-model="feedback.rating"/><label for="star2"></label>
+          <input type="radio" readonly name="star1" value="1" ng-model="feedback.rating"/><label for="star1"></label>
+        </fieldset>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label" translate>CREATED</label>
+      <div class="col-sm-10">
+        <p class="form-control-static">{{feedback.created | date : 'dd.MM.yyyy HH:mm'}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="$dismiss()" translate>CLOSE</button>
+  </div>
+</script>

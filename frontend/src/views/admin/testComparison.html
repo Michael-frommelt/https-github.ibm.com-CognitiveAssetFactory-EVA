@@ -1,0 +1,201 @@
+<div ng-include="'views/admin/nav.html'"></div>
+<style type="text/css">
+    .container {
+        width: 100%;
+        max-width: calc(100% - 30px);
+    }
+</style>
+<main ng-if="!clientSelection.chosen" class="container" ng-cloak>
+    <div ng-if="errorText" class="container alert alert-danger alert-margin-top" role="alert">{{errorText}}</div>
+    <header class="button-header flex-container space-between">
+        <div>
+            <h3 class="header-text" translate>CHOOSE_CLIENT</h3>
+        </div>
+    </header>
+
+    <select class="user-input form-control" ng-model="clientSelection.chosen" ng-change="setClient()" style="margin: 10px 0">
+      <option ng-repeat="client in clientSelection.availableClients" value="{{client.id}}">{{client.name}}</option>
+    </select>
+</main>
+<main ng-if="clientSelection.chosen" class="container" style="min-height: unset;" ng-cloak>
+    <button class="btn btn-primary" style="width: 100%" ng-disabled="disableClientChange" ng-click="changeClient()" translate>CHOOSE_NEW_CLIENT</button>
+</main>
+<main ng-if="clientSelection.chosen" class="container" ng-cloak>
+    <!-- show animation || HIDE CONTENT CONTAINER-->
+    <div id="blur_hide" ng-show="isLoading">
+        <div class="loader">Loading...</div>
+        <div id="loadingParagraph">Loading</div>
+    </div>
+    <!-- || -->
+    <header>
+        <h3>{{'TEST_COMPARISON' | translate}}: {{clientSelection.chosen}}</h3>
+    </header>
+    <div class="alert alert-danger" ng-show="error" uib-alert close="error = null">
+        <strong>{{error.status}}</strong> {{error.data.message || error.data}}
+    </div>
+
+    <form class="form-inline flex-container space-around margin-vertical-20">
+        <div class="form-group">
+            <label for="baseRun"><span translate>BASE_TEST_RUN</span>:</label>
+            <select name="baseRun" class="form-control" ng-model="baseRun" ng-options="(runDate | date:'dd.MM.yyyy HH:mm:ss') for runDate in testRuns"></select>
+        </div>
+        <div class="form-group">
+            <label for="compareRun"><span translate>COMPARE_TEST_RUN</span>:</label>
+            <select name="compareRun" class="form-control" ng-model="compareRun" ng-options="(runDate | date:'dd.MM.yyyy HH:mm:ss') for runDate in testRuns"></select>
+        </div>
+        <button class="btn btn-primary" ng-click="compareRuns()" ng-disabled="baseRun == compareRun || isComparing" translate>COMPARE</button>
+    </form>
+    <hr>
+    <h4 translate>POSITIVE_CHANGED_TEST_RESULTS</h4>
+    <table class="table table-bordered table-striped table-hover" st-table="displayedPositiveResults" st-safe-src="positiveChangedTestResults">
+        <thead>
+            <tr>
+                <th st-sort="testFile" st-sort-default="true" translate>TEST_FILE_1</th>
+                <th st-sort="caseId" translate>CASE_ID</th>
+                <th st-sort="step" translate>TEST_STEP</th>
+                <th st-sort="input" translate>TEST_INPUT</th>
+            </tr>
+        </thead>
+        <tbody ng-show="isComparing">
+            <tr>
+                <td class="text-center" colspan="4">
+                    <i class="glyphicon glyphicon-refresh spinning"></i>
+                    <span translate>LOADING</span>
+                </td>
+            </tr>
+        </tbody>
+        <tbody ng-show="!isComparing && !displayedPositiveResults.length">
+            <tr>
+                <td class="text-center" colspan="4" translate>NO_TEST_RESULTS</td>
+            </tr>
+        </tbody>
+        <tbody ng-show="!isComparing && displayedPositiveResults.length">
+            <tr ng-repeat="testResult in displayedPositiveResults" ng-click="openTestResult(testResult)">
+                <td>{{testResult.testFile}}</td>
+                <td>{{testResult.caseId}}</td>
+                <td>{{testResult.step}}</td>
+                <td>{{testResult.input}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <h4 translate>NEGATIVE_CHANGED_TEST_RESULTS</h4>
+    <table class="table table-bordered table-striped table-hover" st-table="displayedNegativeResults" st-safe-src="negativeChangedTestResults">
+        <thead>
+            <tr>
+                <th st-sort="testFile" st-sort-default="true" translate>TEST_FILE_1</th>
+                <th st-sort="caseId" translate>CASE_ID</th>
+                <th st-sort="step" translate>TEST_STEP</th>
+                <th st-sort="input" translate>TEST_INPUT</th>
+            </tr>
+        </thead>
+        <tbody ng-show="isComparing">
+            <tr>
+                <td class="text-center" colspan="4">
+                    <i class="glyphicon glyphicon-refresh spinning"></i>
+                    <span translate>LOADING</span>
+                </td>
+            </tr>
+        </tbody>
+        <tbody ng-show="!isComparing && !displayedNegativeResults.length">
+            <tr>
+                <td class="text-center" colspan="4" translate>NO_TEST_RESULTS</td>
+            </tr>
+        </tbody>
+        <tbody ng-show="!isComparing && displayedNegativeResults.length">
+            <tr ng-repeat="testResult in displayedNegativeResults" ng-click="openTestResult(testResult)">
+                <td>{{testResult.testFile}}</td>
+                <td>{{testResult.caseId}}</td>
+                <td>{{testResult.step}}</td>
+                <td>{{testResult.input}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- test result modal -->
+    <script type="text/ng-template" id="testResultModal.html">
+        <div class="modal-header">
+            <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+            <h4 class="modal-title" translate>TEST_RESULT</h4>
+        </div>
+        <div class="modal-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="col-xs-2"></th>
+                        <th class="col-xs-5"><span translate>BASE_TEST_RUN</span>: {{testResults[0].timestamp | date:'dd.MM.yyyy HH:mm:ss'}}</th>
+                        <th class="col-xs-5"><span translate>COMPARE_TEST_RUN</span>: {{testResults[1].timestamp | date:'dd.MM.yyyy HH:mm:ss'}}</th>
+                    </tr>
+                </thead>
+                <tbody ng-show="isLoading">
+                    <tr>
+                        <td class="text-center" colspan="3">
+                            <i class="glyphicon glyphicon-refresh spinning"></i>
+                            <span translate>LOADING</span>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-hide="isLoading">
+                    <tr>
+                        <td translate>TEST_FILE_1</td>
+                        <td ng-repeat="testResult in testResults">
+                            {{testResult.test.test_file}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td translate>CASE_ID</td>
+                        <td ng-repeat="testResult in testResults">
+                            {{testResult.id}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td translate>TEST_STEP</td>
+                        <td ng-repeat="testResult in testResults">
+                            {{testResult.counter}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td translate>TOP_INTENT</td>
+                        <td ng-repeat="testResult in testResults" ng-class="{success: testResult.correctTopIntent, danger: !testResult.correctTopIntent}">
+                            <span translate>EXPECTED</span>: {{testResult.test.intent}}
+                            <br />
+                            <span translate>ACTUAL</span>: {{testResult.body.topIntent}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td translate>ANSWER_ID</td>
+                        <td ng-repeat="testResult in testResults" ng-class="{success: testResult.correctAnswerId, danger: !testResult.correctAnswerId}">
+                            <span translate>EXPECTED</span>: {{testResult.test.answerId}}
+                            <br />
+                            <span translate>ACTUAL</span>: {{testResult.body.answer_id.join(', ')}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td translate>RESPONSE_TIME</td>
+                        <td ng-repeat="testResult in testResults">
+                            {{testResult.responseTime}} ms
+                        </td>
+                    </tr>
+                    <tr>
+                        <td translate>TEST_INPUT</td>
+                        <td ng-repeat="testResult in testResults">
+                            {{testResult.test.input}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            <div ng-click="collapseBody = !collapseBody">
+                <i class="glyphicon glyphicon-triangle-right" ng-show="!collapseBody"></i>
+                <i class="glyphicon glyphicon-triangle-bottom" ng-show="collapseBody"></i>
+                <label class="control-label" translate>DEBUG</label>
+            </div>
+            <div class="clearfix" uib-collapse="!collapseBody">
+                <pre ng-repeat="testResult in testResults" class="col-xs-6 well well-lg">{{testResult.body | json}}</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="$dismiss()" translate>CLOSE</button>
+    </div>
+  </script>
+</main>

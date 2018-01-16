@@ -1,0 +1,331 @@
+<div ng-include="'views/admin/nav.html'"></div>
+<style type="text/css">
+    .container {
+        width: 100%;
+        max-width: calc(100% - 30px);
+    }
+</style>
+<style type="text/css">
+    .container {
+        width: 100%;
+        max-width: calc(100% - 30px);
+    }
+</style>
+<main ng-if="!clientSelection.chosen" class="container" ng-cloak>
+    <div ng-if="errorText" class="container alert alert-danger alert-margin-top" role="alert">{{errorText}}</div>
+    <header class="button-header flex-container space-between">
+        <div>
+            <h3 class="header-text" translate>CHOOSE_CLIENT</h3>
+        </div>
+    </header>
+
+    <select class="user-input form-control" ng-model="clientSelection.chosen" ng-change="setClient()">
+      <option ng-repeat="client in clientSelection.availableClients" value="{{client.id}}">{{client.name}}</option>
+    </select>
+</main>
+<main ng-if="clientSelection.chosen" class="container" style="min-height: unset;" ng-cloak>
+    <button class="btn btn-primary" ng-disabled="disableClientChange" ng-click="changeClient()" translate>CHOOSE_NEW_CLIENT</button>
+</main>
+<main ng-if="clientSelection.chosen" class="container" st-table="displayedIntents" st-safe-src="insights" ng-cloak>
+    <!-- show animation || HIDE CONTENT CONTAINER-->
+    <div ng-if="isLoading" id="blur_hide">
+        <div class="loader">Loading...</div>
+        <div id="loadingParagraph">Loading</div>
+    </div>
+    <!-- || -->
+    <div ng-if="errorText" class="alert alert-danger alert-margin-top" role="alert">{{errorText}}</div>
+    <header class="button-header flex-container space-between">
+        <h3 class="header-text">{{'KFOLD_HEADER' | translate}}: {{clientSelection.chosen}}</h3>
+    </header>
+    <div id="kfold_options">
+        <div id="start_tests">
+            <div ng-if='testStatus === "failed"'>
+                <h4>Test status: <b style="color:red;">FAILED</b></h4>
+            </div>
+            <div ng-if='testStatus === "inProgress"'>
+                <h4>Test status:  <b style="color:orange;">IN PROGRESS</b></h4>
+            </div>
+            <div ng-if='testStatus === "watsonIsTraining"'>
+                <h4>Test status:  <b style="color:orange;">WATSON IS TRAINING</b></h4>
+            </div>
+            <div ng-if='testStatus === "finished"'>
+                <h4>Test status: <b style="color:green;">FINISHED {{testDate}}</b></h4>
+            </div>
+            <div ng-if='testStatus === "no status"'>
+                <h4>Test status: <b style="color:grey;">NO STATUS</b></h4>
+            </div>
+            <div ng-show="!testInProgress && testInProgress != null">
+                <select class="form-control" style='width:175px' ng-options="k for k in kValues" ng-model="selectedK"></select>
+                <button type="button" class="btn btn-primary" style='width:175px' ng-click="runTest(selectedK)" ng-disabled="testInProgress" translate>RUN_TEST</button>
+            </div>
+            <div ng-show="testInProgress && testInProgress != null" class="progress">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{testProgress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{testProgress}}%">
+                        {{testProgress}}%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="table_options" ng-if="testTimes[0]">
+            <br>
+            <h4 translate>TABLE_OPTIONS</h4>
+            <b>{{'OPTION_SELECT' | translate }}: </b> <br><br>
+            <select class="form-control" style='width:175px' ng-options="option._id for option in testTimes track by option._id" ng-model="selectedTime" ng-change="getResultsForDate(selectedTime)"></select></br>
+            <fieldset>
+                <input type="radio" value="conf" ng-model="displayOption" checked>
+                <ratio-label translate>CONF</ratio-label>
+                <input type="radio" value="ratio" ng-model="displayOption">
+                <ratio-label translate>RATIO</ratio-label>
+                <input type="radio" value="numCases" ng-model="displayOption">
+                <ratio-label translate>NUMCASES</ratio-label>
+            </fieldset>
+            <br>
+        </div>
+    </div>
+    <div ng-if="!testTimes[0]" translate>NO_TESTRESULTS_CLIENT</div>
+    <div ng-if="testTimes[0]">
+        <div class="alert alert-danger" ng-show="error" uib-alert close="error = null">
+            <strong>{{error.status}}</strong> {{error.data.message || error.data}}
+        </div>
+        <!-- HEADER 2 -->
+        <header class="button-header flex-container space-between" style="margin-top: 20px;">
+            <h3 class="header-text" translate>Results</h3>
+        </header>
+        <div class="table-container">
+            <table class="table table-bordered table-striped">
+                <thead ng-if="!isLoading">
+                    <tr style="border-top: 0;">
+                        <th st-sort="intent">
+                            <span style="line-height: 33px">Intent</span>
+                        </th>
+                        <th ng-repeat="run in testResult.result track by $index" st-sort="testrun">
+                            <span style="line-height: 33px">{{$index + 1}}</span>
+                        </th>
+                        <th st-sort="testrun">
+                            <span style="line-height: 33px" translate>AVERAGE</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody ng-if="isLoading">
+                    <tr>
+                        <td class="text-center" colspan="6">
+                            <i class="glyphicon glyphicon-refresh spinning"></i>
+                            <span translate>LOADING</span>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-if="!isLoading">
+                    <tr ng-repeat="intent in tableObject | orderBy: '-1*totalTestCases'" ng-switch="displayOption">
+                        <td class="ng-scope" ng-click="openSankeyChart(intent)">
+                            <div class="flex-container">
+                                <div class="padding-10-0">
+                                </div>
+                                <div class="flex-container space-between flex-grow padding-10-5">
+                                    <span>{{intent.intent}}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td ng-repeat="run in intent.result track by $index" ng-click="showTestcasesModal(run, $index+1, intent.intent)">
+                            <div class="flex-container">
+                                <div class="padding-10-5">
+                                </div>
+                                <div class="flex-container space-between flex-grow padding-10-5">
+                                    <span ng-switch-when="conf">{{run.confidence}}</span>
+                                    <span ng-switch-when="ratio">{{run.successRatio}}</span>
+                                    <span ng-switch-when="numCases">{{run.totalTestCases}}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="ng-scope" ng-switch-when="conf" style="background-color: {{intent.confidenceColor}}">
+                            <div class="flex-container">
+                                <div class="padding-10-5">
+                                </div>
+                                <div class="flex-container space-between flex-grow padding-10-5">
+                                    <span>{{intent.confidence}}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="ng-scope" ng-switch-when="ratio" style="background-color: {{intent.successRatioColor}}">
+                            <div class="flex-container">
+                                <div class="padding-10-5">
+                                </div>
+                                <div class="flex-container space-between flex-grow padding-10-5">
+                                    <span>{{intent.successRatio}}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="ng-scope" ng-switch-when="numCases">
+                            <div class="flex-container">
+                                <div class="padding-10-5">
+                                </div>
+                                <div class="flex-container space-between flex-grow padding-10-5">
+                                    <span>{{intent.totalTestCases}}</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-switch="displayOption">
+                        <td class="ng-scope" style="border-top: 2px solid black;">
+                            <div class="flex-container">
+                                <div class="padding-10-0">
+                                </div>
+                                <div class="flex-container space-between flex-grow padding-10-5">
+                                    <span><b>{{overall.intent}}</b></span>
+                                </div>
+                            </div>
+                        </td>
+                        <td ng-repeat="run in testResult.result" style="border-top: 2px solid black;"></td>
+                        <td class="ng-scope" ng-switch-when="conf" style="border-top: 2px solid black; background-color: {{overall.confidenceColor}}">
+                            <div class="flex-container">
+                                <div class="padding-10-5">
+                                </div>
+                                <div class="flex-container space-between flex-grow padding-10-5">
+                                    <span><b>{{overall.confidence}}</b<</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="ng-scope" ng-switch-when="ratio" style="border-top: 2px solid black; background-color: {{overall.successRatioColor}}">
+                            <div class="flex-container">
+                                <div class="padding-10-5">
+                                </div>
+                                <div class="flex-container space-between flex-grow padding-10-5">
+                                    <span><b>{{overall.successRatio}}</b></span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="ng-scope" ng-switch-when="numCases" style="border-top: 2px solid black;">
+                            <div class="flex-container">
+                                <div class="padding-10-5">
+                                </div>
+                                <div class="flex-container space-between flex-grow padding-10-5">
+                                    <span><b>{{overall.totalTestCases}}</b></span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- show testcases per run -->
+    <script type="text/ng-template" id="showTestcases.html">
+        <style type="text/css">
+            .container {
+                width: auto;
+                max-width: calc(100% - 30px);
+                margin-left: 15px;
+                margin-right: 15px;
+            }
+
+            .modal-dialog {
+                width: 50%;
+            }
+
+            .modal-body {
+                height: 500px;
+                overflow-y: scroll;
+            }
+        </style>
+        <div class="modal-header">
+            <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+            <h4 class="modal-title">{{'KFOLD_TESTCASES'| translate}}{{testcasesPerRunIndex}}{{'KFOLD_INTENT_MODAL'| translate}}{{testcasesPerRunIntent}}</h4>
+        </div>
+        <div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="border-left: 5px solid grey;">
+                                <span style="line-height: 33px">Input</span>
+                            </th>
+                            <th>
+                                <span style="line-height: 33px">Predicted Intent</span>
+                            </th>
+                            <th>
+                                <span style="line-height: 33px">Confidence (actual intent)</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="case in testcasesPerRunCases">
+                            <td ng-if="case.correctIntent" class="ng-scope" style="border-left: 5px solid green;">
+                                <div class="flex-container">
+                                    <div class="padding-10-5">
+                                    </div>
+                                    <div class="flex-container space-between flex-grow padding-10-5">
+                                        <span>{{case.input}}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td ng-if="!case.correctIntent" class="ng-scope" style="border-left: 5px solid red;">
+                                <div class="flex-container">
+                                    <div class="padding-10-5">
+                                    </div>
+                                    <div class="flex-container space-between flex-grow padding-10-5">
+                                        <span>{{case.input}}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="ng-scope">
+                                <div class="flex-container">
+                                    <div class="padding-10-5">
+                                    </div>
+                                    <div class="flex-container space-between flex-grow padding-10-5">
+                                        <span>{{case.classifiedIntent}}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="ng-scope">
+                                <div class="flex-container">
+                                    <div class="padding-10-5">
+                                    </div>
+                                    <div class="flex-container space-between flex-grow padding-10-5">
+                                        <span>{{case.confidence}}</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>CANCEL</button>
+            </div>
+        </div>
+    </script>
+
+    <!-- show sankey chart -->
+    <script type="text/ng-template" id="showSankeyChart.html">
+        <style type="text/css">
+            .container {
+                width: auto;
+                max-width: calc(100% - 30px);
+                margin-left: 15px;
+                margin-right: 15px;
+            }
+
+            .modal-dialog {
+                width: 50%;
+            }
+
+            .modal-body {
+                height: auto;
+                overflow-y: scroll;
+            }
+        </style>
+        <div class="modal-header">
+            <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+            <h4 class="modal-title">{{sankeyIntent.intent}}</h4>
+        </div>
+        <div>
+            <div id="container" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>CANCEL</button>
+            </div>
+        </div>
+    </script>
+
+</main>

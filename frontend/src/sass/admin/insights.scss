@@ -1,0 +1,224 @@
+@import '../lib/angular-chips';
+
+body {
+  height: 100%;
+  overflow: initial !important;
+}
+
+main {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+}
+
+textarea {
+  resize: vertical;
+}
+
+select {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+ratio-label {
+  margin-right: 10px;
+}
+
+label {
+    font-weight: normal !important;
+}
+
+.checkbox-column{
+    display: inline-block;
+    width:30%;
+}
+
+.admin-panel {
+  margin-left: 15px;
+  margin-right: 15px;
+  padding-bottom: 0px;
+}
+
+@media (max-width: 768px) {
+  .admin-panel {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+}
+
+.table-container {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.table-striped-special>tbody>tr:nth-child(even)>td,
+tr.found{
+    background-color:#e6e6e6;
+}
+
+.table-striped-special>tbody>tr:nth-child(odd)>td,
+tr.found{
+    background-color:#f2f2f2;
+}
+
+.well-margin {
+  margin: 0px 2px 2px 2px;
+}
+
+
+.bold {
+  font-weight: 800;
+}
+
+.button-header {
+  flex-wrap: wrap;
+  align-items: flex-end !important;
+}
+
+.header-inputs {
+  margin: 5px;
+}
+
+.container-fluid {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.flex-container {
+  display: flex !important;
+  align-items: flex-start;
+}
+
+.flex-container-center {
+  display: flex !important;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.flex-container-wrap {
+  display: flex !important;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-top: 10px;
+  margin:5px;
+}
+
+.flex-item {
+  display: flex !important;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.flex-item-dropdown
+{
+  display: flex !important;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: auto;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.flex-grow {
+  flex: 1;
+}
+
+.margin-top-15 {
+  margin-top: 15px;
+}
+
+.margin-left-15 {
+  margin-left: 15px;
+}
+
+.margin-left-10 {
+  margin-left: 10px;
+}
+
+.margin-bottom-0 {
+  margin-bottom: 0px;
+}
+
+.margin-bottom-5 {
+  margin-bottom: 5px;
+}
+
+.margin-bottom-20 {
+  margin-bottom: 20px;
+}
+
+.padding-0 {
+  padding: 0px !important;
+}
+
+.padding-vertical-3 {
+  padding: 0 3px;
+}
+
+.padding-10-5 {
+  padding: 10px 5px;
+}
+
+// styles for Bootstrap navigation pills with buttons
+.nav-pills > li > button {
+  border-radius: 4px;
+}
+.nav-pills > li.active > button,
+.nav-pills > li.active > button:hover,
+.nav-pills > li.active > button:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+.label {
+    font-size: 150%;
+}
+
+dt {
+    line-height: 250%;
+}
+
+dd {
+    line-height: 150%;
+}
+
+// disabling spin buttons in number input fields
+input[type=number].form-control::-webkit-outer-spin-button,
+input[type=number].form-control::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number].form-control {
+    -moz-appearance:textfield;
+}
+
+.axis text {
+    font: 10px sans-serif;
+}
+
+.axis line, .axis path {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+td, th, tr {
+    padding: 4px;
+    border: 1px solid black;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+#dataView{
+  margin-top:50px;
+}

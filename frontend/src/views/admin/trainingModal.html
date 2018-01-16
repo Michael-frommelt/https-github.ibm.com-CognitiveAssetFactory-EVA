@@ -1,0 +1,70 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">{{$ctrl.feedbackRow.conversationId}} : {{$ctrl.feedbackRow.messageId}}</h3>
+</div>
+<div class="modal-body" id="modal-body">
+  <div>
+    <dl class="dl-horizontal">
+      <dt>Question</dt>
+      <dd>{{$ctrl.feedbackRow.question}}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+      <dt>Answer</dt>
+      <dd>{{$ctrl.feedbackRow.answer}}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+      <dt>Long Answer ID</dt>
+      <dd>{{$ctrl.feedbackRow.longAnswerId}}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+      <dt>Answer From</dt>
+      <dd>{{$ctrl.feedbackRow.answerFrom}}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+      <dt>Top Intent</dt>
+      <dd>{{$ctrl.feedbackRow.topIntent}} ({{$ctrl.feedbackRow.topConfidence * 100 | number : 2}}%)</dd>
+    </dl>
+    <dl class="dl-horizontal">
+      <dt>User Comment</dt>
+      <dd>{{$ctrl.feedbackRow.comment || 'No comment...'}}</dd>
+    </dl>
+    <dl class="dl-horizontal">
+      <dt>Feedback</dt>
+      <dd>
+        <select ng-model="$ctrl.updatedFeedback.feedback">
+          <option disabled>false</option>
+          <option>positive</option>
+          <option>negative</option>
+        </select>
+      </dd>
+    </dl>
+    <dl class="dl-horizontal">
+      <dt>Admin Comment</dt>
+      <dd>
+        <textarea ng-model="$ctrl.updatedFeedback.adminComment" style="width: 500px; height: 150px;"></textarea>
+      </dd>
+    </dl>
+    <dl class="dl-horizontal">
+      <dt>Status</dt>
+      <dd>
+        <select ng-model="$ctrl.updatedFeedback.status">
+          <option value="0">Original</option>
+          <option value="1">In action</option>
+          <option value="2">Done</option>
+        </select>
+      </dd>
+    </dl>
+  </div>
+  <hr>
+  <div ng-if="$ctrl.conversation">
+    <h5>All saved messages from this Conversation:</h5>
+    <span ng-repeat="message in $ctrl.conversation">
+      <p ng-if="message.question">[{{message.created | date : "dd.MM.yy HH:mm:ss"}}][<a ng-click="$ctrl.changeTo(message.messageId)">{{message.messageId}}</a>] Du: {{message.question}}</p>
+      <p ng-if="message.answer || message.longAnswerId">[{{message.created | date : "dd.MM.yy HH:mm:ss"}}][<a ng-click="$ctrl.changeTo(message.messageId)">{{message.messageId}}</a>] Watson: {{message.answer}} <span ng-if="message.longAnswerId">({{message.longAnswerId}})</span></p>
+    </span>
+  </div>
+</div>
+<div class="modal-footer">
+    <button class="pull-left btn btn-danger" type="button" ng-click="$ctrl.delete()">Delete</button>
+    <button class="btn btn-primary" type="button" ng-click="$ctrl.save()">Save</button>
+    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+</div>

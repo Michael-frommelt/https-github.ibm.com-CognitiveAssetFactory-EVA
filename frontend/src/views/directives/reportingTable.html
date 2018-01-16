@@ -1,0 +1,77 @@
+<div class="col-xs-12">
+  <div class="col-xs-12 filters">
+    <label ng-repeat="columnDef in definition.columnDefs" class="checkbox-inline">
+        <input type="checkbox" ng-click="changeColumn(columnDef.id)" ng-model="columnDef.active">
+        <span class="checkbox_checker"></span>
+        {{columnDef.name}}
+    </label>
+  </div>
+  <div class="col-xs-12 reporting-table">
+    <table class="reporting-table-directive table table-bordered table-striped table-sm">
+      <thead id="thread">
+        <tr class="tr-head">
+          <th ng-repeat="columnDef in definition.columnDefs" ng-if="columnDef.active" style="cursor: pointer;" ng-dblclick="sortTable(columnDef.id)">
+            {{columnDef.name}}
+            <i ng-if="sortData.id === columnDef.id && sortData.order === 'desc'" class="st-sort-ascent" aria-hidden="true"></i>
+            <i ng-if="sortData.id === columnDef.id && sortData.order === 'asc'" class="st-sort-descent" aria-hidden="true"></i>
+          </th>
+        </tr>
+      </thead>
+      <tbody id="tbody_table">
+        <tr class="tr-filter">
+          <th ng-repeat="columnDef in definition.columnDefs" ng-if="columnDef.active">
+            <input ng-if="columnDef.filter === 'text'" type="text" ng-model="activeFilter[columnDef.id]" ng-keyup="applyFilter()">
+            <select ng-if="columnDef.filter === 'select'" ng-model="activeFilter[columnDef.id]" ng-change="applyFilter()">
+              <option value="{{selectFilterShowAll}}">Alles anzeigen</option>
+              <option ng-repeat="option in columnDef.filterOptions" value="{{option}}">{{option}}</option>
+            </select>
+            <select ng-if="columnDef.filter === 'percent'" ng-init="activeFilter[columnDef.id].order = 'greaterThan'" ng-model="activeFilter[columnDef.id].order" ng-change="applyFilter()">
+              <option value="greaterThan">&gt;</option>
+              <option value="lessThan">&lt;</option>
+            </select>
+            <input ng-if="columnDef.filter === 'percent'" type="text" ng-model="activeFilter[columnDef.id].percent" ng-change="applyFilter()">
+            <span ng-if="columnDef.filter === 'percent'">%</span>
+            <span ng-if="columnDef.filter === 'date'">
+              <input placeholder="Start date..." type="text" ng-model="activeFilter[columnDef.id].startDate" ng-change="applyFilter()"><br />
+              <input placeholder="End date..." type="text" ng-model="activeFilter[columnDef.id].endDate" ng-change="applyFilter()">
+            </span>
+          </th>
+        </tr>
+        <tr class="tr-body reporting_table_rows" ng-class="{'success': (definition.status && row[definition.status.column] != undefined && row[definition.status.column] == definition.status.success), 'warning': (definition.status && row[definition.status.column] != undefined && row[definition.status.column] == definition.status.warning), 'danger': (definition.status && row[definition.status.column] != undefined && row[definition.status.column] == definition.status.danger)}" ng-click="definition.clickEvents.tr(row)" ng-repeat="row in content">
+          <td ng-repeat="columnDef in definition.columnDefs" ng-if="columnDef.active" title="{{columnDef.type == 'date' ? (row[columnDef.id] | date : 'dd.MM.yy HH:mm:ss') : row[columnDef.id]}}">
+            <span ng-if="!columnDef.type || columnDef.type == 'normal'">{{row[columnDef.id]}}</span>
+            <span ng-if="columnDef.type == 'percent'">{{row[columnDef.id] * 100 | number : 2}}%</span>
+            <span ng-if="columnDef.type == 'date'">{{row[columnDef.id] | date : "dd.MM.yy HH:mm:ss"}}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-xs-12">
+    <div class="row">
+      <div class="col-lg-2">
+        <div class="input-group">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="lastPage()">
+              <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
+            </button>
+          </span>
+          <input type="text" class="form-control reporting-table-page" ng-keyup="applyPage()" ng-model="page"><input type="text" class="form-control reporting-table-page reporting-table-page-right" value="/ {{pages}}" disabled>
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="nextPage()">
+              <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="col-lg-1">
+        <div class="input-group">
+          <input type="text" class="form-control number_per_page" ng-keyup="applyMaxEntriesPerPage()" ng-model="definition.maxEntriesPerPage">
+        </div>
+      </div>
+      <div class="col-lg-2 entries_per_page">
+      Entries per Page
+      </div>
+    </div>
+  </div>
+</div>

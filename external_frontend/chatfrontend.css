@@ -1,0 +1,815 @@
+/*
+		Copyright (c) 2018 IBM Deutschland
+
+    Stylesheet for external chat frontend.
+    All necessary styles to show up in the external chat frontend
+    including content without using external frameworks/libraries.
+
+    Author:
+    Sebastian Kowalski (sebastian.kowalski@de.ibm.com)
+*/
+
+/*
+    CSS stylings which likely to get adapted are tagged
+    with the annotation CONFIG_STYLE
+*/
+
+/* Clear for non bootstrap pages */
+.eva_bubble_Chat_note td {
+    padding: 0;
+    vertical-align: middle;
+    border: none;
+}
+
+.eva_chat_holder ul {
+    list-style: initial;
+    margin: 0 0 11px 0;
+    padding: 0 0 0 40px;
+}
+
+.eva_chat_holder li {
+    padding: 0;
+}
+
+/* Chat Bubbles */
+.eva_bubble_Chat{
+  font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  cursor: pointer;
+  display: block;
+  width: 70px;
+  height: 70px;
+  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.4), 5px 6px 20px 0 rgba(0, 0, 0, 0.2);
+  background: #001c44 linear-gradient(to bottom, #003681 0px, #001c44 100%) repeat-x scroll 0 0;
+  background-size: 45px 45px;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  bottom: 1.5em;
+  position: fixed;
+  right: 2em;
+  color: white;
+  text-align: center;
+  font-size: 50px;
+  vertical-align: center;
+  line-height: 60px;
+}
+
+.eva_bubble_Chat_note {
+  font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  cursor: pointer;
+  display: none;
+  width: 320px;
+  margin: 50px auto;
+  background: rgba(255,255,255,1.0);
+  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.4), 5px 6px 20px 0 rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  padding-left: 20px;
+  text-align: center;
+  font-size: 16px;
+  position: fixed;
+  border-radius: 20px;
+  bottom: 8em;
+  right: 10em;
+  line-height: normal;
+}
+
+.eva_bubble_Chat_note:before {
+  cursor: pointer;
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid transparent;
+  border-right: 10px solid rgba(255,255,255,1.0);
+  border-top: 10px solid rgba(255,255,255,1.0);
+  border-bottom: 10px solid transparent;
+  right: 19px;
+  bottom: -17px;
+}
+/* chatTitleSign*/
+.eva_chatTitleSign {
+  float: right;
+  height: 20px;
+  font-size: 20px !important;
+  font-weight: bolder !important;
+  line-height: 17px !important;
+}
+
+.eva_img_speechbubble{
+  height: 60px;
+}
+
+
+
+
+/*Chat Window*/
+.eva_chat_content_show {
+    visibility: visible !important;
+}
+
+.eva_chat_holder_show {
+    max-height: 100% !important;
+}
+
+.eva_chat_holder_move_top {
+    bottom: 0 !important; /* bottom-chat distance */
+}
+
+.eva_chat_holder {
+    /* Chat Globals*/
+    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    color: #333;
+    line-height: normal;
+
+    /* Box Sizing */
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    position: fixed;
+    width: 352px;
+    height: 365px;
+    bottom: 0;
+    right: 70px;
+
+    /* Animation */
+    -webkit-transition: bottom ease-in-out .5s, max-height 1s;
+    -moz-transition: bottom ease-in-out .5s, max-height 1s;
+    -ms-transition: bottom ease-in-out .5s, max-height 1s;
+    -o-transition: bottom ease-in-out .5s, max-height 1s;
+    transition: bottom ease-in-out .5s, max-height 1s;
+
+    border-bottom: 1px solid #003681;
+    z-index: 1001;
+
+    max-height: 45px;
+}
+
+.eva_chat_holder > .eva_chat_title {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 45px;
+
+    padding: 12px 24px;
+
+    background: #003681 linear-gradient(to bottom, #003681 0px, #001c44 100%) repeat scroll 0 0; /* CONFIG_STYLE : primary Color*/
+    border-radius: 5px 5px 0 0;
+    color: #fff;
+    cursor: pointer;
+}
+
+.eva_chat_holder > .eva_chat_content {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+
+    position: relative;
+
+    top: 45px;
+    left: 0;
+    height: calc(100% - 45px);
+    width: 100%;
+
+    background: rgb(250, 250, 250);
+    border-left-style: solid;
+    border-right-style: solid;
+    border-width: 1.5px;
+    border-color: #003681; /* CONFIG_STYLE : primary border Color */
+
+    -webkit-transition: visibility 0.8s;
+    -moz-transition: visibility 0.8s;
+    -ms-transition: visibility 0.8s;
+    -o-transition: visibility 0.8s;
+    transition: visibility 0.8s;
+
+    visibility: hidden;
+}
+
+.eva_chat_holder hr {
+  border: 0;
+  height: 1px;
+  background: #eee;
+  margin-bottom: 0.7em;
+  margin-top: 0.5em;
+}
+
+.eva_chat_history_show {
+    height: calc(100% - 45px);
+}
+
+.eva_chat_history {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+
+    position: absolute;
+
+    max-height: calc(100% - 45px);
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    padding: 8px 9px;
+
+    /* Animation */
+    -webkit-transition: height 1s;
+    -moz-transition: height 1s;
+    -ms-transition: height 1s;
+    -o-transition: height 1s;
+    transition: height 1s;
+}
+
+.eva_not_allowed_cursor {
+    cursor: not-allowed;
+}
+
+.eva_pointer_cursor {
+  cursor: pointer;
+}
+
+
+/*Chat Messages*/
+
+.eva_message > p {
+    padding: 0 0.5em;
+    margin: 0;
+    margin-left: 5px;
+}
+
+.eva_message > p > p {
+    margin-top: 0px;
+    margin-bottom: 2px;
+}
+
+.eva_from-watson {
+    position: relative;
+    background-image: url("EVA0.png");
+    background-size: 40px 45px;
+    background-repeat: no-repeat;
+    background-position: left top;
+    padding-left: 43px;
+    min-height: 45px;
+}
+
+.eva_from-user {
+    position: relative;
+    background-image: url("benutzer_neutral.png");  /* CONFIG_STYLE : user icon */
+    background-size: 34px 40px;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    padding-right: 37px;
+    min-height: 40px;
+    text-align: right;
+}
+
+.eva_answer_proposals {
+    width: 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 577px) {
+    .eva_answer_proposals {
+        margin-bottom: 0px!important;
+    }
+}
+
+.eva_chat_holder button {  /* CONFIG_STYLE : button styling, color is also blue */
+    white-space: normal;
+    border-radius: 7px;
+    background: #003681 none repeat scroll 0 0;
+    color: white;
+    font-weight: 300;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.eva_small-button {
+    width: 73px;
+    margin: 5px 0 0 5px;
+    min-height: 35px;
+}
+
+.eva_half-button {
+    width: 48%;
+    margin: 5px 0 0 5px;
+    min-height: 35px;
+}
+
+.eva_big-button {
+    width: 97%;
+    margin: 5px 0 0 5px;
+    min-height: 35px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+
+/*Chat User Input*/
+
+.eva_typing_animation {
+    position: absolute;
+    bottom: 45px;
+    height: 60px;
+    width: 150px;
+    left: 0;
+    background-image: url("comment.gif");
+    background-size: 60px 35px;
+    background-repeat: no-repeat;
+    background-position: 5px bottom;
+    margin-bottom: 5px;
+}
+
+.eva_chat_input {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+
+    position: absolute;
+
+    height: 45px;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+}
+
+.eva_chat_input > input {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    outline: medium none;
+    padding: 8px 8px;
+    margin: 5px 7px;
+    width: 318px;
+    font-size: 14px;
+    box-sizing: content-box;
+    -webkit-appearance: textfield;
+    -webkit-rtl-ordering: logical;
+    -webkit-user-select: text;
+    cursor: auto;
+
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+}
+
+.eva_chat_input > input:focus {
+    -webkit-box-shadow: 0 0 5px #003681;
+    -moz-box-shadow: 0 0 5px #003681;
+    box-shadow: 0 0 5px #003681;
+    border: 1px solid #003681;
+}
+
+.eva_chat_input > input[disabled] {
+    background: #ccc;
+}
+
+.eva_chat_input > i {
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-size: 24px;
+    height: 45px;
+    line-height: 45px;
+    margin-left: 4px;
+    margin-right: 4px;
+    text-align: center;
+    width: 30px;
+}
+
+
+/*Messages: Tables and Lists*/
+
+/* Tables */
+.eva_chat_holder table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    background-color: transparent;
+    box-sizing: border-box;
+}
+
+.eva_chat_holder table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+.eva_chat_holder table > thead:first-child > tr:first-child > th, .eva_table > thead:first-child > tr:first-child > td {
+    border-top: 0;
+}
+
+.eva_chat_holder .table-condensed > thead > tr > th {
+    padding: 5px;
+}
+
+.eva_chat_holder table > thead > tr > th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+}
+
+.eva_chat_holder table > thead > tr > th {
+    line-height: 1.42857;
+}
+
+.eva_chat_holder table > tbody > tr > th {
+    line-height: 1.42857;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+    padding: 5px;
+}
+
+.eva_chat_holder table > tbody > tr > td {
+    line-height: 1.42857;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+
+.eva_chat_holder .table-condensed > tbody > tr > th {
+    padding: 5px;
+}
+
+.eva_chat_holder .info {
+    background-color: #d9edf7;
+}
+
+.eva_chat_holder .text-center {
+    text-align: center;
+}
+
+/* Lists */
+.eva_chat_holder .liste_tarifleistung {
+    padding: 4px 8px 0 8px;
+    border: solid 1px #003080;
+    border-radius: 8px;
+    max-width: 320px;
+    margin-top: 10px;
+}
+
+.eva_chat_holder .liste_tarifleistung h4 {
+    font-size: 18px;
+    margin: 0;
+    border: solid #003080;
+    border-width: 0 0 1px 0;
+    padding: 4px 4px;
+    color: #003080;
+}
+
+.eva_chat_holder .liste_tarifleistung ul {
+    margin-left: -10px;
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding: 4px 0 0 2.5em;
+    list-style-position: outside;
+    list-style-type: none;
+}
+
+.eva_chat_holder .liste_tarifleistung li::before {
+    text-indent: -2em;
+    content: url(icons/check.png);
+    margin-top: -0px;
+    margin-right: 8px;
+}
+
+.eva_chat_holder .liste_tarifleistung li {
+    margin: 0;
+    padding: 2px 2px 0;
+}
+
+/* Glyphicon */
+.eva_chat_holder .glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+}
+
+.eva_chat_holder .glyphicon-calendar::before {
+  text-indent: -2em;
+  content: url(icons/calendar.png);
+  margin-top: -0px;
+  margin-right: 8px;
+}
+
+.eva_alert_closebtn {
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    position: absolute;
+    z-index: 1005;
+    right: 15px;
+    margin-top: 10px;
+    visibility: hidden;
+
+}
+
+.eva_alert_closebtnblack {
+    color: black;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    position: absolute;
+    z-index: 1005;
+    right: 15px;
+    margin-top: 10px;
+    visibility: hidden;
+
+}
+
+.eva_alert_closebtn:hover {
+    color: black;
+}
+
+.eva_alert_closebtnblack:hover {
+    color: white;
+}
+
+.eva_alert {
+    padding: 14px;
+    color: white;
+    visibility: hidden;
+    z-index: 1004;
+    padding-right: 25px;
+    position: absolute;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.eva_alert_red {
+    background-color: #f44336;
+    border-right: 3px solid #f44336;
+}
+
+.eva_alert_yellow {
+  background-color: #ff8C00;
+  border-right: 3px solid #ff8C00;
+}
+
+.eva_alert_blue {
+    background-color: #cce6ff;
+    border-right: 3px solid #cce6ff;
+    color: black;
+}
+
+#eva_blind_chat {
+  background-color: grey;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1003;
+  opacity: 0.65;
+  left: 0;
+  visibility: hidden;
+}
+
+
+/* Eva Tooltips */
+.eva_tooltip {
+  color: #003080;
+}
+
+.eva_chat_holder [data-tooltip] {
+    display: inline-block;
+    position: relative;
+    margin-right: 3px;
+    cursor: help;
+    padding-right: 4px;
+    margin-right: 4px;
+}
+
+
+/* Show the tooltip when hovering */
+.eva_chat_holder [data-tooltip]:hover:before,
+.eva_chat_holder [data-tooltip]:hover:after {
+    display: block;
+}
+
+.eva_chat_holder [data-tooltip]:after {
+    content: "i";
+    font-size: .8em;
+    font-style: italic;
+    font-weight: bold;
+    padding-left: 2px;
+    padding-right: 2px;
+    vertical-align:super;
+    position: absolute;
+    right: -3px;
+    top: 1px;
+    z-index: 1002;
+}
+
+/* Separate tooltip div*/
+#eva_tooltipDiv {
+    position: absolute;
+    z-index: 9999;
+    opacity: 0;
+    transform: translate(-50%, -100%);
+    transition: opacity 0.2s ease-out;
+    will-change: opacity;
+    color: #fff;
+    padding: 4px 8px;
+    width: 180px;
+    text-align: center;
+    border-radius: 4px;
+    background-color: #00135D !important;
+    font-size: 1em;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;  /* CONFIG_STYLE : fonts */
+    font-size: 12px;
+    line-height: 1.4;
+    box-sizing: border-box;
+}
+
+.eva_tooltip_div_after::after {
+    content: " ";
+    position: absolute;
+    top: 100%;  /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #00135D transparent transparent transparent;
+}
+
+.eva_tooltip_div_before::before {
+    content: " ";
+    position: absolute;
+    top: -10px;  /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #00135D transparent;
+}
+
+.eva_tooltip_show {
+    opacity: 1 !important;
+}
+
+.eva_rating {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+
+    border: 0;
+
+    margin: 0 auto;
+    padding: 10px 0;
+    width: 225px;
+}
+
+.eva_starInput { display: none; }
+.eva_full:before {
+  margin: 5px;
+  font-size: 35px;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: '★';
+}
+
+.eva_full {
+  color: #ddd;
+  float: right;
+  max-width: 45px;
+}
+
+.eva_starInput:checked ~ .eva_full,
+.eva_rating:not(:checked) > label:hover,
+.eva_rating:not(:checked) > label:hover ~ label { color: gold;  }
+.eva_rating > input:checked + label:hover,
+.eva_rating > input:checked ~ label:hover,
+.eva_full:hover ~ .eva_rating > input:checked ~ label,
+.eva_rating > input:checked ~ label:hover ~ label { color: gold;  }
+
+.eva_user-feedback {
+    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    padding: 2px 7px;
+    margin: 10px;
+    display: block;
+    background-color: white;
+    border: 1px solid #CCC;
+    text-overflow: ellipsis;
+    line-height: 25px;
+    height: 80px;
+    width: calc(100% - 20px);
+    outline: 0;
+    -webkit-appearance: textfield;
+    box-sizing: inherit;
+}
+
+.eva_feedbackText {
+  font-size: 18px;
+  margin: 0;
+  border: 0;
+  padding: 10px;
+  text-align: center;
+}
+
+.eva_feedbackSubText {
+  font-size: 16px;
+  margin: 0;
+  border: 0;
+  padding: 0 10px;
+  text-align: center;
+}
+
+.eva_feedback-button {
+    width: 45%;
+    text-align: center;
+    height: 35px;
+    position: absolute;
+    bottom: 10px;
+}
+
+#eva_feedbackButtonSave {
+    left: 10px;
+}
+
+#eva_feedbackButtonCancel {
+    right: 10px;
+}
+
+.eva_feedback-button:disabled {
+  background: #cccccc;
+}
+
+.eva_feedback-button:hover {
+  background: rgba(1, 54, 130, 0.8);
+  color:white;
+}
+
+.eva_feedback-button:disabled:hover {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+.eva_conversation-feedback {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+
+    position: absolute;
+    z-index: 9999;
+
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    background: #fafafa;
+
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.eva_chat_history .img-in-msg {
+  margin: 15px auto 0;
+  display: block;
+  width: 40%;
+}
+
+@media (max-width: 768px) {
+    .eva_chat_holder {
+        font-size: 16px;
+
+        width: 100%;
+        height: 100%;
+        left: 0;
+        bottom: 0 !important;
+    }
+
+    .eva_chat_input > input {
+        width: calc(100% - 16px);
+        box-sizing: border-box;
+        padding: 7px 8px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 736px) {
+    .eva_bubble_Chat {
+        right: 20px;
+        bottom: 20px;
+    }
+}

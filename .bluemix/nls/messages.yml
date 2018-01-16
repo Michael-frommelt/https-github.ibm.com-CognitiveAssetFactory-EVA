@@ -1,0 +1,13 @@
+---
+template.name: "Enhanced conVersation Asset - Toolchain"
+template.description: "With this toolchain, you can develop and deploy the Enhanced conVersation Asset in your own space. By default, this toolchain uses two Node.js runtimes, an IBM Cloudant database and the Watson Conversation Service. This toolchain is preconfigured for continuous delivery, source control, issue tracking, and online editing.\n\nThis toolchain uses tools that are part of the Continuous Delivery service. If an instance of that service isn't already in the selected organization, when you click **Create**, it is automatically added with the free [Lite](/catalog/services/continuous-delivery/) plan selected.\n\nTo get started, click **Create**.\n\nFor step-by-step instructions, follow the [tutorial](https://www.ibm.com/devops/method/tutorials/tutorial_toolchain_flow)."
+template.gettingStarted: "**Your toolchain is ready!**\n**Quick start:** Commit a change to the Git repo to trigger a new build and deployment. For step-by-step instructions, see the [tutorial](https://www.ibm.com/devops/method/tutorials/tutorial_toolchain_flow?task=2) for this toolchain."
+deploy.title: "EVA Deploy Stage"
+deploy.description: "EVA toolchain"
+deploy.longDescription: "The Delivery Pipeline automates the continuous deployment of EVA.\n\nTo log in to your freshly deployed EVA instance, please set a username and password.\n\nThe password must meet the following criteria:\n* contain between 8 and 16 characters\n* contain at least 1 number\n* contain at least 1 uppercase character (A-Z)\n* contain at least 1 lowercase character (a-z)\n* contain at least one of the following symbols: @!%*?&"
+database: "Database"
+password: "Password"
+username: "Username"
+region: "Region"
+organization: "Organization"
+space: "Space"

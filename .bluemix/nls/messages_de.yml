@@ -1,0 +1,13 @@
+---
+template.name: "Enhanced conVersation Asset - Toolchain"
+template.description: "Mit dieser Toolchain können Sie eine Enhanced conVersation Asset Instanz entwickeln und in Ihrer eigenen IBM Cloud bereitstellen. Standardmäßig verwendet die Toolchain zwei Node.js-Runtimes sowie eine IBM Cloudant und Watson Conversation Service Instanz. Diese Toolchain ist für die kontinuierliche Bereitstellung, Quellcodeverwaltung, Issue-Verfolgung und Onlinebearbeitung vorkonfiguriert.\n\nDiese Toolchain verwendet Tools, die Teil des Continuous Delivery-Service sind. Wenn sich noch keine Instanz dieses Service in der ausgewählten Organisation befindet, wird sie automatisch hinzugefügt, wenn Sie auf **Erstellen** klicken. Dabei ist der kostenlose Plan [Lite](/catalog/services/continuous-delivery/) ausgewählt.\n\nKlicken Sie auf **Erstellen**, um zu beginnen."
+template.gettingStarted: "**Ihre Toolchain steht bereit!**\n**Schnelleinstieg:** Schreiben Sie eine Änderung im Git-Repository fest, um einen neuen Build und eine neue Bereitstellung auszulösen. Schrittweise Anleitungen bietet das [Lernprogramm](https://www.ibm.com/devops/method/tutorials/tutorial_toolchain_flow?task=2) für diese Toolchain."
+deploy.title: "EVA Deploy Stage"
+deploy.description: "EVA toolchain"
+deploy.longDescription: "Mit der Delivery Pipeline wird die kontinuierliche Bereitstellung von EVA automatisiert.\n\nUm sich in der neuen EVA-Instanz einloggen zu können, muss ein Nutzername und Passwort gesetzt werden.\n\nDas Passwort muss dabei folgende Kriterien erfüllen:\n* beinhaltet zwischen 8 and 16 Zeichen\n* beinhaltet mindestens 1 Ziffer\n* beinhaltet mindestens 1 Großbuchstaben (A-Z)\n* beinhaltet mindestens 1 Kleinbuchstaben (a-z)\n* beinhaltet mindestens 1 der folgenden Sonderzeichen: @!%*?&"
+database: "Datenbank"
+password: "Passwort"
+username: "Nutzername"
+region: "Region"
+organization: "Organisation"
+space: "Bereich"

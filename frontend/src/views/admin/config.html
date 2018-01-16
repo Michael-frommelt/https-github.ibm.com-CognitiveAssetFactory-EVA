@@ -1,0 +1,143 @@
+<div ng-include="'views/admin/nav.html'"></div>
+<main class="container-fluid" style="margin-left: 15px; margin-right: 15px; padding-bottom: 0px;">
+  <h3 class="header-text" translate>CONFIGURATION</h3>
+  <br />
+  <div class="alert alert-danger" ng-show="error" uib-alert close="error = null">
+    <strong>{{error.status}}</strong> {{error.data.message || error.data}}
+  </div>
+  <div>
+    <button type="button" class="btn btn-primary" ng-click="reloadClients()">
+      <span translate>RELOAD_CLIENTS</span>
+      <i class="glyphicon glyphicon-refresh spinning" ng-show="isReloadingClients"></i>
+    </button>
+    <div class="pull-right">
+      <button type="button" class="btn btn-default" ng-click="getGeneralConfig()" translate>GENERAL_CANCEL</button>
+      <button type="button" class="btn btn-primary" ng-click="saveGeneralConfig()">
+        <span translate>SAVE_CONFIG</span>
+        <i class="glyphicon glyphicon-refresh spinning" ng-show="isSavingConfig"></i>
+      </button>
+    </div>
+  </div>
+  <hr>
+  <div class="lead text-center" ng-show="isLoadingConfig">
+    <i class="glyphicon glyphicon-refresh spinning"></i>
+    <span translate>LOADING</span>
+  </div>
+  <div ng-show="configObject !== null">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <h3 class="col-sm-6">General</h3>
+        <div class="col-sm-6 button-container">
+          <div class="btn-group" uib-dropdown>
+            <button type="button" class="btn btn-success" ng-click="openAddModal(configObject, 'string')" translate>ADD_PROPERTY</button>
+            <button type="button" class="btn btn-success" uib-dropdown-toggle>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu>
+              <li role="menuitem"><a ng-click="openAddModal(configObject, 'string')" translate>ADD_PROPERTY_STRING</a></li>
+              <li role="menuitem"><a ng-click="openAddModal(configObject, 'number')" translate>ADD_PROPERTY_NUMBER</a></li>
+              <li role="menuitem"><a ng-click="openAddModal(configObject, 'boolean')" translate>ADD_PROPERTY_BOOLEAN</a></li>
+              <li class="divider"></li>
+              <li role="menuitem"><a ng-click="openAddModal(configObject, 'object')" translate>ADD_PROPERTY_OBJECT</a></li>
+              <li role="menuitem"><a ng-click="openAddModal(configObject, 'array')" translate>ADD_PROPERTY_ARRAY</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div ng-repeat="(propertyName, propertyValue) in configObject track by $index" ng-include="'configDisplay'"></div>
+    </form>
+  </div>
+
+  <!-- recursive object editing view -->
+  <script type="text/ng-template" id="configDisplay">
+    <div class="form-group" ng-if="isString(propertyValue) || isNumber(propertyValue) || isBoolean(propertyValue)">
+      <label for="{{propertyName}}" class="col-sm-3 control-label config-label">{{propertyName}}</label>
+      <div class="col-sm-6">
+        <input ng-if="isString(propertyValue)" id="{{propertyName}}" type="text" ng-model="propertyValue" class="form-control">
+        <input ng-if="isNumber(propertyValue)" id="{{propertyName}}" type="number" ng-model="propertyValue" class="form-control">
+        <input ng-if="isBoolean(propertyValue)" id="{{propertyName}}" type="checkbox" ng-model="propertyValue">
+      </div>
+      <div class="col-sm-3 button-container">
+        <button ng-if="isArray(configObject) && propertyName > 0" type="button" class="btn btn-info"
+          ng-click="movePropertyUp(configObject, propertyName)" uib-tooltip="{{'TOOLTIP_MOVE_CONFIGPROPERTY_UP' | translate}}" tooltip-placement="bottom-right">
+          <i class="glyphicon glyphicon-chevron-up"></i>
+        </button>
+        <button ng-if="isArray(configObject) && propertyName < configObject.length - 1" type="button" class="btn btn-info"
+          ng-click="movePropertyDown(configObject, propertyName)" uib-tooltip="{{'TOOLTIP_MOVE_CONFIGPROPERTY_DOWN' | translate}}" tooltip-placement="bottom-right">
+          <i class="glyphicon glyphicon-chevron-down"></i>
+        </button>
+        <button type="button" class="btn btn-danger" ng-click="openDeleteModal(configObject, propertyName)"
+          uib-tooltip="{{'TOOLTIP_DELETE_CONFIGPROPERTY' | translate}}" tooltip-placement="bottom-right">
+          <i class="glyphicon glyphicon-remove"></i>
+        </button>
+      </div>
+    </div>
+    <div ng-if="isObject(propertyValue)" ng-init="subObject = propertyValue">
+      <div class="form-group">
+        <label for="{{propertyName}}" class="col-sm-3 control-label config-label">{{propertyName}}</label>
+        <div class="col-sm-6">
+          <p class="form-control-static" ng-if="isArray(propertyValue)" translate>ARRAY</p>
+          <p class="form-control-static" ng-if="!isArray(propertyValue)" translate>OBJECT</p>
+        </div>
+        <div class="col-sm-3 button-container">
+          <div class="btn-group" uib-dropdown>
+            <button type="button" class="btn btn-success" ng-click="openAddModal(propertyValue, 'string')" translate>ADD_PROPERTY</button>
+            <button type="button" class="btn btn-success" uib-dropdown-toggle>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu>
+              <li role="menuitem"><a ng-click="openAddModal(propertyValue, 'string')" translate>ADD_PROPERTY_STRING</a></li>
+              <li role="menuitem"><a ng-click="openAddModal(propertyValue, 'number')" translate>ADD_PROPERTY_NUMBER</a></li>
+              <li role="menuitem"><a ng-click="openAddModal(propertyValue, 'boolean')" translate>ADD_PROPERTY_BOOLEAN</a></li>
+              <li class="divider"></li>
+              <li role="menuitem"><a ng-click="openAddModal(propertyValue, 'object')" translate>ADD_PROPERTY_OBJECT</a></li>
+              <li role="menuitem"><a ng-click="openAddModal(propertyValue, 'array')" translate>ADD_PROPERTY_ARRAY</a></li>
+            </ul>
+          </div>
+          <button type="button" class="btn btn-danger" ng-click="openDeleteModal(configObject, propertyName, true)"
+            uib-tooltip="{{'TOOLTIP_DELETE_CONFIGPROPERTY' | translate}}" tooltip-placement="bottom-right">
+            <i class="glyphicon glyphicon-remove"></i>
+          </button>
+        </div>
+      </div>
+      <div ng-repeat="(propertyName, propertyValue) in propertyValue track by $index" ng-include="'configDisplay'"
+        ng-init="configObject = subObject" class="subtree-indent"></div>
+      <hr>
+    </div>
+  </script>
+  <!-- end of recursive object editing view -->
+
+  <!-- add modal -->
+  <script type="text/ng-template" id="addModal.html">
+    <div class="modal-header">
+      <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+      <h4 class="modal-title" translate>ADD_PROPERTY</h4>
+    </div>
+    <div class="modal-body" ng-class="{'has-error': !propertyNameValid()}">
+      <label class="control-label" translate>ADD_PROPERTY_TEXT</label>
+      <input type="text" class="form-control" ng-model="newName">
+      <div class="help-block" ng-show="!propertyNameValid()" translate>ERROR_PROPERTY_NAME_UNIQUE</div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>GENERAL_CANCEL</button>
+      <button type="button" class="btn btn-primary" ng-click="deleteProperty()" translate>ADD</button>
+    </div>
+  </script>
+
+  <!-- delete modal -->
+  <script type="text/ng-template" id="deleteModal.html">
+    <div class="modal-header">
+      <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+      <h4 class="modal-title" translate>DELETE_PROPERTY_TITLE</h4>
+    </div>
+    <div class="modal-body">
+      <p><span translate>DELETE_PROPERTY_TEXT</span> {{propertyName}}?</p>
+      <p translate ng-if="isObject">DELETE_PROPERTY_OBJECT_ADDITION</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>NO</button>
+      <button type="button" class="btn btn-primary" ng-click="deleteProperty()" translate>YES</button>
+    </div>
+  </script>
+</main>
+<div class="spacer"></div>

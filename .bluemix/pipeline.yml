@@ -1,0 +1,138 @@
+---
+stages:
+- name: EVA - Setup
+  inputs:
+  - service: ${EVA_REPO}
+    type: git
+    branch: master
+    dir_name: null
+  triggers:
+  - type: commit
+  properties:
+  - name: DATABASE_TYPE
+    value: ${DATABASE_TYPE}
+    type: text
+  - name: USERNAME
+    value: ${USERNAME}
+    type: text
+  - name: PASSWORD
+    value: ${PASSWORD}
+    type: text
+  jobs:
+  - name: Setup
+    type: deployer
+    target:
+      region_id: ${PROD_REGION_ID}
+      organization: ${PROD_ORG_NAME}
+      space: ${PROD_SPACE_NAME}
+    script: |-
+      #!/bin/bash
+
+      cd scripts
+
+      if [ -e setup.log ]
+      then
+        echo ""
+        echo "########## SETUP ALREADY EXECUTED #########"
+        echo ""
+      else
+        if [ "${DATABASE_TYPE}" = "Compose for MongoDB" ]
+        then
+          bash setup_mongodb.sh | tee -a setup.log
+        else
+          bash setup_cloudant.sh | tee -a setup.log
+        fi
+
+        git add ../backend/.env
+        git add setup.log
+
+        git config user.email "eva@pipeline.com"
+        git config user.name "EVA Pipeline"
+        git config push.default simple
+
+        git commit -m "Setup completed! Log file and local .env file attached."
+        git push
+      fi
+- name: Build Backend
+  inputs:
+  - service: ${EVA_REPO}
+    type: git
+    branch: master
+    dir_name: null
+  triggers:
+  - type: stage
+  jobs:
+  - name: Build
+    type: builder
+    artifact_dir: ''
+    build_type: shell
+    script: |-
+      #!/bin/bash
+
+      bash ./scripts/backend.sh
+- name: Deploy Backend
+  inputs:
+  - type: job
+    stage: Build Backend
+    job: Build
+    dir_name: null
+  triggers:
+  - type: stage
+  jobs:
+  - name: Deploy
+    type: deployer
+    target:
+      region_id: ${PROD_REGION_ID}
+      organization: ${PROD_ORG_NAME}
+      space: ${PROD_SPACE_NAME}
+      application: EVA-Backend
+    script: |-
+      #!/bin/bash
+      cf push "${CF_APP}"
+
+      # View logs
+      # cf logs "${CF_APP}" --recent
+- name: Build Frontend
+  inputs:
+  - service: ${EVA_REPO}
+    type: git
+    branch: master
+    dir_name: null
+  triggers:
+  - type: stage
+  jobs:
+  - name: Build
+    type: builder
+    artifact_dir: ''
+    build_type: shell
+    script: |-
+      #!/bin/bash
+
+      bash ./scripts/frontend.sh
+- name: Deploy Frontend
+  inputs:
+  - type: job
+    stage: Build Frontend
+    job: Build
+    dir_name: null
+  triggers:
+  - type: stage
+  jobs:
+  - name: Deploy
+    type: deployer
+    target:
+      region_id: ${PROD_REGION_ID}
+      organization: ${PROD_ORG_NAME}
+      space: ${PROD_SPACE_NAME}
+      application: EVA-Frontend
+    script: |-
+      #!/bin/bash
+      cf push "${CF_APP}"
+
+      # View logs
+      # cf logs "${CF_APP}" --recent
+hooks:
+- enabled: true
+  label: null
+  ssl_enabled: false
+  url: https://devops-api.ng.bluemix.net/v1/messaging/webhook/publish

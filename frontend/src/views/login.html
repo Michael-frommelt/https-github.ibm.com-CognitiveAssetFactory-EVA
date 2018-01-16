@@ -1,0 +1,25 @@
+<h1>Herzlich Willkommen beim Enhanced conVersation Asset</h1>
+<h2>Bitte loggen Sie sich mit Ihren Nutzerdaten ein & wählen Sie einen Mandanten aus:</h2>
+<div ng-show="failed_login" class="alert">
+  {{failed_login}}
+</div>
+<div id="login_form">
+  <form class="form-inline" role="form" ng-submit="login()" ng-controller="LoginCtrl">
+      <div class="form-group">
+        <input type="text" ng-model="username" class="user-input form-control" name="username" placeholder="{{'FORM_PLACEHOLDER_USER' | translate}}" required>
+      </div>
+      <div class="form-group">
+        <input type="password" ng-model="password" class="user-input form-control" name="password" placeholder="{{'FORM_PLACEHOLDER_PW' | translate}}" required>
+      </div>
+      <div class="form-group">
+        <select ng-model="client" class="user-input form-control">
+          <option ng-repeat="client in clients" value="{{client.id}}">{{client.name}}</option>
+        </select>
+      </div>
+      <button class="input-btn btn">Talk to EVA</button>
+  </form>
+</div>
+<div id="logo">
+  <img src="images/EVA2.png" width="80%" style="margin: 0 auto;">
+</div>
+<div id="clear"></div>

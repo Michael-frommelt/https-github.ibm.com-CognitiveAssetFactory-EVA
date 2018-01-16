@@ -1,0 +1,17 @@
+<h1>Logout</h1>
+<div ng-show="failed_logout" class="alert">
+  {{failed_logout}}
+</div>
+<div ng-show="logout_in_progress" class="alert">
+  You're being logged out... Please wait.
+</div>
+<div id="login_form">
+  <span ng-show="logout_done">
+    You're logged out.<br />
+    <a ng-href="/#!/login">Back to Login</a>
+  </span>
+</div>
+<div id="logo">
+  <img src="images/EVA2.png" width="80%" style="margin: 0 auto;">
+</div>
+<div id="clear"></div>

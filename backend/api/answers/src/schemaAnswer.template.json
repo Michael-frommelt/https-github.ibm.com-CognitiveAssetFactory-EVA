@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "additionalProperties": false,
+  "definitions": {},
+  "id": "eva-answer-store-answer",
+  "properties": {
+    "answerId": {
+      "type": "string"
+    },
+    "answerProposals": {
+      "additionalItems": false,
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "answerOptions": {
+      "additionalItems": false,
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "answerText": {
+            "type": "string"
+          },
+          "properties": {
+            "additionalProperties": true,
+            "properties": {
+              
+            },
+            "required": [
+              
+            ],
+            "type": "object"
+          },
+          "additionalAnswerProposals": {
+            "additionalItems": false,
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "tags": {
+            "additionalItems": false,
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "answerText",
+          "properties"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "tags": {
+      "additionalItems": false,
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "answerId",
+    "answerOptions"
+  ],
+  "type": "object"
+}

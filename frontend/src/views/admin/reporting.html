@@ -1,0 +1,61 @@
+<div ng-include="'views/admin/nav.html'"></div>
+<main class="container">
+  <!-- show animation || HIDE CONTENT CONTAINER-->
+  <div id="blur_hide">
+    <div class="loader">Loading...</div>
+    <div id="loadingParagraph">Loading</div>
+  </div>
+
+  <div ng-if="errorText" class="alert alert-danger alert-margin-top alert-dismissable fade in" role="alert">
+    <a class="close" data-dismiss="alert" aria-label="close">×</a>
+    {{errorText}}
+  </div>
+
+  <div id="button_refresh">
+    <a ng-click="dataFromReportingTable.refresh()">
+      <img src="images/refresh.png" alt="Table Refresh" title="Refresh" />
+    </a>
+  </div>
+  <div id="button_filter">
+    <a ng-click="dataFromReportingTable.toggleFilters()">
+      <img src="images/filter.png" alt="Filter" title="Filters" />
+    </a>
+  </div>
+  <!-- <button class="btn btn-primary glyphicon glyphicon-refresh pull-right" ng-click="dataFromReportingTable.refresh()"></button> -->
+  <h3 class="header-text">{{'NAV_REPORT' | translate}}</h3>
+  <div class="conversation-flow-container clearfix">
+    <reporting-table data-definition="tableDefinition" data-content-queries="contentQueries" data-output="dataFromReportingTable"></reporting-table>
+  </div>
+  <br />
+  <form class="form-inline flex-container">
+    <div class="btn-group margin-horizontal-5" uib-dropdown>
+      <button class="btn btn-primary" uib-dropdown-toggle ng-disabled="exportProgress !== null && exportProgress !== 100">
+        <span translate>GENERATE_EXPORT</span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" uib-dropdown-menu>
+        <li role="menuitem"><a ng-click="generateFeedbackExport(dataFromReportingTable.filter, dataFromReportingTable.sorting)" translate>EXPORT_WITH_FILTER</a></li>
+        <li role="menuitem"><a ng-click="generateFeedbackExport()" translate>EXPORT_ALL</a></li>
+      </ul>
+    </div>
+    <button class="btn btn-primary margin-horizontal-5" ng-click="cancelFeedbackExport()" ng-show="exportProgress !== null && exportProgress !== 100" translate>CANCEL_GENERATION</button>
+    <button class="btn btn-primary margin-horizontal-5" ng-click="downloadFeedbackExport()" ng-show="exportProgress === 100" translate>DOWNLOAD_EXPORT</button>
+    <div class="form-group margin-horizontal-5" ng-show="exportProgress !== null">
+      <label for="exportStatus" translate>EXPORT_STATUS</label>
+      <p class="form-control-static">{{exportProgress === 100 ? ('FINISHED' | translate) : ('EXPORTING' | translate)}}</p>
+    </div>
+    <div class="form-group margin-horizontal-5" style="flex: 1" ng-show="exportProgress !== null && exportProgress !== 100">
+      <uib-progressbar class="progress-striped active margin-bottom-0" value="exportProgress">{{exportProgress}} %</uib-progressbar>
+    </div>
+  </form>
+</main>
+<div class="spacer"></div>
+<script type="text/ng-template" id="additionalInfo.html">
+  <div class="modal-body additional-info">
+    <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+    <h1>Question</h1>
+    <p>{{questionText}}</p>
+    <h1>Answer</h1>
+    <p ng-bind-html="answerText"></p>
+  </div>
+</script>

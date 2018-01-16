@@ -1,0 +1,150 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" ng-click="resetSession()">
+        <img id="logo" ng-cloak src="images/ZZG-Cloud/logo.png" alt=""/>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active">
+          <a ng-href="/#!/conversation">{{ 'NAV_HOME' | translate }}</a>
+        </li>
+      </ul>
+      <p class="navbar-text navbar-right">
+        <a ng-href="/#!/logout">{{ 'NAV_LOGOUT' | translate }}</a>
+      </p>
+      <p class="navbar-text navbar-right">{{ 'NAV_SIGNEDINAS' | translate }}
+        {{ loggedInUser }}
+      </p>
+      <p class="navbar-right" style="margin: 0;" ng-controller="SwitchClientsCtrl">
+        <select class="user-input form-control" ng-model="chosenClient" ng-change="updateClient()" style="margin: 5px;">
+          <option ng-repeat="client in availableClients" value="{{client.id}}" ng-selected="clientId == client.id">{{client.name}}</option>
+        </select>
+      </p>
+      <button type="button" style="margin-right: 5px; font-size: 14px" ng-if="debugmode" ng-click="toggleDebug()" class="navbar-right btn glyphicon glyphicon-wrench btn-default navbar-btn"></button>
+      <button type="button" style="margin-right: 5px; font-size: 14px" ng-click="resetSession()" ng-disabled="resetButtonDisabled" class="navbar-right btn glyphicon glyphicon-refresh btn-default navbar-btn"></button>
+    </div>
+  </div>
+</nav>
+<div class="main">
+  <div class="iframe_holder">
+    <iframe ng-src="{{startUrl | trusted}}"></iframe>
+  </div>
+  <div class="bubble_Chat_note" id="bubblechat_note" ng-click="chatAppears()" ><table><tr><td><img src="../../images/EVA0.png" height="60"></td><td> Hallo! Mein Name ist EVA, ich bin Ihre digitale Assistentin...</td></tr></table></div>
+  <div class="bubble_Chat"id="bubblechat" ng-click="chatAppears()" ><i class="fa fa-comments-o"></i></div>
+  <div id="chat" class="chat_holder">
+    <div id="chatTitle" class="chat_title" ng-click="toggleChat()">EVA - Ihre digitale Assistentin<div id="chatTitleSign" class="glyphicon glyphicon-menu-up" title="Maximieren"></div></div>
+    <div class="chat_content" id="chat_display">
+      <div class="additional_content" id="additional_chat_display" ng-if="debugmode">
+        <h4 ng-if="intents.length == 0 && entities.length == 0">Aktuell keine Inhalte...</h4>
+        <h4 ng-if="intents.length > 0" class="first_h4">Erkannte Intents</h4>
+        <span ng-repeat="intent in intents">
+          Intent {{$index}}: {{intent.intent}} ({{intent.confidence}}%)
+          <div class="progress"><div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{intent.confidence}}" aria-valuemin="0" aria-valuemax="100" style="width: {{intent.confidence}}%"></div></div>
+        </span>
+        <h4 ng-if="entities.length > 0">Erkannte Entitäten</h4>
+        <div ng-repeat="entity in entities" class="detected_entity">{{entity.entity}}: {{entity.value}}</div>
+      </div>
+      <div class="standard_content">
+        <div ng-if="requestConversationFeedback" class="chat_feedback" id="chat_feedback">
+          <div style="padding: 10px"><h4>Bitte bewerten Sie Ihr Chaterlebnis</h4> </div>
+          <div style="padding: 10px; font-size: 16px;">Helfen Sie uns dabei unseren Service und EVA zu verbessern.</div>
+          <fieldset class="rating">
+              <input type="radio" id="star5" name="rating" value="5" ng-model="checkedStar"/><label class = "full" for="star5" title="5 Sterne"></label>
+              <input type="radio" id="star4" name="rating" value="4" ng-model="checkedStar"/><label class = "full" for="star4" title="4 Sterne"></label>
+              <input type="radio" id="star3" name="rating" value="3" ng-model="checkedStar"/><label class = "full" for="star3" title="3 Sterne"></label>
+              <input type="radio" id="star2" name="rating" value="2" ng-model="checkedStar"/><label class = "full" for="star2" title="2 Sterne"></label>
+              <input type="radio" id="star1" name="rating" value="1" ng-model="checkedStar"/><label class = "full" for="star1" title="1 Stern"></label>
+          </fieldset>
+          <div style="padding-left: 5px; padding-right: 5px">
+            <textarea class="user-feedback" ng-model="conversationFeedback" name="feedback" placeholder="Hier ist Platz für Ihren Kommentar..."></textarea>
+          </div>
+          <div style="padding: 5px; text-align: -webkit-center;" ng-if = "conversationFeedbackGiven"><h4><b>Vielen Dank für Ihr Feedback!</b></h4> </div>
+          <div style="padding: 5px" ng-if = "!conversationFeedbackGiven">
+          <button type="submit" class="btn btn-default feedback-button" ng-disabled ="checkedStar == null && (conversationFeedback == null || !conversationFeedback.length)" ng-click="saveConversationFeedback(checkedStar, conversationFeedback)">Feedback absenden</button>
+          <button type="button" class="btn btn-default feedback-button" ng-click="cancelConversationFeedback()">Abbrechen</button>
+        </div>
+        </div>
+        <div id="scrollingChat" class="chat_history" ng-class="{'chat_history_answer_proposals': answer_proposals}">
+          <div ng-repeat="message in messages" ng-class="{'from-watson': message.user == 'watson', 'from-user': message.user == 'human'}">
+            <div class="message" id="chatmessage_{{$index}}">
+              <p class="time">{{getDate() | date:'HH:mm'}}</p>
+              <!-- <p class="who" ng-if="message.user == 'watson'">Chatbot</p>
+              <p class="who" ng-if="message.user == 'human'">Sie</p> -->
+              <p ng-dblclick="loadAnswer(message)" ng-class="{'pointer_cursor': (message.user == 'watson' && (message.longAnswerId || message.longAnswer)) || message.user == 'human', 'not_allowed_cursor': message.user == 'watson' && !message.longAnswerId && !message.longAnswer}" data-ng-bind-html="message.text | unsafe"></p>
+            </div>
+            <!-- Feedback -->
+            <div class="btn-group" style="float: right;" ng-if="message.feedbackAllowed && message.user == 'watson' && (!message.rated && $index > 0 || !message.commented)">
+              <button ng-if="message.user == 'watson' && !message.rated && !message.automatedRated && $index > 0" ng-click="setPositiveRating($index, true);" type="button"
+                class="btn btn-default btn-sm" title="{{'DIALOG_USEFUL' | translate}}">
+                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+              </button>
+              <button ng-if="message.user == 'watson' && !message.rated && !(message.automatedRated && $scope.setNegativeRatingAutomatically) && $index > 0" ng-click="setNegativeRating($index, false);" type="button"
+                class="btn btn-default btn-sm" title="{{'DIALOG_NOTUSEFUL' | translate}}">
+                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+              </button>
+              <button ng-if="message.user == 'watson' && !message.commenting && !message.commented && $index > 0" ng-click="message.commenting = true"
+                type="button" class="btn btn-default btn-sm" title="{{'DIALOG_COMMENT' | translate}}">
+                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div ng-if="message.feedbackAllowed && message.commenting" class="input-group input-group-sm">
+              <input type="text" class="form-control" placeholder="Please leave a comment..." ng-model="message.comment">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="message.commenting = false" title="{{'GENERAL_CANCEL' | translate}}">
+                  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+              </button>
+              <button class="btn btn-default" type="submit" ng-click="setComment($index);" title="{{'DIALOG_SENDCOMMENT' | translate}}">
+                  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                </button>
+              </span>
+            </div>
+            <div style="clear:both;"></div>
+            <!-- Feedback -->
+            <hr>
+          </div>
+          <!-- Answer Proposals -->
+          <div ng-if="answer_proposals && !typing && !loading" class="answer-proposals">
+            <!-- Expandable Answer Proposals / Mykola / mykola.zakharchuk@ibm.com -->
+            <button ng-repeat="answer_proposal in answer_proposals | limitTo: numQuestionsShown" ng-style="checkQuestion(answer_proposals)" ng-click="sendMessage(answer_proposal)" class="btn btn-default">{{answer_proposal}}</button>
+            <button ng-click="showMoreQuestions(answer_proposals)" ng-if="oneWordSearch && (numQuestionsShown < answer_proposals.length)" id="moreQuestions">Weitere Vorschläge</button>
+          </div>
+
+          <!-- Answer Proposals -->
+          <div id="scrollingChatEnd"></div>
+        </div>
+        <!-- typing animation -->
+        <div class="typing_animation" ng-if="loading || typing"></div>
+        <div class="chat_input" ng-class="{'chat_input_no_debug' : !debugmode}">
+          <i class="glyphicon glyphicon-option-horizontal additional_content_button" ng-click="toggleAdditionalContent()" ng-if="debugmode"></i>
+          <input id="textInput" type="text" placeholder="{{lockLevelPlaceholder}}" type="text" ng-model="userInput" ng-keydown="inputKeyDown($event)" ng-disabled="(typing || loading || requestConversationFeedback || (lockLevel>0)) && !showDebug">
+          <!-- ng-disabled="extendedFeedbackActive" -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="debugmode && debugOutput && showDebug" id="chat_error" class="debug-window">
+    <h2>Debug:</h2>
+    <pre>{{debugOutput}}</pre>
+  </div>
+  <div ng-if="warnings && warnings.length > 0" class="error_container_top">
+    <div style="padding: 5px;">
+        <div id="inner-message" class="alert alert-warning">
+            Beim Verarbeiten der Anfrage sind Warnungen aufgetreten. Sie können die Arbeit normal fortfahren. Die Antwort könnte jedoch falsch oder unvollständig sein.<br />
+            Warnungen:
+            <ul>
+              <li ng-repeat="warning in warnings">
+                  {{ warning }}
+              </li>
+            </ul>
+            Die Warnungen werden automatisch bei der nächsten Eingabe ausgeblendet.
+        </div>
+    </div>
+  </div>
+</div>

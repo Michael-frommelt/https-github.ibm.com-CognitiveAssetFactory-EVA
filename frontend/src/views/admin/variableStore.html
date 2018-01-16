@@ -1,0 +1,162 @@
+<div ng-include="'views/admin/nav.html'"></div>
+<main class="container-fluid admin-panel" st-table="displayedVariables" st-safe-src="variables" ng-cloak><!-- st-set-filter="variableFilter" -->
+  <!-- show animation || HIDE CONTENT CONTAINER-->
+  <div id="blur_hide">
+    <div class="loader">Loading...</div>
+    <div id="loadingParagraph">Loading</div>
+  </div>
+  <!-- || -->
+  <header class="button-header flex-container space-between">
+    <h3 class="header-text" translate>VARIABLESTORE</h3>
+    <form class="form-inline flex-container flex-grow margin-left-15" role="toolbar" novalidate>
+      <span class="flex-container flex-grow input-group header-inputs" st-search>
+        <input type="text" class="form-control flex-grow" placeholder="{{'SEARCH' | translate}}"
+            ng-model="searchText" ng-init="oldSearchText = ''" ng-focus="oldSearchText = searchText" ng-change="onSearch(searchText, oldSearchText)"/>
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </span>
+      </span>
+    </form>
+  </header>
+  <div class="alert alert-danger" ng-show="error" uib-alert close="error = null">
+    <strong>{{error.status}}</strong> {{error.data.message || error.data}}
+  </div>
+  <div class="table-container">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th st-sort="variableId">
+            <span style="line-height: 33px" translate>VARIABLE_BINDING_TITLE</span>
+          </th>
+          <th st-sort="variableId" st-sort-default="true">
+            <span style="line-height: 33px" translate>VARIABLE_ID</span>
+          </th>
+          <th st-sort="abbreviationExists">
+            <span style="line-height: 33px" translate>ABBREVIATION_EXISTS</span>
+          </th>
+          <th st-sort="tooltipExists">
+            <span style="line-height: 33px" translate>TOOLTIP_EXISTS</span>
+          </th>
+          <th st-sort="variableValue">
+            <span style="line-height: 33px" translate>VARIABLE_CONTENT</span>
+            <button class="btn btn-primary pull-right" type="button" ng-click="openEditModal(false)">
+              <i class="glyphicon glyphicon-plus"></i>
+              <span translate>VARIABLE_NEW</span>
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody ng-show="isLoading">
+        <tr><td class="text-center" colspan="5">
+          <i class="glyphicon glyphicon-refresh spinning"></i>
+          <span translate>LOADING</span>
+        </td></tr>
+      </tbody>
+      <tbody ng-show="!isLoading && !displayedVariables.length">
+        <tr><td class="text-center" translate colspan="5">VARIABLE_SEARCH_NOT_FOUND</td></tr>
+      </tbody>
+      <tbody ng-show="!isLoading && displayedVariables.length">
+        <tr ng-repeat="variable in displayedVariables track by variable.name">
+          <td class="padding-0">
+            <div class="flex-container">
+              <div class="padding-10-5">
+                <button class="btn btn-link padding-vertical-3" type="button" ng-click="openEditModal(true, variable)">
+                  <i class="glyphicon glyphicon-pencil"></i>
+                </button>
+                <button class="btn btn-link padding-vertical-3" type="button" ng-click="openDeleteModal(variable.name)">
+                  <i class="glyphicon glyphicon-trash"></i>
+                </button>
+                <button class="btn btn-link padding-vertical-3" type="button" title="Copy to clipboard" data-clipboard-text="{{ '${' + variable.name + '}' }}">
+                  <i class="glyphicon glyphicon-copy"></i>
+                </button>
+              </div>
+              <div class="flex-container space-between flex-grow padding-10-5">
+                <span>{{ '${' + variable.name + '}' }}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span ng-bind-html="variable.name | highlightFilter:searchText"></span>
+          </td>
+          <td>
+            <span>{{ variable.abbreviation ? 'Yes' : 'No'}}</span>
+          </td>
+          <td>
+            <span>{{ variable.tooltip ? 'Yes' : 'No'}}</span>
+          </td>
+          <td>
+            <span ng-bind-html="variable.value | highlightFilter:searchText"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- delete modal -->
+  <script type="text/ng-template" id="deleteModal.html">
+    <div class="modal-header">
+      <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+      <h4 class="modal-title" translate>DELETE_VARIABLE_TITLE</h4>
+    </div>
+    <div class="modal-body">
+      <span translate>DELETE_VARIABLE_TEXT</span>
+      <span>{{ variableToDelete }}</span>
+      <span>?</span>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>NO</button>
+      <button type="button" class="btn btn-primary" ng-click="deleteVariable()">
+        <span translate>YES</span>
+        <i class="glyphicon glyphicon-refresh spinning" ng-show="isDeleting"></i>
+      </button>
+    </div>
+  </script>
+
+  <!-- edit modal -->
+  <script type="text/ng-template" id="editModal.html">
+    <div class="modal-header">
+      <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+      <h4 class="modal-title" ng-if="editVariable" translate>EDIT_VARIABLE_TITLE</h4>
+      <h4 class="modal-title" ng-if="!editVariable" translate>NEW_VARIABLE_TITLE</h4>
+    </div>
+    <div class="modal-body">
+      <div ng-if="errorText && errorText.length > 0" class="alert alert-danger alert-dismissable">
+        <i class="close" ng-click="deleteError()" aria-label="close">&times;</i>
+        {{errorText}}
+      </div>
+      <div>
+        <dl class="dl-horizontal">
+          <dt><span translate>VARIABLE_ID</span>*</dt>
+          <dd><span ng-if="editVariable">{{ variable.name }}</span><input type="text" ng-if="!editVariable" ng-model="variable.name"></dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt translate>VARIABLE_ABBREVIATION</dt>
+          <dd><input type="text" ng-model="variable.abbreviation"></dd>
+        </dl>
+        <dl>
+          <dt translate>VARIABLE_TOOLTIP</dt>
+          <dd style="padding-left: 15px;">
+            <textarea ng-model="variable.tooltip" style="width: 500px; height: 100px; margin-top: 10px;"></textarea>
+          </dd>
+        </dl>
+        <dl>
+          <dt><span translate>VARIABLE_CONTENT</span>*</dt>
+          <dd style="padding-left: 15px;">
+            <textarea ng-model="variable.value" style="width: 500px; height: 100px; margin-top: 10px;"></textarea>
+          </dd>
+        </dl>
+        <hr>
+        <p>* <span translate>REQUIRED_INPUT</span></p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>CANCEL</button>
+      <button type="button" class="btn btn-primary" ng-click="saveVariable()">
+        <span translate>SAVE</span>
+        <i class="glyphicon glyphicon-refresh spinning" ng-show="isSaving"></i>
+      </button>
+    </div>
+  </script>
+</main>

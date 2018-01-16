@@ -1,0 +1,74 @@
+{"docs":[{
+  "_id": "_design/bc4e4851785229b8a3f5488892f3e83167afdead",
+  "language": "query",
+  "views": {
+    "created-sortIndex": {
+      "map": {
+        "fields": {
+          "created": "asc"
+        },
+        "partial_filter_selector": {}
+      },
+      "reduce": "_count",
+      "options": {
+        "def": {
+          "fields": [{
+            "created": "asc"
+          }]
+        }
+      }
+    }
+  }
+}, {
+  "_id": "_design/distinctViews",
+  "views": {
+    "clientId": {
+      "reduce": "_count",
+      "map": "function (doc) {\n  emit(doc.clientId, 1);\n}"
+    },
+    "username": {
+      "reduce": "_count",
+      "map": "function (doc) {\n  emit(doc.username, 1);\n}"
+    },
+    "feedback": {
+      "reduce": "_count",
+      "map": "function (doc) {\n  emit(doc.feedback, 1);\n}"
+    }
+  },
+  "language": "javascript"
+}, {
+  "_id": "_design/statistics",
+  "views": {
+    "getClientStatisticView": {
+      "reduce": "_sum",
+      "map": "function (doc) {\n  if(doc.clientId && doc.clientId !== null) {\n  if (doc.feedback === false) {\n    emit(doc.clientId, [0,0,1]);\n  }\n  if (doc.feedback === 'negative') {\n    emit(doc.clientId, [0,1,0]);\n  }\n  if (doc.feedback === 'positive') {\n    emit(doc.clientId, [1,0,0]);\n  }\n  }\n}"
+    },
+    "getFirstDate": {
+      "map": "function (doc) {\n  if(doc.created) {\n   emit(doc.created, 1); \n  }\n  \n}"
+    }
+  },
+  "language": "javascript"
+}],
+"kfold_results": [{
+  "_id": "_design/testing",
+  "views": {
+    "getTestTimes": {
+      "reduce": "_count",
+      "map": "function (doc) {\n  emit([doc.clientId, doc.date], 1);\n}"
+    }
+  },
+  "language": "javascript"
+}, {
+  "_id": "_design/testing",
+  "language": "javascript",
+  "views": {
+    "getTestTimes": {
+      "reduce": "_count",
+      "map": "function (doc) {\n  emit([doc.clientId, doc.date], 1);\n}"
+    },
+    "aggregateTestResults": {
+      "map": "function (doc) {\n  for (var index in doc.result) {\n    for(var secondaryIndex in doc.result[index]) {\n      emit([doc.date, doc.result[index][secondaryIndex].intent],[doc.result[index][secondaryIndex].confidence, doc.result[index][secondaryIndex].successRatio, doc.result[index][secondaryIndex].totalTestCases, 1]);\n    }\n  }\n}",
+      "reduce": "_sum"
+    }
+  }
+}]}
