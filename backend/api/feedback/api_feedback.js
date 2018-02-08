@@ -483,7 +483,7 @@ function exportToCSV(containerName, filter, sorting, propertyNames, documentToCS
         var processedCounter = 0;
 
         writer.on('error', function(error) {
-          feedbackStream.end();
+          feedbackStream.destroy();
           cacheObject.canceled = true;
           cacheObject.error = error;
         });
@@ -502,7 +502,7 @@ function exportToCSV(containerName, filter, sorting, propertyNames, documentToCS
         });
 
         feedbackStream.on('error', function(error) {
-          feedbackStream.end();
+          feedbackStream.destroy();
           cacheObject.canceled = true;
           cacheObject.error = error;
         });

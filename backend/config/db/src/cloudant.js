@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 const usersContainer = globalDatabase.config.containers.users;
 
 //Get a single user by username
@@ -17,7 +17,7 @@ exports.getUser = function(username, callbackSuccess, callbackError) {
         if (err) {
             return callbackError(500, 'db_connection_error');
         }
-        if (result.length === 0) {
+        if (result.docs[0] === undefined) {
             return callbackError(500, 'user_not_found');
         }
 

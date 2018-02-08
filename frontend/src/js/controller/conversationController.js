@@ -62,7 +62,7 @@ angular.module('main')
       $scope.lockLevelPlaceholder = "Ihre Nachricht..."
     }
 
-    $scope.extendedFeedback = true;
+    $scope.extendedFeedback = false;
 
     var conversation = {};
     $scope.shortConcatTimeout = 1500;

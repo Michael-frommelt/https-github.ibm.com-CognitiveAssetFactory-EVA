@@ -13,8 +13,7 @@ exports.getQuestionsByEntities = function(entities, jargon, callbackSuccess, cal
             mainEntities: {
                 $in: entities
             },
-            proposalByEntity: true,
-            "questions.options.properties.jargon": jargon
+            proposalByEntity: true
         }
     }, {
         $group: {
@@ -51,8 +50,7 @@ exports.getQuestionsByIntents = function(intents, jargon, callbackSuccess, callb
             },
             additionalEntities: {
                 $size: 0
-            },
-            "questions.options.properties.jargon": jargon
+            }
         }
     }, {
         $project: {

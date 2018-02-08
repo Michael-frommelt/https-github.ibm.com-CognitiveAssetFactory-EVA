@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 var answerStore = angular.module('eva.answerStore', [
   'angular.chips',
   'ngFileUpload',
@@ -48,6 +48,7 @@ answerStore.config(['$translateProvider', function($translateProvider) {
     'UPLOAD_ANSWERS_TEXT': 'Please choose the file of answers you want to import.',
     'YES': 'Yes',
     'IMPORT_RUNNING': 'Import running',
+    'WAITING': 'Please wait or return later',
 
     // AnswerStore detail view
     'ADDITIONAL_PROPOSALS': 'Additional answer proposals',
@@ -118,6 +119,7 @@ answerStore.config(['$translateProvider', function($translateProvider) {
     'UPLOAD_ANSWERS_TEXT': 'Bitte wählen Sie die Datei mit Antworten aus, die Sie hochladen möchten.',
     'YES': 'Ja',
     'IMPORT_RUNNING': 'Import running',
+    'WAITING': 'Please wait or return later',
 
     // AnswerStore detail view
     'ADDITIONAL_PROPOSALS': 'Zusätzliche Antwortvorschläge',

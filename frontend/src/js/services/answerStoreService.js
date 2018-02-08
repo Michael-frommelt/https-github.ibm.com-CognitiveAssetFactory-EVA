@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 angular.module('eva.answerStore').service('AnswerStoreService', ['$http', '$q', '$window', 'Upload', 'ConfigService',
   function($http, $q, $window, Upload, ConfigService) {
     var answerEndpoint = '/api/answer/';
@@ -173,8 +173,6 @@ angular.module('eva.answerStore').service('AnswerStoreService', ['$http', '$q', 
         url: answerEndpoint + 'import/' + answerSetId,
         params: { override: override },
         data: { uploadFile: file }
-      }).then(function() {
-        return that.getAnswers(answerSetId, true);
       });
     };
 

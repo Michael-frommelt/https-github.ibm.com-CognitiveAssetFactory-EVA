@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 var dbconfig = globalDatabase.config;
 const configContainer = globalDatabase.config.containers.config;
 
@@ -97,7 +97,7 @@ exports.upsertAnswer = function(containerName, answerId, answerObject, override)
       };
       if (err) {
         resolve(noAction);
-      } else if (result.docs.length === 0) {
+      } else if (result.docs[0] === undefined) {
         globalDatabase.connection.use(containerName).insert(answerObject, function(err, insertResult) {
           if (err) {
             resolve(noAction);
@@ -105,9 +105,8 @@ exports.upsertAnswer = function(containerName, answerId, answerObject, override)
           resolve(inserted);
         });
       } else if (override === true) {
-        var resultObject = result.docs[0];
-        answerObject._rev = resultObject._rev;
-        answerObject._id = resultObject._id;
+        answerObject._rev = result.docs[0]._rev;
+        answerObject._id = result.docs[0]._id;
         globalDatabase.connection.use(containerName).insert(answerObject, function(err) {
           if (err) {
             resolve(noAction);

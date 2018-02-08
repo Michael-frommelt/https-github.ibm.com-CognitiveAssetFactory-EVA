@@ -102,3 +102,21 @@ Important: Every client has his primary Conversation and Retrieve and Rank works
 ## Further Information needed?
 Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
 Or read our technical documentation: <https://ibm.ent.box.com/file/190950663582>
+
+## Changelog
+
+### v1.0.1 (2018-02-07)
+* Fixed cloudant bug: Server crashing on wrong credentials when using cloudant db
+* Fixed cloudant bug: Cloudant database functions checking for empty results in a wrong way
+* Fixed frontend bug: Answer store import setting status correctly
+* Fixed bugs in conversation workspaces: Changed is_zzv_question occurrences to is_business_question
+* Fixed bug: Now storing kfold-test result in Cloudant in separate files to omit exceedance of maximum file size
+* Fixed bug: One column design not using 2 input fields anymore (fixed error user can not send message by hitting enter)
+* Fixed bug: On one column design chat & debug mode are too big on small desktop screens (not scrollable)
+* Added refreshCloudantSetup-Bashscript, which adds cloudant design documents if not present (should be executed after every upgrade if using cloudant!)
+* Feedback export now working as stream in cloudant database to omit errors on big sized files
+* One column design: Buttons size not depending on chat input (always full size)
+* Optimized status check for running answer store imports
+* Deactivated extended feedback modal on standard installation
+* Removed jargon-check for "getQuestionsByIntent" and "getQuestionsByEntity" (not implemented, can cause errors)
+* Library upgrade: Minimatch to version 3.0.4 (fixes DoS security issue)

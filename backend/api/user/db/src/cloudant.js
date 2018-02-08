@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 const usersContainer = globalDatabase.config.containers.users;
 
 //List all users
@@ -15,7 +15,7 @@ exports.listUsers = function(callbackSuccess, callbackError) {
         if (err) {
             return callbackError(500, err);
         }
-        if (result.length === 0) {
+        if (result.docs[0] == undefined) {
             return callbackError(500, 'no_users_found');
         }
 
@@ -32,12 +32,9 @@ exports.getUser = function(username, callbackSuccess, callbackError) {
     }, function(err, result) {
         if (err) {
             return callbackError(500, 'db_connection_error');
-        }
-        if (result.length === 0) {
+        } else if (result.docs[0] == undefined) {
             return callbackError(500, 'user_not_found');
-        }
-
-        return callbackSuccess(result.docs[0]);
+        } else return callbackSuccess(result.docs[0]);
     });
 };
 
@@ -49,10 +46,9 @@ exports.existUser = function(username, callbackSuccess, callbackError) {
     }, function(err, result) {
         if (err) {
             return callbackError(500, err);
-        } else if (result.docs.length > 0) {
-            return callbackSuccess(true);
-        }
-        return callbackSuccess(false);
+        } else if (result.docs[0] == undefined) {
+            return callbackSuccess(false);
+        } else return callbackSuccess(true);
     });
 };
 
@@ -116,7 +112,7 @@ exports.updateUser = function(username, user, callbackSuccess, callbackError) {
     }, function(err, result) {
         if (err) {
             return callbackError(500, err);
-        } else {
+        } else if(result.docs[0] !== undefined){
             return globalDatabase.connection.use(usersContainer).insert({
                 _id: result.docs[0]._id,
                 _rev: result.docs[0]._rev,
@@ -133,6 +129,8 @@ exports.updateUser = function(username, user, callbackSuccess, callbackError) {
                     return callbackSuccess(body);
                 }
             });
+        } else {
+          callbackError(500, 'user_not_found')
         }
     });
 };

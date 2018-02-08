@@ -111,7 +111,6 @@
           </div>
           <!-- Answer Proposals -->
           <div ng-if="answer_proposals && !typing && !loading" class="answer-proposals">
-            <!-- Expandable Answer Proposals / Mykola / mykola.zakharchuk@ibm.com -->
             <button ng-repeat="answer_proposal in answer_proposals | limitTo: numQuestionsShown" ng-style="checkQuestion(answer_proposals)" ng-click="sendMessage(answer_proposal)" class="btn btn-default">{{answer_proposal}}</button>
             <button ng-click="showMoreQuestions(answer_proposals)" ng-if="oneWordSearch && (numQuestionsShown < answer_proposals.length)" id="moreQuestions">Weitere Vorschläge</button>
           </div>

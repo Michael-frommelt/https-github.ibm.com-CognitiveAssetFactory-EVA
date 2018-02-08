@@ -6,6 +6,7 @@
   */
   
 const conversationsLogsContainer = globalDatabase.config.containers.conversation_logs;
+const { Readable } = require('stream');
 
 exports.saveFeedback = function(doc, callbackSuccess, callbackError) {
     if (doc._id == undefined) {
@@ -129,22 +130,63 @@ exports.getFeedback = function(containerName, filter, limit, page, sorting, call
 exports.getFeedbackStream = function(containerName, filter, sorting) {
     var filterObject = getFilterObject(filter);
 
-    var sortQuery = {};
+    var sortQuery;
     if (sorting && sorting.id) {
-        sortQuery[sorting.id] = sorting.order === 'asc' ? 'asc' : 'desc';
+        sortQuery = {
+            [sorting.id]: sorting.order === 'asc' ? 'asc' : 'desc',
+        };
+    }
+    
+    function accessFeedbackPage(batchBookmark, batchLimit) {
+        return new Promise(function(resolve, reject) {
+            globalDatabase.connection.use(containerName).find({
+              selector: filterObject,
+              sort: sortQuery == null ? [] : [sortQuery],
+              bookmark: batchBookmark,
+              limit: batchLimit,
+            }, function(error, result) {
+                if (error) return reject(error);
+                resolve(result);
+            });
+        });
     }
 
-    return new Promise(function(resolve, reject) {
-        globalDatabase.connection.use(containerName).find({
-          "selector": filterObject,
-          "sort": [sortQuery]
-        }, function(error, result) {
-            if (error) {
-                reject(error);
+    var feedbackData = [];
+    var limit = 200;
+    var bookmark = null;
+    var isLastBatch = false;
+    var getData = function(myReadable) {
+        var shouldPushNext = true;
+        while(shouldPushNext) {
+            if (feedbackData.length > 0) {
+                shouldPushNext = myReadable.push(feedbackData.shift());
+            } else if (isLastBatch) {
+                shouldPushNext = false;
+                myReadable.push(null);
             } else {
-                resolve(result.docs);
+                shouldPushNext = false;
+                accessFeedbackPage(bookmark, limit).then(function(resultData) {
+                    console.log("result", resultData.docs.length);
+                    console.log("bookmark", resultData.bookmark);
+                    console.log("oldBookmark", bookmark);
+                    if (bookmark === resultData.bookmark
+                        || resultData.docs.length < limit) isLastBatch = true;
+                    feedbackData = resultData.docs;
+                    bookmark = resultData.bookmark;
+                    getData(myReadable);
+                }).catch(function(error) {
+                    myReadable.destroy(error);
+                });
             }
-        })
+        }
+    };
+
+    return new Readable({
+        objectMode: true,
+        read: function() {
+            var myReadable = this;
+            getData(myReadable);
+        },
     });
 };
 

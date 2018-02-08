@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 const testFilesContainer = globalDatabase.config.containers.test_files;
 
 exports.getTestCase = function(name, clientId, callbackSuccess, callbackError) {
@@ -16,7 +16,7 @@ exports.getTestCase = function(name, clientId, callbackSuccess, callbackError) {
     }, function(err, result) {
         if (err) {
             return callbackError(500, err);
-        } else if (result && result.length == 0) {
+        } else if (result && result.docs.length == 0) {
             return callbackError(500, "No results found.");
         } else {
             callbackSuccess(result.docs);

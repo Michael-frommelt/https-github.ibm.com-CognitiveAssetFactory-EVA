@@ -66,25 +66,24 @@
                 </div>
             </div>
         </div>
-
-        <div id="table_options" ng-if="testTimes[0]">
-            <br>
-            <h4 translate>TABLE_OPTIONS</h4>
-            <b>{{'OPTION_SELECT' | translate }}: </b> <br><br>
-            <select class="form-control" style='width:175px' ng-options="option._id for option in testTimes track by option._id" ng-model="selectedTime" ng-change="getResultsForDate(selectedTime)"></select></br>
-            <fieldset>
-                <input type="radio" value="conf" ng-model="displayOption" checked>
-                <ratio-label translate>CONF</ratio-label>
-                <input type="radio" value="ratio" ng-model="displayOption">
-                <ratio-label translate>RATIO</ratio-label>
-                <input type="radio" value="numCases" ng-model="displayOption">
-                <ratio-label translate>NUMCASES</ratio-label>
-            </fieldset>
-            <br>
-        </div>
     </div>
     <div ng-if="!testTimes[0]" translate>NO_TESTRESULTS_CLIENT</div>
     <div ng-if="testTimes[0]">
+      <div id="table_options">
+          <br>
+          <h4 translate>TABLE_OPTIONS</h4>
+          <b>{{'OPTION_SELECT' | translate }}: </b> <br><br>
+          <select class="form-control" style='width:175px' ng-options="option._id for option in testTimes track by option._id" ng-model="selectedTime" ng-change="getResultsForDate(selectedTime)"></select></br>
+          <fieldset>
+              <input type="radio" value="conf" ng-model="displayOption" checked>
+              <ratio-label translate>CONF</ratio-label>
+              <input type="radio" value="ratio" ng-model="displayOption">
+              <ratio-label translate>RATIO</ratio-label>
+              <input type="radio" value="numCases" ng-model="displayOption">
+              <ratio-label translate>NUMCASES</ratio-label>
+          </fieldset>
+          <br>
+      </div>
         <div class="alert alert-danger" ng-show="error" uib-alert close="error = null">
             <strong>{{error.status}}</strong> {{error.data.message || error.data}}
         </div>

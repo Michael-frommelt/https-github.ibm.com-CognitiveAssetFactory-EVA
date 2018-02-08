@@ -163,15 +163,15 @@
     "_id": "_design/testing",
     "language": "javascript",
     "views": {
-      "getTestTimes": {
-        "reduce": "_count",
-        "map": "function (doc) {\n  emit([doc.clientId, doc.date], 1);\n}"
-      },
-      "aggregateTestResults": {
-        "map": "function (doc) {\n  for (var index in doc.result) {\n    for(var secondaryIndex in doc.result[index]) {\n      emit([doc.date, doc.result[index][secondaryIndex].intent],[doc.result[index][secondaryIndex].confidence, doc.result[index][secondaryIndex].successRatio, doc.result[index][secondaryIndex].totalTestCases, 1]);\n    }\n  }\n}",
-        "reduce": "_sum"
-      }
+    "getTestTimes": {
+      "reduce": "_count",
+      "map": "function (doc) {\n  if(doc.type == \"resultHolder\") {\n    emit([doc.clientId, doc.date], 1);\n  }\n}"
+    },
+    "aggregateTestResults": {
+      "map": "function (doc) {\n  if (doc.type == \"resultArray\") {\n    for(var index in doc.resultArray) {\n      if(doc.resultArray[index].confidence !== null && doc.resultArray[index].successRatio !== null && doc.resultArray[index].totalTestCases !== null)\n      emit([doc.resultHolderId, doc.resultArray[index].intent],[doc.resultArray[index].confidence, doc.resultArray[index].successRatio, doc.resultArray[index].totalTestCases, 1]);\n    }\n  }\n}",
+      "reduce": "_sum"
     }
+  }
   }],
   "sessions": [{
     "_id": "_design/c093526cb0baaf486bdd4d9c41a76352b0b1c500",

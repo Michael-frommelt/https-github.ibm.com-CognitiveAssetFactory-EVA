@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 const appsContainer = globalDatabase.config.containers.apps;
 const sessionsContainer = globalDatabase.config.containers.sessions;
 
@@ -17,7 +17,7 @@ exports.getApp = function(app_id, callbackSuccess, callbackError) {
     if (err) {
       return callbackError('db_connection_error');
     }
-    if (result.length === 0) {
+    if (result.docs[0] === undefined) {
       return callbackError('app_not_found');
     }
 
@@ -48,7 +48,7 @@ exports.deleteSession = function(session_id, callbackSuccess, callbackError) {
         error: 'error_deleting_session',
         session_id: 'session_id'
       });
-    } else if (result.docs.length == 0) {
+    } else if (result.docs[0] === undefined) {
       return callbackSuccess(session_id);
     } else {
       return globalDatabase.connection.use(sessionsContainer).destroy(result.docs[0]._id, result.docs[0]._rev, function(err, body, header) {
@@ -73,7 +73,7 @@ exports.getSession = function(session_id, callbackSuccess, callbackError) {
     if (err) {
       return callbackError('db_connection_error');
     }
-    if (result.docs.length === 0) {
+    if (result.docs[0] === undefined) {
       return callbackSuccess({
         session_id: session_id,
         created: Date.now(),

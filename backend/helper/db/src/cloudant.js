@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 const configContainer = globalDatabase.config.containers.config;
 const clientContainer = globalDatabase.config.containers.clients;
 const rolesContainer = globalDatabase.config.containers.roles;
@@ -22,7 +22,7 @@ exports.getRoles = function() {
             if (err) {
                 return reject('db_connection_error');
             }
-            if (result.length === 0) {
+            if (result.docs[0] === undefined) {
                 return reject('roles_not_found');
             }
 
@@ -39,7 +39,7 @@ exports.getClients = function(callbackSuccess, callbackError) {
         if (err) {
             return callbackError('db_connection_error');
         }
-        if (result.length === 0) {
+        if (result.docs[0] === undefined) {
             return callbackError('clients_not_found');
         }
 
@@ -58,7 +58,7 @@ exports.getConfig = function(id, callbackSuccess, callbackError) {
         if (err) {
             return callbackError('db_connection_error');
         }
-        if (result.length === 0) {
+        if (result.docs[0] === undefined) {
             return callbackError('user_not_found');
         }
         return callbackSuccess(result.docs[0]);
@@ -72,7 +72,7 @@ exports.getAllConfigs = function(callbackSuccess, callbackError) {
         if (err) {
             return callbackError('db_connection_error');
         }
-        if (result.length === 0) {
+        if (result.docs[0] === undefined) {
             return callbackError('no_config_found');
         }
 

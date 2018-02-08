@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 'use strict';
 
 const moment = require('moment');
@@ -48,7 +48,7 @@ exports.exportAnswers = function(answers, answerProperties, language, fileType) 
     let timeout = setTimeout(function() {
       return reject('Import timed out.');
     }, 10000);
-    
+
     // default language
     let strings = languages.en;
 
@@ -149,17 +149,17 @@ exports.importAnswers = function(fileBuffer, answerProperties) {
     let answersJson = xlsx.utils.sheet_to_json(worksheet);
 
     // try to detect language the second time by looking for 'answer ID' and 'answer text' fields
-    if (answersJson[1].hasOwnProperty(languages.en.answerId) && answersJson[1].hasOwnProperty(languages.en.answerText)) {
-      strings = languages.en;
-    } else if (answersJson[1].hasOwnProperty(languages.de.answerId) && answersJson[1].hasOwnProperty(languages.de.answerText)) {
-      strings = languages.de;
-    } else {
-      reject({
-        status: 400,
-        message: 'Could not detect required fields "Answer ID" and "Answer text"'
-      });
-      return;
-    }
+      if (answersJson[0].hasOwnProperty(languages.en.answerId) && answersJson[0].hasOwnProperty(languages.en.answerText)) {
+        strings = languages.en;
+      } else if (answersJson[0].hasOwnProperty(languages.de.answerId) && answersJson[0].hasOwnProperty(languages.de.answerText)) {
+        strings = languages.de;
+      } else {
+        reject({
+          status: 400,
+          message: 'Could not detect required fields "Answer ID" and "Answer text"'
+        });
+        return;
+      }
 
     // rehydrate answers to their internal structure
     let hydratedAnswers = new Map();

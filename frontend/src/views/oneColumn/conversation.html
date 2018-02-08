@@ -107,21 +107,15 @@
         </div>
         <!-- Answer Proposals -->
         <div ng-if="answer_proposals && !typing && !loading" class="answer-proposals">
-          <!-- Expandable Answer Proposals / Mykola / mykola.zakharchuk@ibm.com -->
-          <button ng-repeat="answer_proposal in answer_proposals | limitTo: numQuestionsShown" ng-style="checkQuestion(answer_proposals)" ng-click="sendMessage(answer_proposal)" class="btn btn-default">{{answer_proposal}}</button>
+          <button ng-repeat="answer_proposal in answer_proposals" ng-click="sendMessage(answer_proposal)" class="btn btn-default">{{answer_proposal}}</button>
           <button ng-click="showMoreQuestions(answer_proposals)" ng-if="oneWordSearch && (numQuestionsShown < answer_proposals.length)" id="moreQuestions">Weitere Vorschläge</button>
         </div>
         <!-- Answer Proposals -->
         <div id="scrollingChatEnd"></div>
       </div>
       <!-- typing animation -->
-      <div ng-if="!showDebug" class="chat_input chat_input_noDebug" ng-class="{'chat_input_no_debug' : !debugmode}">
-        <div class="typing_animation typing_animation_noDebug" ng-if="loading || typing"></div>
-        <input id="textInput" type="text" placeholder="{{lockLevelPlaceholder}}" type="text" ng-model="userInput" ng-keydown="inputKeyDown($event)" ng-disabled="(typing || loading || requestConversationFeedback || (lockLevel>0)) && !showDebug">
-        <button ng-disabled="!userInput" class="send-button" id="sendMessageButton" ng-click="sendMessage(userInput)">Senden</button>
-      </div>
-      <div ng-if="showDebug" class="chat_input chat_input_debug" ng-class="{'chat_input_no_debug' : !debugmode}">
-        <div class="typing_animation typing_animation_debug" ng-if="loading || typing"></div>
+      <div class="chat_input" ng-class="{'chat_input_no_debug' : !debugmode, 'chat_input_debug' : showDebug, 'chat_input_noDebug' : !showDebug}">
+        <div class="typing_animation" ng-class="{'typing_animation_debug' : showDebug, 'typing_animation_noDebug' : !showDebug}" ng-if="loading || typing"></div>
         <input id="textInput" type="text" placeholder="{{lockLevelPlaceholder}}" type="text" ng-model="userInput" ng-keydown="inputKeyDown($event)" ng-disabled="(typing || loading || requestConversationFeedback || (lockLevel>0)) && !showDebug">
         <button ng-disabled="!userInput" class="send-button" id="sendMessageButton" ng-click="sendMessage(userInput)">Senden</button>
       </div>

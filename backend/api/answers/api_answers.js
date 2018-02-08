@@ -1,10 +1,10 @@
 /**
-  * Copyright 2018 IBM Deutschland. All Rights Reserved.
-  *
-  * Enhanced conVersation Asset - EVA
-  * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
-  */
-  
+ * Copyright 2018 IBM Deutschland. All Rights Reserved.
+ *
+ * Enhanced conVersation Asset - EVA
+ * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
+ */
+
 'use strict';
 
 // ##############################
@@ -33,7 +33,6 @@ exports.createRoutes = function(app) {
   app.get('/api/answer/export/:clientId', permissions.mwHasPermission('editAnswers'), this.exportAnswers);
   app.post('/api/answer/import/:clientId', permissions.mwHasPermission('editAnswers'), this.importAnswers);
   app.get('/api/answer/status', permissions.mwHasPermission('editAnswers'), this.getImportStatus);
-  app.get('/api/answer/importRunning', permissions.mwHasPermission('editAnswers'), this.getImportRunning);
   app.get('/api/answer/:clientId', permissions.mwHasPermission('editAnswers'), this.getAnswers);
   app.get('/api/answer/:clientId/:answerId', permissions.mwHasPermission('editAnswers'), this.getAnswer);
   app.post('/api/answer/:clientId/:answerId', permissions.mwHasPermission('editAnswers'), this.saveAnswer);
@@ -298,35 +297,35 @@ exports.exportAnswers = function(req, res) {
 };
 
 exports.importAnswers = function(req, res) {
+  promiseArray = [];
+  resultArray = [];
 
-  if (!importInProgress && req.url.includes("/api/answer/import/")) {
-    if (!uploader) {
-      return res.status(500).send('AnswerStore_file_uploader_is_not_set_up');
+  if (!uploader) {
+    return res.status(500).send('AnswerStore_file_uploader_is_not_set_up');
+  }
+  uploader(req, res, error => {
+    if (error) {
+      importInProgress = false;
+      return res.status(error.status || 500).send(error.message);
     }
-    importInProgress = true;
-    uploader(req, res, error => {
-      if (error) {
-        return res.status(error.status || 500).send(error.message);
-      }
-
-      getAnswerContainer(req.user, req.params.clientId).then(containerName => {
-        return importExportApi.importAnswers(req.file.buffer, answerProperties).then(answers => {
+    getAnswerContainer(req.user, req.params.clientId).then(containerName => {
+      return importExportApi.importAnswers(req.file.buffer, answerProperties).then(function(answers) {
+          importInProgress = true;
           const override = req.query.hasOwnProperty('override') && req.query.override == 'true';
           var answersArray = Array.from(answers);
           startSequentialAnswerUpsert(answersArray, containerName, override);
           return res.status(200).send({
             importRunning: true,
-            status: "started",
-            importProgress: 0
           });
+        }, function(error) {
+          importInProgress = false;
+          return res.status(error.status || 500).send(error.message);
         });
-      });
     });
-  }
+  });
 };
 
 function startSequentialAnswerUpsert(answers, containerName, override) {
-
   answersLength = answers.length;
 
   async.forEachLimit(answers, 25, function(answer, callback) {
@@ -335,48 +334,34 @@ function startSequentialAnswerUpsert(answers, containerName, override) {
         resultArray.push(promiseResult);
         callback();
       }));
-    }
+    } else answersLength - 1;
   })
 }
 
 
 exports.getImportStatus = function(req, res) {
-var currentProgress = 0;
- if(answersLength >= promiseArray.length) {
-   currentProgress = ((resultArray.length / answersLength) * 100).toFixed(2);
- } else currentProgress = ((resultArray.length / promiseArray.length) * 100).toFixed(2);
 
+  if (importInProgress) {
+    var currentProgress = 0;
+    currentProgress = ((resultArray.length / answersLength) * 100).toFixed(2);
 
-  if (currentProgress >= 100) {
-    const accumulatedResult = resultArray.reduce((accumulator, dbResult) => {
-      accumulator.inserted += dbResult.inserted;
-      accumulator.modified += dbResult.modified;
-      return accumulator;
-    }, {
-      inserted: 0,
-      modified: 0
-    });
-    importInProgress = false;
-    return res.status(200).send({
-      importRunning: false,
-      status: "finished",
-      importProgress: currentProgress,
-      importResult: accumulatedResult
-    });
+    if (currentProgress >= 100) {
+      importInProgress = false;
+      return res.status(200).send({
+        importRunning: false,
+        finishedImport: true
+      });
+    } else {
+      return res.status(200).send({
+        importRunning: true,
+        importProgress: currentProgress,
+      });
+    }
   } else {
-    importInProgress = true;
     return res.status(200).send({
-      importRunning: true,
-      status: "in Progress",
-      importProgress: currentProgress,
+      importRunning: false
     });
   }
-};
-
-exports.getImportRunning = function(req, res) {
-  return res.status(200).send({
-    importRunning: importInProgress
-  });
 };
 
 exports.getAnswerSets = function(req, res) {

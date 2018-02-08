@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 angular.module('eva.kfoldOverview')
     .controller('KFoldCtrl', ['$scope', '$http', '$interval', '$window', '$location', '$translate', 'ConfigService', '$uibModal', '$rootScope',
         function($scope, $http, $interval, $window, $location, $translate, ConfigServices, $uibModal, $rootScope) {
@@ -54,13 +54,6 @@ angular.module('eva.kfoldOverview')
                 }).then(function(response) {
                     $scope.testInProgress = response.data.testInProgress;
                     if ($scope.testInProgress) {
-                        $http({
-                            method: "GET",
-                            url: '/api/testing/kfold/times'
-                        }).then(function(response) {
-                            $scope.testTimes = response.data;
-                            $scope.selectedTime = $scope.testTimes[0];
-                            $scope.date = $scope.testTimes[0]._id;
                             var status = $interval(function() {
                                 $http({
                                     method: "POST",
@@ -84,9 +77,6 @@ angular.module('eva.kfoldOverview')
                                     $interval.cancel(status);
                                 });
                             }, 5000);
-                        }, function(error) {
-                            $scope.$parent.failed_get = $translate.instant('INTENTS_ERROR');
-                        });
                     } else {
                         $scope.testStatus = "finished"
                     }
