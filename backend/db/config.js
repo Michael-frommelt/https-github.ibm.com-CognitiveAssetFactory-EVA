@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 const ERROR_INSUFFICIENT_INFORMATION = "Credentials provided for globalDatabase.type = '" + globalDatabase.type + "' not sufficient for connection.";
 const ERROR_NO_DATABASE_CONFIG = "No database config information available for globalDatabase.type = '" + globalDatabase.type + "'.";
 
@@ -69,6 +69,8 @@ dbconfig.containers.test_sessions = "test_sessions";
 dbconfig.containers.variables = "variables";
 dbconfig.containers.apps = "apps";
 dbconfig.containers.sessions = "sessions";
+dbconfig.containers.sessionsFacebook = "sessions_facebook";
+dbconfig.containers.sessionsAlexa = "sessions_alexa";
 dbconfig.containers.profanityList = "profanity";
 dbconfig.containers.questionProposals = "question_proposals";
 dbconfig.containers.kfold = "kfold_results";

@@ -105,6 +105,10 @@ Or read our technical documentation: <https://ibm.ent.box.com/file/190950663582>
 
 ## Changelog
 
+### v1.1.0 (2018-02-22)
+* NEW FEATURE: Added APIs to connect EVA with Facebook and Alexa
+* You can find the documentation for these new features in this repository: /docs/Documentation_Facebook_and_Alexa_Integration_for_EVA_v1.1.pdf
+
 ### v1.0.2 (2018-02-22)
 * Fixed error handling in dialog testing
 * Show error message in frontend for dialog tests
