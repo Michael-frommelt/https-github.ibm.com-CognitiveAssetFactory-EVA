@@ -1,10 +1,10 @@
 /**
-  * Copyright 2018 IBM Deutschland. All Rights Reserved.
-  *
-  * Enhanced conVersation Asset - EVA
-  * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
-  */
-  
+ * Copyright 2018 IBM Deutschland. All Rights Reserved.
+ *
+ * Enhanced conVersation Asset - EVA
+ * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
+ */
+
 // ##############################
 // ## IMPORTS                  ##
 // ##############################
@@ -44,6 +44,8 @@ var testCaseProgress = 0;
 var testCasesOfRun = [];
 var runName = [];
 
+var error = null;
+
 exports.runTest = function(req, res) {
 
     if (!testInProgress && req.url == "/api/testing/dialog/run") {
@@ -51,11 +53,12 @@ exports.runTest = function(req, res) {
         var testCases = req.body.testCases;
 
         if (clientId && testCases) {
-            if(clients.isClientTechnical(clientId)) {
+            if (clients.isClientTechnical(clientId)) {
                 return res.status(400).json("technical_client_admin_not_allowed");
             }
 
             testInProgress = true;
+            error = null;
             date = moment().tz("Europe/Berlin").format("YYYY/MM/DD HH:mm:ss");
             timestamp = new Date();
 
@@ -105,7 +108,7 @@ exports.runTest = function(req, res) {
                         var testCasesDone = false;
                         var testStepsDone = false;
 
-                        async.eachOfLimit(testCases, 5, function(currentCase, testCasesIndex, callbackCases) {
+                        async.eachOfLimit(testCases, 5, function(currentCase, testCasesIndex, callback) {
                             initiateConversation(clientId, function(sessionId) {
                                 var testResult = [];
                                 async.forEachSeries(currentCase.steps, function(currentStep, callback) {
@@ -118,37 +121,42 @@ exports.runTest = function(req, res) {
                                     });
                                 }, function(err) {
                                     if (err) {
-                                        callbackCases(err);
+                                        callback(err);
                                     } else {
                                         db.insertTestResults(testResult, function(result) {
                                             db.deleteTestSession(sessionId, function() {
-                                                callbackCases();
+                                                callback();
                                             }, function(err) {
-                                                callbackCases(err);
+                                                callback({
+                                                    errCode: 'session_deletion_error',
+                                                    errReason: err
+                                                });
                                             });
                                         }, function(errCode, errReason) {
-                                            callbackCases({
-                                                errorCode: errorCode,
-                                                errorReason: errorReason
+                                            callback({
+                                                errCode: errCode,
+                                                errReason: errReason
                                             });
                                         });
                                     }
                                 });
                             }, function(err) {
-                                if (err) handleError("initial message failed", err);
+                                callback(err);
                             });
                         }, function(err) {
-                            handleResult("test failed", err);
+                            if (err) {
+                                handleError("test failed", err);
+                            } else {
+                                handleResult("test finished successfully!", null);
+                            }
                         });
 
                     }, function(errCode, errReason) {
-                        handleResult("An error occurred in getTestCases", errReason);
-                        return res.status(errCode).json(errReason);
+                        handleError("An error occurred in getTestCases", errReason);
                     });
                 },
                 function(errCode, errReason) {
                     handleError("An error occurred in transferWorkspace", errReason);
-                    return;
                 });
 
             res.status(200).send({
@@ -183,24 +191,33 @@ exports.runTest = function(req, res) {
                 });
             }
         } else {
-            db.aggregateTestResults(timestamp, function(result) {
-                result.successRateTopIntent = (result.correctTopIntentTrue / result.totalTestCases).toFixed(2);
-                result.successRateAnswerId = (result.correctAnswerIdTrue / result.totalTestCases).toFixed(2);
-
-                res.status(200).send({
-                    testRunning: false,
-                    status: "finished",
-                    testProgress: 100,
-                    testResult: result
-                });
-            }, function(errCode, errReason) {
-                res.status(errCode).send({
+            if (error) {
+                res.status(500).send({
                     testRunning: false,
                     status: "failed",
                     testProgress: 100,
-                    testResult: errReason
+                    testResult: error
                 });
-            });
+            } else {
+                db.aggregateTestResults(timestamp, function(result) {
+                    result.successRateTopIntent = (result.correctTopIntentTrue / result.totalTestCases).toFixed(2);
+                    result.successRateAnswerId = (result.correctAnswerIdTrue / result.totalTestCases).toFixed(2);
+
+                    res.status(200).send({
+                        testRunning: false,
+                        status: "finished",
+                        testProgress: 100,
+                        testResult: result
+                    });
+                }, function(errCode, errReason) {
+                    res.status(errCode).send({
+                        testRunning: false,
+                        status: "failed",
+                        testProgress: 100,
+                        testResult: errReason
+                    });
+                });
+            }
         }
     }
 };
@@ -211,7 +228,8 @@ exports.getStatus = function(req, res) {
 
 exports.getRunning = function(req, res) {
     res.status(200).send({
-        testInProgress: testInProgress
+        testInProgress: testInProgress,
+        error: error
     });
 };
 
@@ -251,11 +269,10 @@ function evaluateTestStep(sessionId, clientId, currentCase, currentStep, callbac
             callbackSuccess(test);
 
         } else {
-            var err = {
+            callbackError({
                 errCode: "error",
                 errReason: "intent of current step is undefined"
-            };
-            callbackError(err);
+            });
         }
 
     }, function(err) {
@@ -268,7 +285,10 @@ function initiateConversation(clientId, callbackSuccess, callbackError) {
         if (output.isWelcome) {
             callbackSuccess(sessionId);
         } else {
-            callbackError('output.isWelcome evaluates to undefined, null or false.');
+            callbackError({
+                errCode: 'error',
+                errReason: 'output.isWelcome evaluates to undefined, null or false.'
+            });
         }
     }, function(err) {
         callbackError(err);
@@ -281,13 +301,13 @@ function transferWorkspace(clientId, callbackSuccess, callbackError) {
     try {
         sourceBusiness = service.getBusinessConversationSetup(clientId);
     } catch (err) {
-        callbackError(500, err);
+        return callbackError(500, err);
     }
 
     try {
         targetBusiness = service.getTestingBusinessConversationSetup("dialog");
     } catch (err) {
-        callbackError(500, err);
+        return callbackError(500, err);
     }
 
     var sourceChitChat, targetChitChat;
@@ -295,13 +315,13 @@ function transferWorkspace(clientId, callbackSuccess, callbackError) {
         try {
             sourceChitChat = service.getChitChatConversationSetup(clientId);
         } catch (err) {
-            callbackError(500, err);
+            return callbackError(500, err);
         }
 
         try {
             targetChitChat = service.getTestingChitChatConversationSetup("dialog");
         } catch (err) {
-            callbackError(500, err);
+            return callbackError(500, err);
         }
     }
 
@@ -310,6 +330,7 @@ function transferWorkspace(clientId, callbackSuccess, callbackError) {
         export: true
     }, function(err, response) {
         if (err) {
+            console.log("Error connecting to sourceBusiness resource.");
             callbackError(500, err);
         } else {
             targetBusiness.service.updateWorkspace({
@@ -324,14 +345,16 @@ function transferWorkspace(clientId, callbackSuccess, callbackError) {
                 entities: response.entities
             }, function(err, response) {
                 if (err) {
+                    console.log("Error connecting to targetBusiness resource.");
                     callbackError(500, err);
                 } else {
-                    if(sourceChitChat && targetChitChat) {
+                    if (sourceChitChat && targetChitChat) {
                         sourceChitChat.service.getWorkspace({
                             workspace_id: sourceChitChat.workspace,
                             export: true
                         }, function(err, response) {
                             if (err) {
+                                console.log("Error connecting to sourceChitChat resource.");
                                 callbackError(500, err);
                             } else {
                                 targetChitChat.service.updateWorkspace({
@@ -346,6 +369,7 @@ function transferWorkspace(clientId, callbackSuccess, callbackError) {
                                     entities: response.entities
                                 }, function(err, response) {
                                     if (err) {
+                                        console.log("Error connecting to targetChitChat resource.");
                                         callbackError(500, err);
                                     } else {
                                         setTimeout(function() {
@@ -377,7 +401,8 @@ function startPipeline(inputText, client_id, session_id, callbackSuccess, callba
 
     if (client_id === undefined || !client_id) {
         return callbackError({
-            error: 'client_id_missing'
+            errCode: 'client_id_missing',
+            errReason: 'No client id provided for starting the pipeline.'
         });
     }
 
@@ -404,7 +429,10 @@ function startPipeline(inputText, client_id, session_id, callbackSuccess, callba
 
             if (err) {
                 console.log(inputObject.input);
-                return callbackError(err);
+                return callbackError({
+                    errCode: 'pipeline_error',
+                    errReason: err
+                });
             }
 
             if (!output) {
@@ -421,7 +449,8 @@ function startPipeline(inputText, client_id, session_id, callbackSuccess, callba
         });
     }, function(errReason) {
         return callbackError({
-            error: 'internal_server_session_error'
+            errCode: 'internal_server_session_error',
+            errReason: errReason
         });
     });
 };
@@ -445,8 +474,9 @@ function handleResult(msg, err) {
     testInProgress = false;
     watsonIsTraining = true;
     testCaseProgress = 0;
+    error = err;
 }
 
 function handleError(msg, err) {
-    return handleResult(msg, err);
+    handleResult(msg, err);
 }

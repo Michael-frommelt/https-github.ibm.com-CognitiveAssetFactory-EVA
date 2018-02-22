@@ -276,7 +276,7 @@ exports.getVersionsMarkedForDeletion = function(containerName) {
       if (err) {
         reject(err);
       } else {
-        resolve(result.docs[0]);
+        resolve(result.docs);
       }
     });
   });
@@ -285,7 +285,6 @@ exports.getVersionsMarkedForDeletion = function(containerName) {
 exports.upsertAnswerProperty = function(propertyName, answerProperty) {
 
   return new Promise(function(resolve, reject) {
-    console.log("upsertAnswerProperty", answerProperty);
     globalDatabase.connection.use(configContainer).find({
       "selector": {
         "id": 'answerStore',
@@ -341,20 +340,24 @@ exports.upsertAnswerProperty = function(propertyName, answerProperty) {
   });
 };
 
-exports.deleteAnswerProperty = function(answerPropertiesId, propertyName) {
+exports.deleteAnswerProperty = function(propertyName) {
 
   return new Promise(function(resolve, reject) {
     globalDatabase.connection.use(configContainer).find({
       "selector": {
-        "id": answerPropertiesId
+        "id": "answerStore",
       }
     }, function(err, body) {
       if (err) {
         reject(err);
       }
-      var object = body.docs[0];
-      delete object[propertyName];
-      globalDatabase.connection.use(configContainer).insert(object, function(err, body) {
+      var configDoc = body.docs[0];
+      if (Array.isArray(configDoc.answerProperties)) {
+        configDoc.answerProperties = configDoc.answerProperties.filter(function(property) {
+          return property.name !== propertyName;
+        });
+      }
+      globalDatabase.connection.use(configContainer).insert(configDoc, function(err, body) {
         if (err) {
           reject(err);
         } else {

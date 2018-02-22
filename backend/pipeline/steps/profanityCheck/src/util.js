@@ -14,6 +14,7 @@ exports.getProfanityList = function(callback) {
     db.getProfanityList(function(result) {
       profanityList = result[0];
       delete profanityList._id;
+      delete profanityList._rev;
       return callback(profanityList);
     }, function(errCode, errReason) {
       console.log("An error occurred while retrieving the profanityList: " + errReason);

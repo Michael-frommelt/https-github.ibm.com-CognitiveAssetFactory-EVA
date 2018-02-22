@@ -1039,7 +1039,7 @@
                 "properties": {
                     "jargon": "formell"
                 },
-                "answerText": "<span style=\"color: rgb(51, 51, 51);\">Entschuldigung, ich habe Ihre Frage nicht verstanden. Mit langen Fragen habe ich manchmal noch so meine Schwierigkeiten.&nbsp;</span><span style=\"color: rgb(51, 51, 51);\">Gerne beantworte ich Ihnen Fragen rund um das Enhanced conVersation Asset.</span>",
+                "answerText": "Entschuldigung, ich habe Ihre Frage nicht verstanden. Mit langen Fragen habe ich manchmal noch so meine Schwierigkeiten. Gerne beantworte ich Ihnen Fragen rund um das Enhanced conVersation Asset.",
                 "additionalAnswerProposals": []
             }],
             "answerProposals": []
@@ -1086,7 +1086,7 @@
                 "properties": {
                     "jargon": "formell"
                 },
-                "answerText": "<p><span style=\"color: rgb(51, 51, 51); background-color: rgb(245, 245, 245);\">Ich kann Ihnen alle Fragen zu unserer EVA beantworten. Stellen Sie mir einfach Ihre Frage - los gehts!</span><br></p>",
+                "answerText": "Ich kann Ihnen alle Fragen zu unserer EVA beantworten. Stellen Sie mir einfach Ihre Frage - los gehts!",
                 "additionalAnswerProposals": []
             }],
             "answerProposals": []
@@ -1097,7 +1097,7 @@
                 "properties": {
                     "jargon": "formell"
                 },
-                "answerText": "<p><span style=\"color: rgb(51, 51, 51); background-color: rgb(245, 245, 245);\">Es tut mir leid, dass ich Ihnen mit meiner Antwort nicht helfen konnte.</span><br></p>",
+                "answerText": "Es tut mir leid, dass ich Ihnen mit meiner Antwort nicht helfen konnte.",
                 "additionalAnswerProposals": []
             }],
             "answerProposals": []
@@ -1108,7 +1108,7 @@
                 "properties": {
                     "jargon": "formell"
                 },
-                "answerText": "<p><span style=\"color: rgb(51, 51, 51); background-color: rgb(245, 245, 245);\">Sehr gerne. Was möchten Sie noch wissen?</span><br></p>",
+                "answerText": "Sehr gerne. Was möchten Sie noch wissen?",
                 "additionalAnswerProposals": []
             }],
             "answerProposals": []
@@ -1119,7 +1119,7 @@
                 "properties": {
                     "jargon": "formell"
                 },
-                "answerText": "<p><span style=\"color: rgb(34, 34, 34); font-family: sans-serif; font-size: 14px;\">Die&nbsp;</span><b style=\"color: rgb(34, 34, 34); font-family: sans-serif; font-size: 14px;\">International Business Machines Corporation</b><span style=\"color: rgb(34, 34, 34); font-family: sans-serif; font-size: 14px;\">&nbsp;(</span><b style=\"color: rgb(34, 34, 34); font-family: sans-serif; font-size: 14px;\">IBM</b><span style=\"color: rgb(34, 34, 34); font-family: sans-serif; font-size: 14px;\">) ist ein US-amerikanisches&nbsp;</span><a href=\"https://de.wikipedia.org/wiki/Informationstechnik\" title=\"Informationstechnik\" style=\"color: rgb(11, 0, 128); background-image: none; font-family: sans-serif; font-size: 14px;\">IT</a><span style=\"color: rgb(34, 34, 34); font-family: sans-serif; font-size: 14px;\">- und Beratungsunternehmen mit Sitz in Armonk</span><span style=\"color: rgb(34, 34, 34); font-family: sans-serif; font-size: 14px;\">&nbsp;im US-Bundesstaat New York.</span><br></p>",
+                "answerText": "Die International Business Machines Corporation (IBM) ist ein US-amerikanisches <a href=\"https://de.wikipedia.org/wiki/Informationstechnik\" title=\"Informationstechnik\">IT</a>- und Beratungsunternehmen mit Sitz in Armonk im US-Bundesstaat New York.",
                 "additionalAnswerProposals": []
             }],
             "answerProposals": []
@@ -2875,7 +2875,7 @@
                 "properties": {
 
                 },
-                "answerText": "<p>Meine Lieblingsfarbe ist das strahlende weiß gepflegter Zähne.&nbsp;</p>",
+                "answerText": "Meine Lieblingsfarbe ist das strahlende weiß gepflegter Zähne.",
                 "additionalAnswerProposals": []
             }],
             "answerProposals": []

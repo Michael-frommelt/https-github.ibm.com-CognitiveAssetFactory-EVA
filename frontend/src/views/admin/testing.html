@@ -24,7 +24,7 @@
 
     <header class="button-header flex-container space-between">
         <div ng-if='testStatus === "failed"'>
-            <h3 class="header-text">Test Management (Status: <span style="color: red;">FAILED</span>)</h3>
+            <h3 class="header-text">Test Management (Status: <span style="color: red;">FAILED{{testError ? ': ' + testError : ''}}</span>)</h3>
         </div>
         <div ng-if='testStatus === "inProgress"'>
             <h3 class="header-text">Test Management (Status: <span style="color:orange;">IN PROGRESS</span>)</h3>

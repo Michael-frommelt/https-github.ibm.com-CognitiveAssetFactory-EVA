@@ -380,7 +380,7 @@ function setupAnswerValidator(answerProperties) {
   jsonValidator.removeSchema('eva-answer-store-answer');
 
   // read answerSchema and enhance it with the loaded answerProperties
-  const answerSchema = require('./src/schemaAnswer.template.json');
+  const answerSchema = JSON.parse(JSON.stringify(require('./src/schemaAnswer.template.json')));
   for (const answerProperty of answerProperties) {
     // insert answerProperty into answerSchema at the right point
     if (answerProperty.type === validAnswerPropertyTypes.number) {

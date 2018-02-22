@@ -1,9 +1,9 @@
 /**
-  * Copyright 2018 IBM Deutschland. All Rights Reserved.
-  *
-  * Enhanced conVersation Asset - EVA
-  * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
-  */
+ * Copyright 2018 IBM Deutschland. All Rights Reserved.
+ *
+ * Enhanced conVersation Asset - EVA
+ * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
+ */
 
 'use strict';
 
@@ -22,6 +22,8 @@ const languages = {
   en: {
     additionalAnswerProposal: 'Additional answer proposal',
     answerId: 'Answer ID',
+    answerOptionTag: 'Answer option tag',
+    answerTag: 'Answer tag',
     answerText: 'Answer text',
     answerProposal: 'Answer proposal',
     answerListExport: 'Answer list export',
@@ -33,6 +35,8 @@ const languages = {
   de: {
     additionalAnswerProposal: 'Zusätzlicher Antwortvorschlag',
     answerId: 'Antwort ID',
+    answerOptionTag: 'Antwortmöglichkeits-Tag',
+    answerTag: 'Antwort-Tag',
     answerText: 'Antworttext',
     answerProposal: 'Antwortvorschlag',
     answerListExport: 'Antwortlisten-Export',
@@ -46,7 +50,7 @@ const languages = {
 exports.exportAnswers = function(answers, answerProperties, language, fileType) {
   return new Promise(function(resolve, reject) {
     let timeout = setTimeout(function() {
-      return reject('Import timed out.');
+      return reject('Export timed out.');
     }, 10000);
 
     // default language
@@ -82,14 +86,28 @@ exports.exportAnswers = function(answers, answerProperties, language, fileType) 
         // add answer proposals
         if (Array.isArray(answer.answerProposals)) {
           answer.answerProposals.forEach(function(answerProposal, index) {
-            flattenedAnswer[strings.answerProposal + ' ' + (index+1)] = answerProposal;
+            flattenedAnswer[strings.answerProposal + ' ' + (index + 1)] = answerProposal;
+          });
+        }
+
+        // add answer tags
+        if (Array.isArray(answer.tags)) {
+          answer.tags.forEach(function(answerTag, index) {
+            flattenedAnswer[strings.answerTag + ' ' + (index + 1)] = answerTag;
           });
         }
 
         // add additional answer proposals
         if (Array.isArray(answerOption.additionalAnswerProposals)) {
           answerOption.additionalAnswerProposals.forEach(function(answerProposal, index) {
-            flattenedAnswer[strings.additionalAnswerProposal + ' ' + (index+1)] = answerProposal;
+            flattenedAnswer[strings.additionalAnswerProposal + ' ' + (index + 1)] = answerProposal;
+          });
+        }
+
+        // add answer option tags
+        if (Array.isArray(answerOption.tags)) {
+          answerOption.tags.forEach(function (answerTag, index) {
+            flattenedAnswer[strings.answerOptionTag + ' ' + (index + 1)] = answerTag;
           });
         }
 
@@ -149,17 +167,17 @@ exports.importAnswers = function(fileBuffer, answerProperties) {
     let answersJson = xlsx.utils.sheet_to_json(worksheet);
 
     // try to detect language the second time by looking for 'answer ID' and 'answer text' fields
-      if (answersJson[0].hasOwnProperty(languages.en.answerId) && answersJson[0].hasOwnProperty(languages.en.answerText)) {
-        strings = languages.en;
-      } else if (answersJson[0].hasOwnProperty(languages.de.answerId) && answersJson[0].hasOwnProperty(languages.de.answerText)) {
-        strings = languages.de;
-      } else {
-        reject({
-          status: 400,
-          message: 'Could not detect required fields "Answer ID" and "Answer text"'
-        });
-        return;
-      }
+    if (answersJson[0].hasOwnProperty(languages.en.answerId) && answersJson[0].hasOwnProperty(languages.en.answerText)) {
+      strings = languages.en;
+    } else if (answersJson[0].hasOwnProperty(languages.de.answerId) && answersJson[0].hasOwnProperty(languages.de.answerText)) {
+      strings = languages.de;
+    } else {
+      reject({
+        status: 400,
+        message: 'Could not detect required fields "Answer ID" and "Answer text"'
+      });
+      return;
+    }
 
     // rehydrate answers to their internal structure
     let hydratedAnswers = new Map();
@@ -171,27 +189,40 @@ exports.importAnswers = function(fileBuffer, answerProperties) {
       if (hydratedAnswer === undefined) {
         hydratedAnswer = {
           answerId: flatAnswer[strings.answerId],
-          answerOptions: []
+          answerOptions: [],
+          answerProposals: [],
+          tags: [],
         };
 
         // add answer proposals
-        let answerProposals = [];
         for(let proposalIndex = 1; proposalIndex <= 1000; proposalIndex++) {
           let proposalPropertyName = strings.answerProposal + ' ' + proposalIndex;
-          if (flatAnswer.hasOwnProperty(proposalPropertyName)) {
-            answerProposals.push(flatAnswer[proposalPropertyName]);
+          if (flatAnswer.hasOwnProperty(proposalPropertyName) && flatAnswer[proposalPropertyName].trim() !== '') {
+            hydratedAnswer.answerProposals.push(flatAnswer[proposalPropertyName]);
           } else {
             // only accept subsequent indices and stop parsing answer proposals, if we dont find one
             break;
           }
         }
-        hydratedAnswer.answerProposals = answerProposals;
+
+        // add answer tags
+        for (let tagIndex = 1; tagIndex <= 1000; tagIndex++) {
+          let tagPropertyName = strings.answerTag + ' ' + tagIndex;
+          if (flatAnswer.hasOwnProperty(tagPropertyName) && flatAnswer[tagPropertyName].trim() !== '') {
+            hydratedAnswer.tags.push(flatAnswer[tagPropertyName]);
+          } else {
+            // only accept subsequent indices and stop parsing answer tags, if we dont find one
+            break;
+          }
+        }
       }
 
       // regardless of wether this is a new answer or not, add the answer option of this flatAnswer (row in the sheet)
       let answerOption = {
         answerText: flatAnswer[strings.answerText],
-        properties: {}
+        properties: {},
+        additionalAnswerProposals: [],
+        tags: [],
       };
 
       // add all valid answer properties to the answer option
@@ -212,17 +243,26 @@ exports.importAnswers = function(fileBuffer, answerProperties) {
       }
 
       // add all additional answer proposals to the answer option
-      let additionalAnswerProposals = [];
       for(let proposalIndex = 1; proposalIndex <= 1000; proposalIndex++) {
         let proposalPropertyName = strings.additionalAnswerProposal + ' ' + proposalIndex;
-        if (flatAnswer.hasOwnProperty(proposalPropertyName)) {
-          additionalAnswerProposals.push(flatAnswer[proposalPropertyName]);
+        if (flatAnswer.hasOwnProperty(proposalPropertyName) && flatAnswer[proposalPropertyName].trim() !== '') {
+          answerOption.additionalAnswerProposals.push(flatAnswer[proposalPropertyName]);
         } else {
           // only accept subsequent indices and stop parsing answer proposals, if we dont find one
           break;
         }
       }
-      answerOption.additionalAnswerProposals = additionalAnswerProposals;
+
+      // add answer option tags
+      for (let tagIndex = 1; tagIndex <= 1000; tagIndex++) {
+        let tagPropertyName = strings.answerOptionTag + ' ' + tagIndex;
+        if (flatAnswer.hasOwnProperty(tagPropertyName) && flatAnswer[tagPropertyName].trim() !== '') {
+          answerOption.tags.push(flatAnswer[tagPropertyName]);
+        } else {
+          // only accept subsequent indices and stop parsing answer tags, if we dont find one
+          break;
+        }
+      }
 
       // add the new answerOption to the hydrated answer and put it back in the map
       hydratedAnswer.answerOptions.push(answerOption);

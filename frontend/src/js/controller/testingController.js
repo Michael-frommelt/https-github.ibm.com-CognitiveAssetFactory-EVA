@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 angular.module('eva.testing')
     .controller('TestingCtrl', ['$scope', '$interval', '$http', '$translate', '$uibModal', '$rootScope',
         function($scope, $interval, $http, $translate, $uibModal, $rootScope) {
@@ -16,6 +16,7 @@ angular.module('eva.testing')
             $scope.selectedObjectForDetail = "";
             $rootScope.testStatus = "no status";
             $rootScope.testInProgress = null;
+            $rootScope.testError = null;
             $scope.runDates = [];
             $scope.selectedFiles = [];
             $scope.isLoadingTestPerformance = true;
@@ -105,6 +106,7 @@ angular.module('eva.testing')
                 }).then(function(response) {
                     $rootScope.testInProgress = response.data.testInProgress;
                     if ($scope.testInProgress) {
+                        $rootScope.testError = null;
                         var status = $interval(function() {
                             $http({
                                 method: "GET",
@@ -120,8 +122,8 @@ angular.module('eva.testing')
                                     $scope.getRun();
                                 }
                             }, function(error) {
-                                $scope.error = error;
-                                console.log(error);
+                                $rootScope.testError = error.data.testResult;
+                                console.log($rootScope.testError);
                                 $rootScope.testStatus = "failed"
                                 $rootScope.testInProgress = false;
                                 $interval.cancel(status);
@@ -129,7 +131,12 @@ angular.module('eva.testing')
                             });
                         }, 5000);
                     } else {
-                        $rootScope.testStatus = "finished";
+                        if(response.data.error) {
+                            $rootScope.testStatus = "failed";
+                            $scope.testError = response.data.error;
+                        } else {
+                            $rootScope.testStatus = "finished";
+                        }
                     }
                     $scope.getRun();
                     $scope.getFileNames();
@@ -270,6 +277,8 @@ angular.module('eva.testing')
                     controller: ['$scope', function($scope) {
                         $scope.runTest = function(question) {
                             $scope.$dismiss();
+                            $rootScope.testError = null;
+                            console.log($scope.error);
                             $rootScope.testInProgress = true;
                             $rootScope.testStatus = "watsonIsTraining";
                             $http({
@@ -296,8 +305,8 @@ angular.module('eva.testing')
                                             $scope.getRun();
                                         }
                                     }, function(error) {
-                                        $scope.error = error;
-                                        console.log(error);
+                                        $rootScope.testError = error.data.testResult;
+                                        console.log($rootScope.testError);
                                         $rootScope.testStatus = "failed"
                                         $rootScope.testInProgress = false;
                                         $interval.cancel(status);

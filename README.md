@@ -105,6 +105,17 @@ Or read our technical documentation: <https://ibm.ent.box.com/file/190950663582>
 
 ## Changelog
 
+### v1.0.2 (2018-02-22)
+* Fixed error handling in dialog testing
+* Show error message in frontend for dialog tests
+* Removed styling from default answers
+* Changed "jumpTo" to "skip user input" in business workspace
+* Fixed bug: profanity list using _rev from cloudant
+* Fixed bug: Avoid crashing on testing when testing workspaces are not defined
+* Fixed bug: Corrected cloudant implementations of getVersionsMarkedForDeletion and deleteAnswerProperty
+* Fixed bug: Prevent answer schema json from becoming polluted
+* Answer store: Added answer tags and answer option tags to import & export functionality
+
 ### v1.0.1 (2018-02-07)
 * Fixed cloudant bug: Server crashing on wrong credentials when using cloudant db
 * Fixed cloudant bug: Cloudant database functions checking for empty results in a wrong way
