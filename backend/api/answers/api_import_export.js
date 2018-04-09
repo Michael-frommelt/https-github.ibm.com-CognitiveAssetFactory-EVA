@@ -143,6 +143,21 @@ exports.exportAnswers = function(answers, answerProperties, language, fileType) 
   });
 };
 
+function getDuplicates(answersJson, strings) {
+    let duplicates = new Map();
+    let count = 0;
+    for (let answerRecord of answersJson) {
+      for (let checkRecord of answersJson) {
+        if (answerRecord[strings.answerId]===checkRecord[strings.answerId])
+          count++;
+      }
+      if (count > 1 )
+        duplicates.set(answerRecord[strings.answerId], answerRecord[strings.answerId]);
+      count = 0;
+    }
+    return duplicates;
+};
+
 exports.importAnswers = function(fileBuffer, answerProperties) {
   return new Promise(function(resolve, reject) {
     // default language
@@ -175,6 +190,19 @@ exports.importAnswers = function(fileBuffer, answerProperties) {
       reject({
         status: 400,
         message: 'Could not detect required fields "Answer ID" and "Answer text"'
+      });
+      return;
+    }
+
+    //checking the importing file for the duplicates of AnswerIDs
+    let duplicates = getDuplicates(answersJson, strings);
+    if (duplicates.size > 0){
+      let values = "";
+      for (var value of duplicates.values())
+        values = values + value + "; ";
+      reject({
+        status: 400,
+        message: ' - import was rejected. AnswerID must be unique. Conflicting AnswerIDs: '+ values
       });
       return;
     }

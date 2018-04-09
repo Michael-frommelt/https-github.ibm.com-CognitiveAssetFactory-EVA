@@ -173,7 +173,7 @@ exports.startPipeline = function(req, res) {
 
     pipeline.callFromExternalFrontend(inputObject, function(err, output) {
       if(err) {
-        return res.status(500).send(err);
+        return res.status(err.code || err.errCode || 500).send(err);
       }
 
       var cleanedOutput = {};

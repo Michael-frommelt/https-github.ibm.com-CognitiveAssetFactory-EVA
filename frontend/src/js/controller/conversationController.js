@@ -912,12 +912,9 @@ angular.module('main')
        $scope.chatError = "Feedback konnte nicht gespeichert werden:";
        $scope.errorText = data;
      });
-
+     
       $scope.conversationFeedbackGiven = true;
-
-      setTimeout(function(){
-        $scope.requestConversationFeedback = false;
-      },380);
+      $scope.requestConversationFeedback = false;
  };
 
  // set feedback to false

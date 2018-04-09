@@ -4,16 +4,17 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 const conversationsLogsContainer = globalDatabase.config.containers.conversation_logs;
 const { Readable } = require('stream');
 
 exports.saveFeedback = function(doc, callbackSuccess, callbackError) {
     if (doc._id == undefined) {
-        globalDatabase.connection.use(conversationsLogsContainer).insert(doc, function(err) {
+        globalDatabase.connection.use(conversationsLogsContainer).insert(doc, function(err, res) {
             if (err) {
                 return callbackError(500, err);
             } else {
+                doc._id = res.id;
                 return callbackSuccess(doc);
             }
         });
@@ -47,7 +48,6 @@ exports.updateFeedback = function(id, object, callbackSuccess, callbackError) {
         }
     }, function(err, findResult) {
       if (err) {
-        console.log(err);
           return callbackError(500, err);
       } else if (findResult.docs[0] != undefined) {
             var insertObject = findResult.docs[0];
@@ -136,7 +136,7 @@ exports.getFeedbackStream = function(containerName, filter, sorting) {
             [sorting.id]: sorting.order === 'asc' ? 'asc' : 'desc',
         };
     }
-    
+
     function accessFeedbackPage(batchBookmark, batchLimit) {
         return new Promise(function(resolve, reject) {
             globalDatabase.connection.use(containerName).find({

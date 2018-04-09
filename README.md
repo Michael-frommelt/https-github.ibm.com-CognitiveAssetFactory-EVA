@@ -13,6 +13,10 @@ Clicking on the button below creates an IBM Cloud DevOps Toolchain and deploys E
 
 [![Deploy to IBM Cloud](docs/deploy_button.png)](https://bluemix.net/devops/setup/deploy?repository=https://github.ibm.com/CognitiveAssetFactory/EVA&repository_token=869a6c8023cd323f68c42d898c09ed60f32b25c0)
 
+## Support
+
+To get support from the EVA core team, you can join the "Cognitive Factory" Slack Workspace and [visit the eva-support channel](https://cognitiveassetfactory.slack.com/messages/C9XGQT2QZ/).
+
 ## How to run EVA locally
 
 EVA requires Node.JS. After the installation and provision of the source code, you can start EVA with the following commands in your terminal/command line (navigate to your application root folder first):
@@ -104,6 +108,14 @@ Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
 Or read our technical documentation: <https://ibm.ent.box.com/file/190950663582>
 
 ## Changelog
+
+### v1.1.1 (2018-04-10)
+* Removed unused container "external_frontend" from automatic set-up script
+* Enhancement: Answer store import now shows answers that were not imported due to them being invalid
+* Fixed bug: Corrected infinite answer import process when file contained invalid / badly formatted answers
+* Fixed bug: Corrected saveFeedback function in conversationController to prevent need for double clicking on save Feedback button in oneColumn view
+* Fixed bug: Corrected cloudant function of saveFeedback to return _id of inserted document (user feedback will be assigned to correct reporting entry now)
+* Fixed bug: external frontend api always sent 500 error instead of correct error code
 
 ### v1.1.0 (2018-02-22)
 * NEW FEATURE: Added APIs to connect EVA with Facebook and Alexa

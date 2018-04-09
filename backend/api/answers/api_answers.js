@@ -64,10 +64,9 @@ let multipleChoiceDistanceMeasure = 5;
 let versionDeleteInterval = null;
 
 var importInProgress = false;
-var importProgress = 0;
-var promiseArray = [];
-var resultArray = [];
-var answersLength = 0;
+var importResults = [];
+var importErrors = [];
+var importAnswersLength = 0;
 
 // initialize the answer store backend; needs a db connection
 var init = () => {
@@ -297,8 +296,10 @@ exports.exportAnswers = function(req, res) {
 };
 
 exports.importAnswers = function(req, res) {
-  promiseArray = [];
-  resultArray = [];
+  const override = req.query.hasOwnProperty('override') && req.query.override == 'true';
+  importResults = [];
+  importErrors = [];
+  importAnswersLength = 0;
 
   if (!uploader) {
     return res.status(500).send('AnswerStore_file_uploader_is_not_set_up');
@@ -308,49 +309,51 @@ exports.importAnswers = function(req, res) {
       importInProgress = false;
       return res.status(error.status || 500).send(error.message);
     }
+
     getAnswerContainer(req.user, req.params.clientId).then(containerName => {
       return importExportApi.importAnswers(req.file.buffer, answerProperties).then(function(answers) {
-          importInProgress = true;
-          const override = req.query.hasOwnProperty('override') && req.query.override == 'true';
-          var answersArray = Array.from(answers);
-          startSequentialAnswerUpsert(answersArray, containerName, override);
-          return res.status(200).send({
-            importRunning: true,
-          });
-        }, function(error) {
-          importInProgress = false;
-          return res.status(error.status || 500).send(error.message);
+        const answersArray = Array.from(answers);
+        importInProgress = true;
+        importAnswersLength = answersArray.length;
+
+        async.forEachLimit(answersArray, 25, function(answer, callback) {
+          if (validateAnswer(answer, 'importAnswers')) {
+            db.upsertAnswer(containerName, answer.answerId, answer, override).then(promiseResult => {
+              importResults.push(promiseResult);
+            }, error => {
+              importErrors.push(answer);
+            }).then(() => callback());
+          } else {
+            importErrors.push(answer);
+          }
         });
+        
+        return res.status(200).send({
+          importRunning: true,
+        });
+      });
+    }, error => {
+      importInProgress = false;
+      return res.status(error.status || 500).send(error.message);
     });
   });
 };
 
-function startSequentialAnswerUpsert(answers, containerName, override) {
-  answersLength = answers.length;
-
-  async.forEachLimit(answers, 25, function(answer, callback) {
-    if (validateAnswer(answer, 'importAnswers')) {
-      promiseArray.push(db.upsertAnswer(containerName, answer.answerId, answer, override).then(promiseResult => {
-        resultArray.push(promiseResult);
-        callback();
-      }));
-    } else answersLength - 1;
-  })
-}
-
-
 exports.getImportStatus = function(req, res) {
-
   if (importInProgress) {
-    var currentProgress = 0;
-    currentProgress = ((resultArray.length / answersLength) * 100).toFixed(2);
+    const currentProgress = ((importResults.length + importErrors.length) * 100 / importAnswersLength).toFixed(2);
 
     if (currentProgress >= 100) {
-      importInProgress = false;
-      return res.status(200).send({
+      res.status(200).send({
         importRunning: false,
-        finishedImport: true
+        finishedImport: true,
+        errors: importErrors,
       });
+      importInProgress = false;
+      importResults = [];
+      importErrors = [];
+      importAnswersLength = 0;
+      return;
     } else {
       return res.status(200).send({
         importRunning: true,
@@ -453,7 +456,6 @@ function getAnswerContainer(user, clientId) {
     const answerSets = getAnswerSetsInternal(user);
     const foundSet = answerSets.find(answerSet => answerSet.id === clientId);
     if (foundSet === undefined) {
-      console.log("no answer container availabel");
       return reject({
         status: 400,
         message: 'no answer container available for this client'

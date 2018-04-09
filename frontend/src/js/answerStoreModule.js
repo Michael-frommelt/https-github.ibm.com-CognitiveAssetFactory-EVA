@@ -5,7 +5,7 @@
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
 
-var answerStore = angular.module('eva.answerStore', [
+ var answerStore = angular.module('eva.answerStore', [
   'angular.chips',
   'ngFileUpload',
   'summernote',
@@ -38,7 +38,7 @@ answerStore.config(['$translateProvider', function($translateProvider) {
     'IMPORT': 'Import',
     'IMPORT_MODE': 'Import mode',
     'IMPORT_MODE_INSERT': 'Only insert new answers',
-    'IMPORT_MODE_OVERRIDE': 'Override existing answers',
+    'IMPORT_MODE_OVERRIDE': 'Override answers if they exist',
     'LOADING': 'Loading...',
     'NO': 'No',
     'SEARCH': 'Search',
@@ -48,6 +48,8 @@ answerStore.config(['$translateProvider', function($translateProvider) {
     'UPLOAD_ANSWERS_TEXT': 'Please choose the file of answers you want to import.',
     'YES': 'Yes',
     'IMPORT_RUNNING': 'Import running',
+    'IMPORT_ALREADY_RUNNING': 'Another import is already running. Please wait until it finished before issueing a new import',
+    'IMPORT_ERRORS': 'Could not import the following answers because they are missing required properties:',
     'WAITING': 'Please wait or return later',
 
     // AnswerStore detail view
@@ -109,7 +111,7 @@ answerStore.config(['$translateProvider', function($translateProvider) {
     'IMPORT': 'Importieren',
     'IMPORT_MODE': 'Importmodus',
     'IMPORT_MODE_INSERT': 'Nur neue Antworten übernehmen',
-    'IMPORT_MODE_OVERRIDE': 'Existierende Antworten überschreiben',
+    'IMPORT_MODE_OVERRIDE': 'Antworten überschreiben, falls sie existieren',
     'LOADING': 'Lade...',
     'NO': 'Nein',
     'SEARCH': 'Suche',
@@ -118,8 +120,10 @@ answerStore.config(['$translateProvider', function($translateProvider) {
     'UPLOAD_ANSWERS': 'Antworten hochladen',
     'UPLOAD_ANSWERS_TEXT': 'Bitte wählen Sie die Datei mit Antworten aus, die Sie hochladen möchten.',
     'YES': 'Ja',
-    'IMPORT_RUNNING': 'Import running',
-    'WAITING': 'Please wait or return later',
+    'IMPORT_RUNNING': 'Import wird ausgeführt',
+    'IMPORT_ALREADY_RUNNING': 'Es wird bereits ein Import ausgeführt. Bitte warten Sie, bis dieser abgeschlossen ist.',
+    'IMPORT_ERRORS': 'Die folgenden Antworten konnten nicht importiert werden, da verpflichtende Eigenschaften fehlen:',
+    'WAITING': 'Bitte warten Sie oder kommen Sie später wieder',
 
     // AnswerStore detail view
     'ADDITIONAL_PROPOSALS': 'Zusätzliche Antwortvorschläge',

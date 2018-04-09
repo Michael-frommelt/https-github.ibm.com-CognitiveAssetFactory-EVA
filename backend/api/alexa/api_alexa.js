@@ -155,7 +155,7 @@ exports.startPipeline = function (req, res) {
 
         //TODO shouldEndSession depends on trigger in dialog flow
         responseObject.response.shouldEndSession = false;
-        responseObject.response.outputSpeech.ssml = "<speak>" + responseText + "</speak>";
+        responseObject.response.outputSpeech.ssml = "<speak>" + responseText.replace(/<(?:.|\n)*?>/gm, '') + "</speak>";
 
         db.saveSession(session, function () {
           return res.json(responseObject);

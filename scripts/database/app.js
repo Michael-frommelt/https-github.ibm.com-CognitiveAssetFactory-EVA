@@ -11,7 +11,7 @@ var argv = require('minimist')(process.argv.slice(2));
 var bcrypt = require('bcrypt-nodejs');
 var config = require('./config.json');
 var design_docs = require('./design_docs.json');
-var containers = ["users", "conversation_logs", "clients", "config", "test_results", "test_files", "test_sessions", "variables", "apps", "sessions", "profanity", "question_proposals", "kfold_results", "roles", "conversation_feedback", "external_frontend", "answers_chitchat_asset", "answers_chitchat_asset_versions", "answers_business_asset", "answers_business_asset_versions"];
+var containers = ["users", "conversation_logs", "clients", "config", "test_results", "test_files", "test_sessions", "variables", "apps", "sessions", "profanity", "question_proposals", "kfold_results", "roles", "conversation_feedback", "answers_chitchat_asset", "answers_chitchat_asset_versions", "answers_business_asset", "answers_business_asset_versions"];
 var cloudantHelperContainer = ["test", "view_result_testing", "view_result_statistics"];
 
 var mongoClient = require('mongodb').MongoClient;
