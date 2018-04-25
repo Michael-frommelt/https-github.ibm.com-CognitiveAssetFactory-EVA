@@ -5,7 +5,9 @@ EVA, the **E**nhanced con**V**ersation **A**sset, enables you to start your chat
 
 ## How to run a Project with EVA
 
-Please have a look at the EVA Best Practices. This readme will only describe the technical parts.
+EVA is **property of IBM GBS**. Please contact [Rainer Groesser](mailto:rainer.groesser@de.ibm.com) or [Mascha Lentz](mailto:mascha.lentz@de.ibm.com) regarding terms and conditions for using EVA in a client engagement.
+
+Once you start, be sure to have a look at the EVA Best Practices! This readme will only describe the technical parts.
 
 ## Deploy EVA using the Deploy to IBM Cloud button
 
