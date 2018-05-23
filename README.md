@@ -111,6 +111,10 @@ Or read our technical documentation: <https://ibm.ent.box.com/file/190950663582>
 
 ## Changelog
 
+### v1.2.0 (2018-05-09)
+* Added new anaphora solution (see documentation)
+* Formatted watson assistant workspaces
+
 ### v1.1.2 (2018-05-03)
 * Fixed bug: Added missing second quotation mark for CC_Chatten_Wer - answer in chitchat.json
 * Fixed bug: User could not get permission 'isAdmin' when the users client array is already enhanced

@@ -50,6 +50,8 @@
             "id": "conversation",
             "password": "",
             "show_alternate_intents": true,
+            "entity_anaphora_memory": 1,
+            "intent_anaphora_name": "anaphora",
             "url": "",
             "username": "",
             "version": "v1",
@@ -816,7 +818,7 @@
                     "additionalAnswerProposals": []
                 },
                 {
-                    "answerText": "Guten Tag! Ich bin EVA, Ihre digitale Assistentin basierend auf dem Enhanced conVersation Asset. \\nWas möchten Sie gern wissen?",
+                    "answerText": "Guten Tag! Ich bin EVA, Ihre digitale Assistentin basierend auf dem Enhanced conVersation Asset. <br/>Was möchten Sie gern wissen?",
                     "properties": {
                         "jargon": "formell"
                     },
@@ -825,7 +827,8 @@
             ],
             "answerProposals": [
                 "Welche Vorteile bietet mir das Enhanced conVersation Asset?",
-                "Was ist Watson?"
+                "Was ist Watson?",
+                "Was ist ein Dialogsprung?"
             ]
         },
         {
@@ -1148,8 +1151,99 @@
                 "Ja, gerne.",
                 "Nein, danke."
             ]
+        },
+        {
+            "answerId": "definition_1",
+            "answerOptions": [{
+                "properties": {},
+                "answerText": "<p>Als Dialogsprünge bezeichnen wir das Wechseln zwischen Dialogsträngen und das Wiederaufnehmen alter Kontexte. <br></p>",
+                "additionalAnswerProposals": [],
+               }
+              ],
+            "answerProposals": ["Kannst du das?"]
+        },
+        {
+          "answerId": "definition_2",
+          "answerOptions": [
+            {
+              "properties": {},
+              "answerText": "<p>Die Einwortsuche liefert Antworten, wenn der Nutzer sehr kurze Antworten ohne erkennbaren Intent liefert. <br></p>",
+              "additionalAnswerProposals": [],
+              "tags": []
+            }
+          ],
+          "answerProposals": ["Kannst du das?"]  
+        },
+        {
+            "answerId": "definition_3",
+            "answerOptions": [{
+                "properties": {},
+                "answerText": "<p><i><a href=\"https://de.wiktionary.org/wiki/Linguistik\" title=\"Linguistik\">Anaphern</a></i> bezeichnen die \"Wiederaufnahme einer früheren Textstelle (Rückverweis)\". <br></p>",
+                "additionalAnswerProposals": [],
+                "tags": []
+            } ],
+            "answerProposals": ["Kannst du das?"]
+        },
+        {  "answerId": "definition_4",
+            "answerOptions": [{
+                "properties": {},
+                "answerText": "Ich habe verstanden, dass es um Definitionen geht, habe aber keine Entitäten gefunden<p><br></p>",
+                "additionalAnswerProposals": [],
+                "tags": []
+            }],
+            "answerProposals": []
+        },
+        {
+            "answerId": "funktion_1",
+            "answerOptions": [
+            {
+                "properties": {},
+                "answerText": "<p>Na klar kann ich zwischen Dialogen springen. Probier es einfach aus, in dem du in einem Dialog Zwischenfragen, z.B.: zum Wetter stellst. Du kannst einen Dialog mit \"Was bringt mir EVA\" starten.<br></p>",
+                "additionalAnswerProposals": [],
+                "tags": []
+           }],
+          "answerProposals": [
+            "Was bringt mir EVA?",
+            "Was ist das?"]
+        },
+        {
+          "answerId": "funktion_2",
+          "answerOptions": [
+            {
+              "properties": {},
+              "answerText": "Na klar kann ich damit umgehen, dass mir manche Nutzer nur Schlüsselwörter hinwerfen. Bei eindeutigen Wörtern springe ich direkt zur Antwort und zeige vordefinierte und reviewte Fragen zu Thema an. <br>",
+              "additionalAnswerProposals": [],
+              "tags": []
+            }
+          ],
+          "answerProposals": []
+        },
+        {
+            "answerId": "funktion_3",
+            "answerOptions": [
+            {
+                "properties": {},
+                "answerText": "<p>Na klar kann ich Anaphoren auflösen, und das sowohl für Entitäten als auch Intents. Probier es doch direkt aus!<br></p>",
+                "additionalAnswerProposals": [],
+                  "tags": []
+                }
+              ],
+            "answerProposals": [
+                "Was ist das?",
+                "und Dialogsprünge?"
+            ]
+        },
+        {
+            "answerId": "funktion_4",
+            "answerOptions": [{
+                "properties": {},
+                "answerText": "Ich habe verstanden, dass es um das Thema Funktionsumfang geht, habe aber keine Entitäen gefunden<sup><br></sup><p><br></p>",
+                "additionalAnswerProposals": [],
+                "tags": []
+                }
+            ],
+            "answerProposals": [],
         }
-
     ],
     "answers_chitchat_asset": [{
             "answerId": "CC_Chatbot",

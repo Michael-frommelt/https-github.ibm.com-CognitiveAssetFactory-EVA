@@ -29,6 +29,7 @@ var steps = {
     loadTimeDependantFarewell: require('./steps/loadTimeDependantFarewell/step_loadTimeDependantFarewell.js'),
     //callCurrentWeather: require('./steps/callCurrentWeather/step_callCurrentWeather.js'),
     replaceVariables: require('./steps/replaceVariables/step_replaceVariables.js'),
+    prepareAnaphoraResolution: require('./steps/prepareAnaphoraResolution/step_prepareAnaphoraResolution.js'),
     preparePreventingSpellcheck: require('./steps/preparePreventingSpellcheck/step_preparePreventingSpellcheck.js'),
     preparePreventingProfanity: require('./steps/preparePreventingProfanity/step_preparePreventingProfanity.js'),
     prepareFeedback: require('./steps/prepareFeedback/step_prepareFeedback.js'),
