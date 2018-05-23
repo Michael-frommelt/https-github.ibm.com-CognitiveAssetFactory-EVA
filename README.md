@@ -111,6 +111,11 @@ Or read our technical documentation: <https://ibm.ent.box.com/file/190950663582>
 
 ## Changelog
 
+### v1.2.2 (2018-05-23)
+* Security fix: Deactivate external frontend test proxy on non local instances
+* Critical bug fix: Set angular version to 1.6.8 (1.7.0 will crash the frontend!)
+* Fixed bug: Fixed error handling for answer store import
+
 ### v1.2.1 (2018-05-23)
 * Added external API definition file (Swagger 2.0)
 

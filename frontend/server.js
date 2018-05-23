@@ -34,7 +34,7 @@ app.use('/api', proxy(
 	}
 ));
 
-if(appEnv.isLocal || true) {
+if(appEnv.isLocal) {
 	console.log('frontend: being local -> starting proxyExternalFrontend.js');
 	require('./proxyExternalFrontend.js').createProxyForExternalFrontend(app, bodyParser, proxy, backend);
 } else {

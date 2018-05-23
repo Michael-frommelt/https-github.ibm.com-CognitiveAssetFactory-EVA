@@ -331,6 +331,9 @@ exports.importAnswers = function(req, res) {
         return res.status(200).send({
           importRunning: true,
         });
+      }).catch(function(error) {
+        importInProgress = false;
+        return res.status(error.status || 500).send(error.message);
       });
     }, error => {
       importInProgress = false;
