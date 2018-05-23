@@ -111,6 +111,9 @@ Or read our technical documentation: <https://ibm.ent.box.com/file/190950663582>
 
 ## Changelog
 
+### v1.2.1 (2018-05-23)
+* Added external API definition file (Swagger 2.0)
+
 ### v1.2.0 (2018-05-09)
 * Added new anaphora solution (see documentation)
 * Formatted watson assistant workspaces
