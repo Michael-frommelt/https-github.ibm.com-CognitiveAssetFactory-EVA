@@ -30,7 +30,7 @@ function hasPermission(userObject, permissionToCheck = 'isAuthenticated') {
     // handle the special permission "isAdmin"
     if (permissionToCheck === 'isAdmin') {
         return userObject.clients && userObject.clients.some((client) =>
-            client === "admin");
+            client === 'admin' || (client && client.id === 'admin'));
     }
     // if the permission is not defined, it cannot be given
     if (!permissions.includes(permissionToCheck)) return false;

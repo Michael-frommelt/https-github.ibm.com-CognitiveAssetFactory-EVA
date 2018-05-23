@@ -111,6 +111,10 @@ Or read our technical documentation: <https://ibm.ent.box.com/file/190950663582>
 
 ## Changelog
 
+### v1.1.2 (2018-05-03)
+* Fixed bug: Added missing second quotation mark for CC_Chatten_Wer - answer in chitchat.json
+* Fixed bug: User could not get permission 'isAdmin' when the users client array is already enhanced
+
 ### v1.1.1 (2018-04-10)
 * Removed unused container "external_frontend" from automatic set-up script
 * Enhancement: Answer store import now shows answers that were not imported due to them being invalid
