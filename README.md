@@ -110,6 +110,8 @@ Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
 Or read our technical documentation: <https://ibm.ent.box.com/file/190950663582>
 
 ## Changelog
+### v1.2.3 (2018-05-23)
+* Critical bug fix: Invalid JSON file crashed initial auto deployment
 
 ### v1.2.2 (2018-05-23)
 * Security fix: Deactivate external frontend test proxy on non local instances

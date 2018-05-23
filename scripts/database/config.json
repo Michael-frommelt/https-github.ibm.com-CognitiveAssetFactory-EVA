@@ -1157,7 +1157,7 @@
             "answerOptions": [{
                 "properties": {},
                 "answerText": "<p>Als Dialogsprünge bezeichnen wir das Wechseln zwischen Dialogsträngen und das Wiederaufnehmen alter Kontexte. <br></p>",
-                "additionalAnswerProposals": [],
+                "additionalAnswerProposals": []
                }
               ],
             "answerProposals": ["Kannst du das?"]
@@ -1242,7 +1242,7 @@
                 "tags": []
                 }
             ],
-            "answerProposals": [],
+            "answerProposals": []
         }
     ],
     "answers_chitchat_asset": [{
