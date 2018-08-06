@@ -131,7 +131,7 @@ angular.module('eva.testing')
                             });
                         }, 5000);
                     } else {
-                        if(response.data.error) {
+                        if (response.data.error) {
                             $rootScope.testStatus = "failed";
                             $scope.testError = response.data.error;
                         } else {
@@ -463,10 +463,11 @@ angular.module('eva.testing')
             $scope.openViewModal = function(selectedRow) {
                 $scope.selectedObjectForDetail = selectedRow;
                 $scope.isLoadingTestPerformanceDetail = true;
+                var type;
                 if ($scope.groupBy == "TEST_FILE") {
-                    var url = '/api/testing/tableview/getTestResultByFileDetail';
+                    type = 'test_file';
                 } else if ($scope.groupBy == "ACTUAL_INTENT") {
-                    var url = '/api/testing/tableview/getTestResultByIntentDetail';
+                    type = 'intent';
                 }
                 $uibModal.open({
                     templateUrl: 'viewModal.html',
@@ -475,33 +476,15 @@ angular.module('eva.testing')
                 }).result.catch(function() {})
                 $http({
                     method: "POST",
-                    url: url,
+                    url: '/api/testing/tableview/getTestResultInDetail',
                     data: {
-                        run: $scope.runDates[$scope.runDates.length - 1]._id.timestamp,
+                        runs: $scope.runDates,
                         object: $scope.selectedObjectForDetail,
-                        clientId: $scope.clientSelection.chosen
+                        clientId: $scope.clientSelection.chosen,
+                        type: type
                     }
                 }).then(function(response) {
-                    var rowPerformanceForObject = response.data;
-                    $scope.runDates.forEach(function(date, index) {
-                        rowPerformanceForObject.forEach(function(object) {
-                            if (object.result[index + 1] != undefined && object.result[index].date == object.result[index + 1].date) {
-                                object.result.splice(index + 1, 1);
-                            } else if (object.result[index] != undefined) {
-                                if (date._id.date != object.result[index].date) {
-                                    object.result.splice(index, 0, {});
-                                }
-                            } else if (object.result[index] == undefined) {
-                                object.result.splice(index, 0, {});
-                            }
-                            if (index == 0) {
-                                object.result.forEach(function(objectPerf) {
-                                    objectPerf.confidence = Math.round(objectPerf.confidence * 100) / 100;
-                                });
-                            }
-                        });
-                    });
-                    $scope.rowResult = rowPerformanceForObject;
+                    $scope.rowResult = response.data;
                 }, handleError).then(function() {
                     $scope.isLoadingTestPerformanceDetail = false;
                 });

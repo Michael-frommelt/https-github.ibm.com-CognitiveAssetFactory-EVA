@@ -347,6 +347,15 @@
                 height: 700px;
                 overflow-y: scroll;
             }
+
+            tbody:hover td {
+                background: #CCC;
+                cursor: pointer;
+            }
+
+            table > tbody:nth-child(even) {
+                background: #f9f9f9;
+            }
         </style>
         <div class="modal-header">
             <button class="close" type="button" ng-click="$dismiss()">&times;</button>
@@ -368,7 +377,7 @@
                     <input type="radio" value="numInt" ng-model="displayOptionModal">
                     <ratio-label translate>NUMINT</ratio-label>
                 </fieldset>
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>
@@ -390,14 +399,14 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr ng-repeat="input in rowResult track by $index" ng-init="inputIndex = $index">
+                    <tbody ng-repeat="uuid in rowResult track by $index" id="{{uuid._id}}">
+                        <tr ng-repeat="input in uuid.uuidResult track by $index">
                             <td class="ng-scope">
                                 <div class="flex-container">
                                     <div class="padding-10-5">
                                     </div>
                                     <div class="flex-container space-between flex-grow padding-10-5">
-                                        <span>{{input._id}}</span>
+                                        <span>{{input.input}}</span>
                                     </div>
                                 </div>
                             </td>
@@ -406,11 +415,9 @@
                                     <div class="padding-10-5">
                                     </div>
                                     <div ng-switch="displayOptionModal" class="flex-container space-between flex-grow padding-10-5">
-                                        <span ng-if="input.result[0].intent != null" ng-switch-when="conf">{{input.result[0].intent}}</span>
-                                        <span ng-if="input.result[0].intent != null" ng-switch-when="numInt">{{input.result[0].intent}}</span>
-                                        <span ng-if="input.result[0].intent == null" ng-switch-when="conf">{{selectedObjectForDetail}}</span>
-                                        <span ng-if="input.result[0].intent == null" ng-switch-when="numInt">{{selectedObjectForDetail}}</span>
-                                        <span ng-switch-when="numId">{{input.result[0].answerId}}</span>
+                                        <span ng-switch-when="conf">{{input.intent}}</span>
+                                        <span ng-switch-when="numInt">{{input.intent}}</span>
+                                        <span ng-switch-when="numId">{{input.answerId}}</span>
                                     </div>
                                 </div>
                             </td>
@@ -419,7 +426,7 @@
                                     <div class="padding-10-5">
                                     </div>
                                     <div class="flex-container space-between flex-grow padding-10-5">
-                                        <span>{{input.result[0].uuid}}</span>
+                                        <span>{{uuid._id}}</span>
                                     </div>
                                 </div>
                             </td>
@@ -429,27 +436,19 @@
                                     <div class="padding-10-5">
                                     </div>
                                     <div class="flex-container space-between flex-grow padding-10-5">
-                                        <span ng-if="input.result[0].intent != null">{{input.result[0].counter}}</span>
+                                        <span>{{input.counter}}</span>
                                     </div>
                                 </div>
                             </td>
 
-                            <td ng-repeat="run in input.result" class="ng-scope">
+                            <td ng-repeat="date in input.inputResult" class="ng-scope">
                                 <div class="flex-container">
                                     <div class="padding-10-5">
                                     </div>
                                     <div ng-switch="displayOptionModal" class="flex-container space-between flex-grow padding-10-5">
-                                        <!-- <span ng-if="run && !run.equalToCurrentFile">Test file changed!</span> -->
-                                        <span ng-if="run.date == null"> - </span>
-                                        <!-- <span ng-if="run && run.equalToCurrentFile"> -->
-                                        <span ng-switch-when="conf">{{run.confidence}}</span>
-                                        <span ng-switch-when="numInt"><span ng-if="run.correctIntent == 1">true</span>
-                                        <span ng-if="run.correctIntent == 0">false</span>
-                                        </span>
-                                        <span ng-switch-when="numId"><span ng-if="run.correctAnswerId == 1">true</span>
-                                        <span ng-if="run.correctAnswerId == 0">false</span>
-                                        </span>
-                                        </span>
+                                        <span ng-switch-when="conf">{{date.confidence ? date.confidence : '-'}}</span>
+                                        <span ng-switch-when="numInt">{{date.correctIntent === 1 ? 'true' : 'false'}}</span>
+                                        <span ng-switch-when="numId">{{date.correctAnswerId === 1 ? 'true' : 'false'}}</span>
                                     </div>
                                 </div>
                             </td>

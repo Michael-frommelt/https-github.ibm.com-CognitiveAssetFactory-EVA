@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 const testResultContainer = globalDatabase.config.containers.test_results;
 const testFilesContainer = globalDatabase.config.containers.test_files;
 
@@ -191,67 +191,6 @@ exports.getTestResultByFile = function(run, clientId, callbackSuccess, callbackE
     });
 }
 
-exports.getTestResultByFileDetail = function(run, filename, clientId, callbackSuccess, callbackError) {
-    globalDatabase.connection.collection(testResultContainer).aggregate({
-        $match: {
-            timestamp: {
-                $gte: new Date(run)
-            },
-            "test.test_file": filename,
-            clientId: clientId
-        }
-    }, {
-        $project: {
-            date: "$date",
-            uuid: "$id",
-            intent: "$test.intent",
-            answerId: "$test.answerId",
-            input: "$test.input",
-            counter: "$counter",
-            confidence: "$body.confidence",
-            correctAnswerId: {
-                "$cond": [{
-                    $eq: ["$correctAnswerId", true]
-                }, 1, 0]
-            },
-            correctIntent: {
-                "$cond": [{
-                    $eq: ["$correctTopIntent", true]
-                }, 1, 0]
-            }
-        }
-    }, {
-        $sort: {
-            date: -1,
-        }
-    }, {
-        $group: {
-            _id: "$input",
-            result: {
-                $push: {
-                    date: "$date",
-                    confidence: "$confidence",
-                    correctAnswerId: "$correctAnswerId",
-                    correctIntent: "$correctIntent",
-                    counter: "$counter",
-                    uuid: "$uuid",
-                    intent: "$intent",
-                    answerId: "$answerId"
-                }
-            }
-        }
-    }, {
-        $sort: {
-            _id: -1
-        }
-    }, function(err, result) {
-        if (err) {
-            return callbackError(500, err);
-        }
-        return callbackSuccess(result);
-    });
-}
-
 exports.getTestResultByIntent = function(run, clientId, callbackSuccess, callbackError) {
     globalDatabase.connection.collection(testResultContainer).aggregate({
         $match: {
@@ -327,19 +266,23 @@ exports.getTestResultByIntent = function(run, clientId, callbackSuccess, callbac
     });
 }
 
-exports.getTestResultByIntentDetail = function(run, intent, clientId, callbackSuccess, callbackError) {
+exports.getTestResultInDetail = function(run, key, value, clientId, callbackSuccess, callbackError) {
     globalDatabase.connection.collection(testResultContainer).aggregate({
         $match: {
             timestamp: {
                 $gte: new Date(run)
             },
-            "test.intent": intent,
-            clientId: clientId
+            ['test.' + key]: value,
+            clientId: clientId,
+            id: {
+                $nin: ["", null, undefined]
+            }
         }
     }, {
         $project: {
             date: "$date",
             uuid: "$id",
+            intent: "$test.intent",
             answerId: "$test.answerId",
             input: "$test.input",
             counter: "$counter",
@@ -356,27 +299,59 @@ exports.getTestResultByIntentDetail = function(run, intent, clientId, callbackSu
             }
         }
     }, {
-        $sort: {
-            date: -1,
-        }
-    }, {
         $group: {
-            _id: "$input",
-            result: {
+            _id: {
+                uuid: "$uuid",
+                input: "$input",
+                counter: "$counter"
+            },
+            dateResult: {
                 $push: {
                     date: "$date",
                     confidence: "$confidence",
                     correctAnswerId: "$correctAnswerId",
-                    correctIntent: "$correctIntent",
+                    correctIntent: "$correctIntent"
+                }
+            },
+            inputResult: {
+                $push: {
                     counter: "$counter",
-                    uuid: "$uuid",
+                    intent: "$intent",
                     answerId: "$answerId"
                 }
             }
         }
     }, {
+        $group: {
+            _id: "$_id.uuid",
+            uuidResult: {
+                $push: {
+                    input: "$_id.input",
+                    counter: {
+                        $arrayElemAt: ["$inputResult.counter", 0]
+                    },
+                    intent: {
+                        $arrayElemAt: ["$inputResult.intent", 0]
+                    },
+                    answerId: {
+                        $arrayElemAt: ["$inputResult.answerId", 0]
+                    },
+                    inputResult: "$dateResult"
+                }
+            }
+        }
+    }, {
+        $unwind: "$uuidResult"
+    }, {
         $sort: {
-            _id: -1
+            "uuidResult.counter": 1
+        }
+    }, {
+        $group: {
+            _id: "$_id",
+            uuidResult: {
+                $push: "$uuidResult"
+            }
         }
     }, function(err, result) {
         if (err) {

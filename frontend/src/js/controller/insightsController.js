@@ -100,7 +100,7 @@ angular.module('eva.insightsOverview')
             };
 
             $scope.reloadMatrix = function(selectedTime) {
-                $scope.getTestIntents(selectedTime, $scope.clientSelection.chosen);
+                $scope.getTestIntents(selectedTime._id, $scope.clientSelection.chosen);
             }
 
             $scope.getTestIntents = function(time, clientId) {

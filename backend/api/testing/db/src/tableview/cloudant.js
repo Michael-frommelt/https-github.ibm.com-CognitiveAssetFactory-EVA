@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 const testResultContainer = globalDatabase.config.containers.test_results;
 const testFilesContainer = globalDatabase.config.containers.test_files;
 const view_result_testing = globalDatabase.config.containers.view_result_testing;
@@ -121,14 +121,14 @@ exports.getTestResultByFile = function(run, clientId, callbackSuccess, callbackE
   });
 }
 
-exports.getTestResultByFileDetail = function(run, filename, clientId, callbackSuccess, callbackError) {
+exports.getTestResultInDetail = function(run, key, value, clientId, callbackSuccess, callbackError) {
   globalDatabase.connection.use(globalDatabase.config.containers.test_results).find({
     "selector": {
       "timestamp": {
         "$gte": new Date(run)
       },
       "clientId": clientId,
-      "test.test_file": filename,
+      ["test." + key]: value
     },
     "fields": [
       "date",
@@ -151,39 +151,50 @@ exports.getTestResultByFileDetail = function(run, filename, clientId, callbackSu
     for (result of result.docs) {
       var inputIndex = resultArray.length;
       for (entry in resultArray) {
-        if (resultArray[entry]._id == result.test.input) {
+        if (resultArray[entry]._id == result.id) {
           inputIndex = entry;
         }
       }
 
       if (inputIndex == resultArray.length) {
         resultArray[inputIndex] = {
-          _id: result.test.input,
-          result: []
+          _id: result.id,
+          uuidResult: []
         };
       }
 
-      var exists = false;
+      var uuidResultIndex = 0;
 
-      for (resultEntry of resultArray[inputIndex].result) {
-        if (resultEntry.date == result.date) exists = true;
-
+      for (i in resultArray[inputIndex].uuidResult) {
+        if (resultArray[inputIndex].uuidResult[i].input == result.test.input && resultArray[inputIndex].uuidResult[i].counter == result.counter) {
+          uuidResultIndex = i;
+        }
       }
-      if (!exists) {
-        resultArray[inputIndex].result.push({
+      if (uuidResultIndex === 0) {
+        resultArray[inputIndex].uuidResult.push({
+          "input": result.test.input,
+          "counter": result.counter,
+          "answerId": result.test.answerId,
+          "inputResult": []
+        });
+        uuidResultIndex = resultArray[inputIndex].uuidResult.length - 1;
+      }
+      resultArray[inputIndex].uuidResult[uuidResultIndex].inputResult.push({
           "date": result.date,
           "confidence": result.body.confidence,
           "correctAnswerId": result.correctAnswerId == true ? 1 : 0,
           "correctIntent": result.correctTopIntent == true ? 1 : 0,
-          "counter": result.counter,
-          "uuid": result.id,
-          "answerId": result.test.answerId
-        });
-      }
+      })
     }
+    for (entry of resultArray) {
+      entry.uuidResult.sort(function(a,b) {return (a.counter > b.counter) ? 1 : ((b.counter > a.counter) ? -1 : 0);} ); 
+
+    }
+
     return callbackSuccess(resultArray);
   });
 }
+
 exports.getTestResultByIntent = function(run, clientId, callbackSuccess, callbackError) {
   var timestamp = new Date(run);
   var month = timestamp.getMonth() + 1
@@ -220,8 +231,7 @@ exports.getTestResultByIntent = function(run, clientId, callbackSuccess, callbac
         }
       }
 
-      if (datesResult.length > 0) {
-
+      if (datesResult && datesResult.length > 0) {
         datesResult.sort(function(a, b) {
           if (a.date < b.date)
             return 1
@@ -235,74 +245,6 @@ exports.getTestResultByIntent = function(run, clientId, callbackSuccess, callbac
           "resultPerDate": datesResult
         });
       }
-    }
-    return callbackSuccess(resultArray);
-  });
-}
-
-exports.getTestResultByIntentDetail = function(run, intent, clientId, callbackSuccess, callbackError) {
-  globalDatabase.connection.use(globalDatabase.config.containers.test_results).find({
-    "selector": {
-      "timestamp": {
-        "$gte": new Date(run)
-      },
-      "clientId": clientId,
-      "test.intent": {
-        "$eq": intent
-      }
-    },
-    "fields": [
-      "date",
-      "id",
-      "test.answerId",
-      "test.input",
-      "counter",
-      "body.confidence",
-      "correctAnswerId",
-      "correctTopIntent",
-    ],
-    "sort": [{
-      "date": "desc"
-    }]
-  }, function(err, result) {
-    if (err) {
-      return callbackError(500, err);
-    }
-
-    var resultArray = [];
-
-    for (result of result.docs) {
-      var inputIndex = resultArray.length;
-      for (entry in resultArray) {
-        if (resultArray[entry]._id == result.test.input) {
-          inputIndex = entry;
-        }
-      }
-
-      if (inputIndex == resultArray.length) {
-        resultArray[inputIndex] = {
-          _id: result.test.input,
-          result: []
-        }
-      }
-      var exists = false;
-
-      for (resultEntry of resultArray[inputIndex].result) {
-        if (resultEntry.date == result.date) exists = true;
-
-      }
-      if (!exists) {
-        resultArray[inputIndex].result.push({
-          "date": result.date,
-          "confidence": result.body.confidence,
-          "correctAnswerId": result.correctAnswerId == true ? 1 : 0,
-          "correctIntent": result.correctTopIntent == true ? 1 : 0,
-          "counter": result.counter,
-          "uuid": result.id,
-          "answerId": result.test.answerId
-        });
-      }
-
     }
     return callbackSuccess(resultArray);
   });

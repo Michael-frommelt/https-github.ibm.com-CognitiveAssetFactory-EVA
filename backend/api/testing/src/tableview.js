@@ -23,10 +23,8 @@ exports.createRoutes = function(app) {
     app.post('/api/testing/tableview/getTestResultByFile', permissions.mwHasPermission('editTesting'), this.getTestResultByFile);
     // get performance per date and actual intent
     app.post('/api/testing/tableview/getTestResultByIntent', permissions.mwHasPermission('editTesting'), this.getTestResultByIntent);
-    // get performance per date and file per testcase
-    app.post('/api/testing/tableview/getTestResultByFileDetail', permissions.mwHasPermission('editTesting'), this.getTestResultByFileDetail);
-    // get performance per date and actual intent per testcase
-    app.post('/api/testing/tableview/getTestResultByIntentDetail', permissions.mwHasPermission('editTesting'), this.getTestResultByIntentDetail);
+    // get performance per date and type per testcase
+    app.post('/api/testing/tableview/getTestResultInDetail', permissions.mwHasPermission('editTesting'), this.getTestResultInDetail);
     // get performance on intent level for table view
     app.post('/api/testing/tableview/getTestcasePerformance', permissions.mwHasPermission('editTesting'), this.getTestcasePerformance);
     // get performance on intent level for table view
@@ -86,22 +84,6 @@ exports.getTestResultByFile = function(req, res) {
     }
 };
 
-exports.getTestResultByFileDetail = function(req, res) {
-    var run = req.body.run;
-    var object = req.body.object;
-    var clientId = req.body.clientId;
-
-    if (run && object && clientId) {
-        db.getTestResultByFileDetail(run, object, clientId, function(result) {
-            res.status(200).send(result);
-        }, function(errCode, errReason) {
-            return res.status(errCode).json(errReason);
-        });
-    } else {
-        return res.status(400).json("Invalid parameters.");
-    }
-};
-
 exports.getTestResultByIntent = function(req, res) {
     var run = req.body.run;
     var clientId = req.body.clientId;
@@ -117,14 +99,15 @@ exports.getTestResultByIntent = function(req, res) {
     }
 };
 
-exports.getTestResultByIntentDetail = function(req, res) {
-    var run = req.body.run;
+exports.getTestResultInDetail = function(req, res) {
+    var runs = req.body.runs;
     var object = req.body.object;
     var clientId = req.body.clientId;
+    var type = req.body.type;
 
-    if (run && object && clientId) {
-        db.getTestResultByIntentDetail(run, object, clientId, function(result) {
-            res.status(200).send(result);
+    if (runs && object && clientId && (type === 'intent' || type === 'test_file')) {
+        db.getTestResultInDetail(runs[runs.length - 1]._id.timestamp, type, object, clientId, function(result) {
+            res.status(200).send(prepareDetailResult(runs, result));
         }, function(errCode, errReason) {
             return res.status(errCode).json(errReason);
         });
@@ -180,3 +163,36 @@ exports.deleteTestrun = function(req, res) {
         return res.status(400).json("Invalid parameters.");
     }
 };
+
+function prepareDetailResult(runs, result) {
+    var runDates = [];
+    runs.forEach(function(item) {
+        runDates.push(item._id.date);
+    });
+
+    result.forEach(function(uuid) {
+        uuid.uuidResult.forEach(function(input) {
+
+            var temp = Array.from(runDates);
+            input.inputResult.forEach(function(dateResult) {
+                temp.splice(temp.indexOf(dateResult.date), 1);
+                dateResult.confidence = Math.round(dateResult.confidence * 100) / 100;
+            });
+
+            temp.forEach(function(date) {
+                input.inputResult.push({
+                    confidence: null,
+                    correctAnswerId: null,
+                    correctIntent: null,
+                    date: date
+                });
+            });
+
+            input.inputResult.sort(function(a, b) {
+                return (new Date(a.date) > new Date(b.date)) ? 1 : ((new Date(b.date) > new Date(a.date)) ? -1 : 0);
+            });
+        });
+    });
+
+    return result;
+}

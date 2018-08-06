@@ -110,6 +110,11 @@ Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
 Or read our technical documentation: <https://ibm.ent.box.com/file/190950663582>
 
 ## Changelog
+### v1.2.4 (2018-08-03)
+* Fixed dropdown list containing test runs for the confusion matrix
+* Fixed sorting and grouping of detailed test results view (modal) for MongoDB and Cloudant
+* Moved data validation from frontend to backend for detailed test results
+
 ### v1.2.3 (2018-05-23)
 * Critical bug fix: Invalid JSON file crashed initial auto deployment
 
