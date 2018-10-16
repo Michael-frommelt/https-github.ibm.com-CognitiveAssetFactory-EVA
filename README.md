@@ -1,4 +1,3 @@
-
 ![EVA logo](docs/logo.png)
 
 EVA, the **E**nhanced con**V**ersation **A**sset, enables you to start your chatbot *within hours* instead of days by providing the things you'll need besides Watson Conversation Service.  
@@ -110,6 +109,11 @@ Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
 Or read our technical documentation: <https://ibm.ent.box.com/file/288886407204>
 
 ## Changelog
+### v1.2.6 (2018-10-10)
+* Fixed handling with non self-signed certificates on MongoDB (see IBM Cloud changes)
+* Fixed caching problems on Internet Explorer (e.g. reporting export getting stuck)
+* Fixed size of trend overview chart on "testing" page in Internet Explorer
+
 ### v1.2.5 (2018-08-30)
 * Added confidence check in Jumphandler for few word intents
 * Fixed dropdown in K-fold Cross Validation

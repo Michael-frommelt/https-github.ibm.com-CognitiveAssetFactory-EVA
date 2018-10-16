@@ -619,19 +619,19 @@ angular.module('eva.testing')
                     }
 
                     var margin = {
-                        top: 40,
-                        right: 40,
-                        bottom: 40,
-                        left: 40
+                        top: 20,
+                        right: 20,
+                        bottom: 20,
+                        left: 20
                     };
 
                     var timeParse = d3.timeParse("%Y/%m/%d %H:%M:%S");
 
                     d3.select('#container').selectAll('*').remove();
                     var svg = d3.select('#container').append("svg")
-                        //.attr("width", '100%')
-                        //.attr("height", '100%')
-                        .attr('viewBox', (-margin.left) + ' ' + (-margin.bottom) + ' ' + (width + 2 * margin.right + margin.left) + ' ' + (height + 2 * margin.top + margin.bottom))
+                        .attr("width", width)
+                        .attr("height", height)
+                        .attr('viewBox', (-margin.left) + ' ' + (-margin.top) + ' ' + (width + margin.left + margin.right) + ' ' + (height + margin.top + margin.bottom))
                         .attr('preserveAspectRatio', 'xMinYMin')
                         .append('g')
                         .attr("class", "chart")

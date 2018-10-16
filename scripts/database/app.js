@@ -341,14 +341,17 @@ function connect2Cloudant(retry, callback) {
 }
 
 function connect2MongoDB(retry, callback) {
-  var ca = [new Buffer(argv.db_ca_certificate, 'base64')];
-  mongoClient.connect(argv.db_uri, {
-      ssl: true,
-      sslValidate: true,
-      sslCA: ca,
-      poolSize: 1,
-      reconnectTries: 1
-    },
+  var connObject = {
+    ssl: true,
+    sslValidate: true,
+    poolSize: 1,
+    reconnectTries: 1
+  };
+  if(argv.db_ca_certificate && argv.db_ca_certificate.length > 0) {
+    var ca = [new Buffer(argv.db_ca_certificate, 'base64')];
+    connObject.sslCA = ca;
+  }
+  mongoClient.connect(argv.db_uri, connObject,
     function(err, mongodb) {
       if (err) {
         if (retry < 30) {

@@ -65,6 +65,16 @@ var initExpressApp = function() {
     app.use(passport.initialize());
     app.use(passport.session());
 
+    // enabling very short caching for all api GETs, disable cache for all other methods
+    app.use('/api/\*', function(req, res, next) {
+        if (req.method === 'GET') {
+            res.header('Cache-Control', 'private, max-age=1');
+        } else {
+            res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+        }
+        next();
+    });
+
     // loading apis defined in ./config/apis.js
     var apiArray = require('./config/apis.js');
     for(let key in apiArray) {
