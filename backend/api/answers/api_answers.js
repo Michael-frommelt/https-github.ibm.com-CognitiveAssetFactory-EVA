@@ -17,7 +17,6 @@ const clientsHelper = require('../../helper/clients.js');
 const assert = require('assert');
 const jsonValidator = require('ajv')();
 const multer = require('multer');
-const TextToSpeech = require('watson-developer-cloud/text-to-speech/v1');
 const answerStoreConfig = require('../../helper/config.js').getConfig('answerStore');
 const chitchatConfig = require('../../helper/config.js').getConfig('chitchat');
 var async = require('async');

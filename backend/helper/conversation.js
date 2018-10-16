@@ -102,6 +102,11 @@ function getConversationSetup(clientId, user, test, type) {
             }
         }
 
+        // add learning opt out to conversation configuration
+        conversation_credentials.headers = {
+            'X-Watson-Learning-Opt-Out': true
+        };
+
         var service = watson.conversation(conversation_credentials);
 
         return ({

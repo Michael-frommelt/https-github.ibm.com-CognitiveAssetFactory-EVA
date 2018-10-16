@@ -146,7 +146,10 @@ function getLocation(params, callback) {
         'username': nluConfig.username,
         'password': nluConfig.password,
         'version_date': nluConfig.version,
-        'url': nluConfig.url
+        'url': nluConfig.url,
+        'headers': {
+            'X-Watson-Learning-Opt-Out': true
+        }
     });
 
     var parameters = {

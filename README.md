@@ -109,6 +109,9 @@ Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
 Or read our technical documentation: <https://ibm.ent.box.com/file/288886407204>
 
 ## Changelog
+### v1.2.7 (2018-10-10)
+* Added learning opt-out to all Watson services by default
+
 ### v1.2.6 (2018-10-10)
 * Fixed handling with non self-signed certificates on MongoDB (see IBM Cloud changes)
 * Fixed caching problems on Internet Explorer (e.g. reporting export getting stuck)
