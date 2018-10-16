@@ -161,7 +161,7 @@ angular.module('eva.kfoldOverview')
                     url: '/api/testing/kfold/run',
                     data: {
                         clientId: $scope.clientSelection.chosen,
-                        k: $scope.selectedK
+                        k: k
                     }
                 }).then(function(response) {
                     var status = $interval(function() {

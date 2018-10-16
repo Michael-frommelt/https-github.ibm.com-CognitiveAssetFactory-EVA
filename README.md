@@ -107,9 +107,13 @@ Important: Every client has his primary Conversation and Retrieve and Rank works
 
 ## Further Information needed?
 Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
-Or read our technical documentation: <https://ibm.ent.box.com/file/190950663582>
+Or read our technical documentation: <https://ibm.ent.box.com/file/288886407204>
 
 ## Changelog
+### v1.2.5 (2018-08-30)
+* Added confidence check in Jumphandler for few word intents
+* Fixed dropdown in K-fold Cross Validation
+
 ### v1.2.4 (2018-08-03)
 * Fixed dropdown list containing test runs for the confusion matrix
 * Fixed sorting and grouping of detailed test results view (modal) for MongoDB and Cloudant

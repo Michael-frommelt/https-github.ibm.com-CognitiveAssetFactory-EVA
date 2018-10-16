@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 var async = require('async');
 var conversationConfig = require('../../../../helper/config.js').getConfig('conversation');
 var jumpHandlingConfig = require('../../../../helper/config.js').getConfig('jumpHandling');
@@ -697,7 +697,7 @@ function evaluateJumpConditions(newInput, oldInput, jumpConfig) {
     var oldTopIntent = getTopIntentFromSession(oldInput);
     var newTopIntent = getTopIntentFromSession(newInput);
 
-    if (newInput.answerFrom !== "callChitChat" && newContext.isDialog && ((newInput.input.text && newInput.input.text.split(' ').length > 2) || jumpConfig.fewWordIntents.indexOf(newTopIntent.name) !== -1) && !oldInput.session.context.system.hasOwnProperty('branch_exited')) {
+    if (newInput.answerFrom !== "callChitChat" && newContext.isDialog && ((newInput.input.text && newInput.input.text.split(' ').length > 2) || (jumpConfig.fewWordIntents.indexOf(newTopIntent.name) !== -1) && newTopIntent.confidence >= jumpConfig.functionalConfidenceThreshold) && !oldInput.session.context.system.hasOwnProperty('branch_exited')) {
         if (newInput.output.actions && newInput.output.actions.indexOf("preventJump") === -1 && oldInput.output.actions.indexOf('callFindQuestions') === -1 && oldInput.answerFrom !== "callChitChat") {
             if (newInput.session.handleJump.previousTopic && (jumpConfig.enableSameIntentJumps || newTopIntent.name != newInput.session.handleJump.previousTopic)) {
                 return true;
@@ -862,7 +862,7 @@ function debugConditions(newInput, oldInput, jumpConfig) {
         });
     }
 
-    if (!((newInput.input.text && newInput.input.text.split(' ').length > 2) || jumpConfig.fewWordIntents.indexOf(newTopIntent.name) !== -1)) {
+    if (!((newInput.input.text && newInput.input.text.split(' ').length > 2) || (jumpConfig.fewWordIntents.indexOf(newTopIntent.name) !== -1)&& newTopIntent.confidence >= jumpConfig.functionalConfidenceThreshold)) {
         if (newInput.input.text && newInput.input.text.split(' ').length <= 2) {
             conditions.push({
                 condition: "newInput.input.text.split(' ').length > 2",
@@ -876,6 +876,14 @@ function debugConditions(newInput, oldInput, jumpConfig) {
                 condition: "jumpConfig.fewWordIntents.indexOf(newTopIntent.name) !== -1",
                 value: jumpConfig.fewWordIntents.indexOf(newTopIntent.name),
                 message: "newTopIntent is not a few word intent."
+            });
+        }
+
+        if (newTopIntent.confidence < jumpConfig.functionalConfidenceThreshold) {
+            conditions.push({
+                condition: "(newTopIntent.confidence > jumpConfig.functionalConfidenceThreshold)",
+                value: newTopIntent.confidence > jumpConfig.functionalConfidenceThreshold,
+                message: "if newTopIntent is a few word intent, its confidence is too low"
             });
         }
     }
