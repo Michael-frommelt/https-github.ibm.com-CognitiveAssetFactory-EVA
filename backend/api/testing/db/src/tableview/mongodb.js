@@ -131,7 +131,11 @@ exports.getTestResultByFile = function(run, clientId, callbackSuccess, callbackE
             id: "$id",
             input: "$test.input",
             counter: "$counter",
-            confidence: "$body.confidence",
+            confidence: {
+                "$cond": [{
+                    $eq: ["$correctTopIntent", true]
+                }, "$body.confidence" , 0]
+            },
             correctAnswerId: {
                 "$cond": [{
                     $eq: ["$correctAnswerId", true]
@@ -206,7 +210,11 @@ exports.getTestResultByIntent = function(run, clientId, callbackSuccess, callbac
             id: "$id",
             input: "$test.input",
             counter: "$counter",
-            confidence: "$body.confidence",
+            confidence: {
+                "$cond": [{
+                    $eq: ["$correctTopIntent", true]
+                }, "$body.confidence" , 0]
+            },
             correctAnswerId: {
                 "$cond": [{
                     $eq: ["$correctAnswerId", true]
@@ -286,7 +294,11 @@ exports.getTestResultInDetail = function(run, key, value, clientId, callbackSucc
             answerId: "$test.answerId",
             input: "$test.input",
             counter: "$counter",
-            confidence: "$body.confidence",
+            confidence: {
+                "$cond": [{
+                    $eq: ["$correctTopIntent", true]
+                }, "$body.confidence" , 0]
+            },
             correctAnswerId: {
                 "$cond": [{
                     $eq: ["$correctAnswerId", true]

@@ -24,7 +24,7 @@ angular.module('eva.insightsOverview')
                 $scope.isLoading = true;
                 $http({
                     method: "POST",
-                    url: '/api/user/getClients/true/false'
+                    url: '/api/user/getClientsForUser/true/false'
                 }).then(function(response) {
                     var data = response.data;
                     if (data.length > 0) {

@@ -54,7 +54,9 @@ exports.call = function(resultHolder, callback) {
                     } else {
                         resultHolder.output.text.push(answerOption.answerText);
                         answerOption.answerProposals.forEach((answerProposal) => {
-                            resultHolder.output.answer_proposals.push(answerProposal);
+                            if (resultHolder.output.answer_proposals.indexOf(answerProposal) === -1) {
+                                resultHolder.output.answer_proposals.push(answerProposal);  
+                            }                               
                         });
                     }
                     callback();
@@ -82,7 +84,9 @@ exports.call = function(resultHolder, callback) {
                     } else {
                         resultHolder.output.text.push(answerOption.answerText);
                         answerOption.answerProposals.forEach((answerProposal) => {
-                            resultHolder.output.answer_proposals.push(answerProposal);
+                            if (resultHolder.output.answer_proposals.indexOf(answerProposal) === -1) {
+                                resultHolder.output.answer_proposals.push(answerProposal);  
+                            }
                         });
                     }
                     callback();

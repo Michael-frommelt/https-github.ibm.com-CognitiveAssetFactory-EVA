@@ -85,7 +85,7 @@ angular.module('eva.variableStore').controller('VariableStoreCtrl', ['$scope', '
             if(!$scope.variable.tooltip || $scope.variable.tooltip.length < 1) {
               $scope.variable.tooltip = null;
             }
-            var regex = /([A-Za-z0-9äöüß][A-Za-z0-9äöüß_\s]*?[A-Za-z0-9äöüß])/g;
+            var regex = /([A-Za-z0-9äöüß][A-Za-z0-9äöüß_\s-]*?[A-Za-z0-9äöüß])/g;
             if(!$scope.variable.name || !$scope.variable.name.length > 0 || !$scope.variable.value || !$scope.variable.value.length > 0) {
               $scope.errorText = "NECESSARY_FIELDS";
               error = true;

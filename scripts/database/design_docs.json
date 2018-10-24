@@ -198,11 +198,11 @@
   "test": [{
     "_id": "_design/testing_chainedTwice",
     "views": {
-      "secondary_chainedView_intent": {
+      "secondary_chainedView_file": {
         "map": "function (doc) {\n  if (doc.key[2] == \"getTestResultByFile\") {\n    emit([doc.key[1], doc.key[3]], [doc.key[0], doc.value]);\n  }\n}",
         "reduce": "function (keys, values, rereduce) {\n  return values;\n}"
       },
-      "secondary_chainedView_file": {
+      "secondary_chainedView_intent": {
         "reduce": "function (keys, values, rereduce) {\n  return values;\n}",
         "map": "function (doc) {\n  if (doc.key[2] == \"getTestResultByIntent\") {\n    emit([doc.key[1], doc.key[3]], [doc.key[0], doc.value]);\n  }\n}"
       }
@@ -315,11 +315,11 @@
       },
       "getTestResultByFile_conf": {
         "reduce": "_sum",
-        "map": "function (doc) {\n    emit([doc.date, doc.test.test_file, doc.timestamp, doc.clientId, 'getTestResultByFile', 'avgConfidence', doc.clientId], doc.body.confidence)\n}"
+        "map": "function (doc) {\n    emit([doc.date, doc.test.test_file, doc.timestamp, doc.clientId, 'getTestResultByFile', 'avgConfidence', doc.clientId], ((doc.correctTopIntent && doc.correctTopIntent===true) ? doc.body.confidence:0))\n}"
       },
       "getTestResultByFile_id": {
         "reduce": "_sum",
-        "map": "function (doc) {\n    emit([doc.date, doc.test.test_file, doc.timestamp, doc.clientId, 'getTestResultByFile', 'numCorrectAnswerId', doc.clientId], (doc.correctAnswerId ? 1:0))\n}"
+        "map": "function (doc) {\n    emit([doc.date, doc.test.test_file, doc.timestamp, doc.clientId, 'getTestResultByFile', 'numCorrectAnswerId', doc.clientId], ((doc.correctAnswerId && doc.correctAnswerId===true? 1:0)))\n}"
       },
       "getTestResultByFile_total": {
         "reduce": "_count",
@@ -327,7 +327,7 @@
       },
       "getTestResultByFile_intent": {
         "reduce": "_sum",
-        "map": "function (doc) {\n    emit([doc.date, doc.test.test_file, doc.timestamp, doc.clientId, 'getTestResultByFile', 'numCorrectIntent', doc.clientId], (doc.correctTopIntent ? 1:0))\n}"
+        "map": "function (doc) {\n    emit([doc.date, doc.test.test_file, doc.timestamp, doc.clientId, 'getTestResultByFile', 'numCorrectIntent', doc.clientId], ((doc.correctTopIntent && doc.correctTopIntent===true) ? 1:0))\n}"
       },
       "getIntentsForTests": {
         "reduce": "_count",
@@ -335,7 +335,7 @@
       },
       "getTestResultByIntent_conf": {
         "reduce": "_sum",
-        "map": "function (doc) {\n    emit([doc.date, doc.test.intent, doc.timestamp, doc.clientId, 'getTestResultByIntent', 'avgConfidence', doc.clientId], doc.body.confidence)\n}"
+        "map": "function (doc) {\n    emit([doc.date, doc.test.intent, doc.timestamp, doc.clientId, 'getTestResultByIntent', 'avgConfidence', doc.clientId], ((doc.correctTopIntent && doc.correctTopIntent===true) ? doc.body.confidence:0))\n}"
       },
       "getTestResultByIntent_id": {
         "reduce": "_sum",

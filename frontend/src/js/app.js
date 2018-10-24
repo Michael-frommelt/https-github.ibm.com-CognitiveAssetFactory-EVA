@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 angular.module('main', [
   'angular.chips',
   'ngRoute',
@@ -253,6 +253,7 @@ angular.module('main', [
       'NAV_SIGNEDINAS': 'Signed in as',
       'NAV_CONVERSATIONFEEDBACK': 'Conversation Feedback',
       'NAV_TEST_COMPARISON': 'Test Comparison',
+      'NAV_TEST': 'Dialog Test',
       'DIALOG_CHOOSE': 'Choose a dialog',
       'DIALOG_UPLOAD': 'Upload a new dialog',
       'DIALOG_WELCOME': 'Have a conversation',
@@ -374,6 +375,7 @@ angular.module('main', [
       'NAV_SIGNEDINAS': 'Angemeldet als',
       'NAV_CONVERSATIONFEEDBACK': 'Konversationsfeedback',
       'NAV_TEST_COMPARISON': 'Testvergleich',
+      'NAV_TEST': 'Dialog-Test',
       'DIALOG_CHOOSE': 'Dialog wählen',
       'DIALOG_UPLOAD': 'Neuen Dialog hochladen',
       'DIALOG_WELCOME': '',

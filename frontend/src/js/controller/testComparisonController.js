@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 angular.module('eva.testing').controller('TestComparisonCtrl', ['$scope', '$q', '$http', '$uibModal', 'TestComparisonService',
     function($scope, $q, $http, $uibModal, TestComparisonService) {
         $scope.isLoading = true;
@@ -17,7 +17,7 @@ angular.module('eva.testing').controller('TestComparisonCtrl', ['$scope', '$q', 
             $scope.isLoading = true;
             $http({
                 method: "POST",
-                url: '/api/user/getClients/true/false'
+                url: '/api/user/getClientsForUser/true/false'
             }).then(function(response) {
                 var data = response.data;
                 if (data.length > 0) {
@@ -49,7 +49,7 @@ angular.module('eva.testing').controller('TestComparisonCtrl', ['$scope', '$q', 
         $scope.compareRuns = function() {
             $scope.isComparing = true;
             $scope.disableClientChange = true;
-            TestComparisonService.getTestComparison($scope.baseRun, $scope.compareRun, $scope.clientSelection.chosen).then(function(result) {
+            TestComparisonService.getTestComparison(this.baseRun, this.compareRun, $scope.clientSelection.chosen).then(function(result) {
                 $scope.positiveChangedTestResults = result.positiveChanged;
                 $scope.negativeChangedTestResults = result.negativeChanged;
                 $scope.isComparing = false;

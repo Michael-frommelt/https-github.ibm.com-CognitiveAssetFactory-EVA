@@ -11,8 +11,6 @@ angular.module('eva.answerStore').controller('AnswerStoreDetailCtrl', ['$scope',
     $scope.isSaving = false;
     $scope.isRestoringVersion = false;
     
-    $routeParams.answerSetId = decodeURIComponent($routeParams.answerSetId);
-    $routeParams.answerId = decodeURIComponent($routeParams.answerId);
     if ($routeParams.answerOptionIndex) {
       $scope.showAnswerOptionView = true;
       $scope.displayMode = 'answerOption';

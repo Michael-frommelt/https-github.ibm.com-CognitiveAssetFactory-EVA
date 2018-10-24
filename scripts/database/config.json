@@ -1,4 +1,106 @@
 {
+    "test_files":[{
+    	"name" : "181012 Nutzerfeedback",
+    	"clientId" : "standard",
+    	"testCase" : [
+    		{
+    			"id" : "b85c13db-235f-c2cd-f829-ab902636bb81",
+    			"input" : "seltsame Eingabe um negativen Intent zu prüfen",
+    			"intent" : "FalscherIntent",
+    			"answerId" : "FalscheAntwort"
+    		},
+    		{
+    			"id" : "6778435c-8233-2ad1-cca7-dd9ef73a3d38",
+    			"input" : "seltsame Eingabe um negativen Intent zu prüfen aber richtige answer ID",
+    			"intent" : "FalscherIntent",
+    			"answerId" : "Anything_else_2"
+    		}
+    	]
+    },
+    {
+    	"name" : "Test Definition",
+    	"clientId" : "standard",
+    	"testCase" : [
+    		{
+    			"id" : "13f64b7f-1391-f225-5e9c-01902a1e8de2",
+    			"input" : "Was ist ein Dialogsprung",
+    			"intent" : "definition",
+    			"answerId" : "definition_1"
+    		}
+    	]
+    },
+    {
+    	"name" : "Test EVA",
+    	"clientId" : "standard",
+    	"testCase" : [
+    		{
+    			"id" : "057d705f-e05c-3453-2543-8b13e18c2478",
+    			"input" : "Welche Vorteile bietet mir das Enhanced conVersation Asset?",
+    			"intent" : "eva",
+    			"answerId" : "eva_01"
+    		},
+    		{
+    			"id" : "057d705f-e05c-3453-2543-8b13e18c2478",
+    			"input" : "Ja, gerne.",
+    			"intent" : "INTENTLESS",
+    			"answerId" : "eva_02"
+    		}
+    	]
+    },
+    {
+    	"name" : "Test Funktionsumfang",
+    	"clientId" : "standard",
+    	"testCase" : [
+    		{
+    			"id" : "acce1eb8-50fd-be49-2973-20de5ff2f0b4",
+    			"input" : "Kannst du Anaphoren auflösen?",
+    			"intent" : "funktionsumfang",
+    			"answerId" : "funktion_3"
+    		},
+    		{
+    			"id" : "acce1eb8-50fd-be49-2973-20de5ff2f0b4",
+    			"input" : "Was ist das?",
+    			"intent" : "definition",
+    			"answerId" : "definition_3"
+    		},
+    		{
+    			"id" : "b951d293-dee7-82ae-2392-1d45fa07f8f7",
+    			"input" : "Kannst du Anaphoren auflösen?",
+    			"intent" : "funktionsumfang",
+    			"answerId" : "funktion_3"
+    		},
+    		{
+    			"id" : "b951d293-dee7-82ae-2392-1d45fa07f8f7",
+    			"input" : "und Dialogsprünge",
+    			"intent" : "INTENTLESS",
+    			"answerId" : "funktion_1"
+    		},
+    		{
+    			"id" : "b951d293-dee7-82ae-2392-1d45fa07f8f7",
+    			"input" : "Was ist das?",
+    			"intent" : "definition",
+    			"answerId" : "definition_1"
+    		}
+    	]
+    },
+    {
+    	"name" : "Test NFD Fragen",
+    	"clientId" : "standard",
+    	"testCase" : [
+    		{
+    			"id" : "bb2ad0c3-b0fb-7c75-bac6-b1810bd33f81",
+    			"input" : "ciao",
+    			"intent" : "INTENTLESS",
+    			"answerId" : "farewell_01"
+    		},
+    		{
+    			"id" : "99c09865-e389-d04d-9a79-f85a1b4e15b4",
+    			"input" : "das war falsch",
+    			"intent" : "nfd_unzufriedenheit_mitEVA",
+    			"answerId" : "dissatisfaction_eva_01"
+    		}
+    	]
+    }],
     "config": [{
             "answerProperties": [{
                     "name": "sentiment",
@@ -1172,7 +1274,7 @@
               "tags": []
             }
           ],
-          "answerProposals": ["Kannst du das?"]  
+          "answerProposals": ["Kannst du das?"]
         },
         {
             "answerId": "definition_3",

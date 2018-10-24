@@ -251,7 +251,14 @@ function evaluateTestStep(sessionId, clientId, currentCase, currentStep, callbac
                 if (typeof output.answer_id === 'string') {
                     test.correctAnswerId = (currentStep.answerId.trim() == "") || (currentStep.answerId.trim() == output.answer_id);
                 } else {
-                    test.correctAnswerId = (output.answer_id.indexOf(currentStep.answerId.trim()) !== -1);
+                    // added logic to prevent same answer id twice
+                    let answerIdCounter = 0
+                    output.answer_id.forEach(function(element, index) {
+                        if (element == currentStep.answerId.trim()) {
+                            answerIdCounter++;
+                        }
+                    });
+                    test.correctAnswerId = (answerIdCounter == 1);
                 }
             } else {
                 test.correctAnswerId = null;

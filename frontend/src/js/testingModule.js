@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 var testing = angular.module('eva.testing', [
     'pascalprecht.translate',
     'smart-table',
@@ -23,7 +23,8 @@ userManagement.config(['$translateProvider', function($translateProvider) {
         'INTENT_SEARCH_NOT_FOUND': 'No tests found...',
         'TABLE_OPTIONS': 'Table Options',
         'TEST_FILE': 'Test file',
-        'CONF': ' Confidence',
+        'CONF': ' Confidence *',
+        'CONF_DESCRIPTION': '* Wrong classfied top intents will be count as 0.',
         'NUMID': ' Correct AnswerId',
         'NUMINT': ' Correct TopIntent',
         'NUMCASES': ' Number of test cases',
@@ -80,7 +81,8 @@ userManagement.config(['$translateProvider', function($translateProvider) {
         'INTENT_SEARCH_NOT_FOUND': 'Keine Tests gefunden...',
         'TABLE_OPTIONS': 'Tabellenoptionen',
         'TEST_FILE': 'Testfall',
-        'CONF': ' Konfidenz',
+        'CONF': ' Konfidenz*',
+        'CONF_DESCRIPTION': '* Falsch klassifizierte Top-Intents werden als 0 gewertet.',
         'NUMID': ' Korrekte AnswerId',
         'NUMINT': ' Korrekter TopIntent',
         'NUMCASES': ' Anzahl der Testcases',

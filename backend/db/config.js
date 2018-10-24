@@ -34,7 +34,7 @@ if (globalDatabase.type === "mongodb") {
         }
     }
 
-    dbconfig.credentials.instance = "evawatson";
+    dbconfig.credentials.instance = process.env.DB_NAME ? process.env.DB_NAME : "evawatson";
 
 } else if (globalDatabase.type === "cloudant") {
 

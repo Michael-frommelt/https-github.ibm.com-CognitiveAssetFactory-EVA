@@ -377,6 +377,7 @@
                     <input type="radio" value="numInt" ng-model="displayOptionModal">
                     <ratio-label translate>NUMINT</ratio-label>
                 </fieldset>
+                <div translate>CONF_DESCRIPTION</div><br/>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -441,14 +442,14 @@
                                 </div>
                             </td>
 
-                            <td ng-repeat="date in input.inputResult" class="ng-scope">
+                            <td ng-repeat="date in input.inputResult | orderBy:'-':false" class="ng-scope">
                                 <div class="flex-container">
                                     <div class="padding-10-5">
                                     </div>
                                     <div ng-switch="displayOptionModal" class="flex-container space-between flex-grow padding-10-5">
-                                        <span ng-switch-when="conf">{{date.confidence ? date.confidence : '-'}}</span>
-                                        <span ng-switch-when="numInt">{{date.correctIntent === 1 ? 'true' : 'false'}}</span>
-                                        <span ng-switch-when="numId">{{date.correctAnswerId === 1 ? 'true' : 'false'}}</span>
+                                        <span ng-switch-when="conf">{{date.confidence ? date.confidence : (date.confidence === null ? '-' : '0')}}</span>
+                                        <span ng-switch-when="numInt">{{date.correctIntent === 1 ? 'true' : (date.correctIntent === null ? '-' : 'false')}}</span>
+                                        <span ng-switch-when="numId">{{date.correctAnswerId === 1 ? 'true' : (date.correctAnswerId === null ? '-' : 'false')}}</span>
                                     </div>
                                 </div>
                             </td>
@@ -486,8 +487,7 @@
                 </button>
             </div>
         </div>
-    </script>
-</main>
+    </script></main>
 <main ng-if="clientSelection.chosen" class="container" st-table="displayedIntents" st-safe-src="testing" ng-cloak>
     <header class="button-header flex-container space-between">
         <h3 class="header-text" translate>TEST_HIST</h3>
@@ -523,7 +523,7 @@
                     <input type="radio" value="numCases" ng-model="displayOption" ng-disabled="isLoadingTestPerformance">
                     <ratio-label translate>NUMCASES</ratio-label>
                 </fieldset>
-                <br>
+                <div translate>CONF_DESCRIPTION</div><br/>
             </div>
             <div class="table-container">
                 <table class="table table-bordered table-striped">

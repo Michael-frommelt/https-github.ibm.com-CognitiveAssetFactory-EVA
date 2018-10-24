@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 const testResultContainer = globalDatabase.config.containers.test_results;
 const view_result_testing = globalDatabase.config.containers.view_result_testing;
 
@@ -64,12 +64,10 @@ exports.getIntentsForTests = function(time, clientId, callbackSuccess, callbackE
 
 //List all testTimes
 exports.getTestTimes = function(clientId, callbackSuccess, callbackError) {
-    var timestamp = new Date(new Date().setDate(new Date().getDate() - 50));
-    var date = (timestamp.getFullYear() + "/" + (timestamp.getMonth() + 1) + "/" + timestamp.getDate() + " " + (timestamp.getHours() - 1) + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds());
     globalDatabase.connection.use(testResultContainer).view("testing", "getTestTimes", {
         group: true,
         descending: true,
-        endkey: [date, timestamp, clientId]
+        limit: 50
     }, function(err, result) {
         if (err) {
             return callbackError(500, err);

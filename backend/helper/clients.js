@@ -40,45 +40,27 @@ exports.pushAfterReload = function(functionObject) {
 };
 
 exports.getClients = function(showHidden, showTechnical) {
-    let clientsToSend = clients.slice();
+    let clientsToCheck = clients.slice();
 
-    if(!showHidden) {
-        for(let index in clientsToSend) {
-            if(clientsToSend[index].hidden) {
-                clientsToSend.splice(index, 1);
-            }
-        }
-    }
-
-    if(!showTechnical) {
-        for(let index in clientsToSend) {
-            if(clientsToSend[index].id === technicalClientKey) {
-                clientsToSend.splice(index, 1);
-            }
-        }
-    }
+    let clientsToSend = clientsToCheck.filter( function(client) {
+        let send = true;
+        if (!showHidden && client.hidden) {send = false;}
+        if (!showTechnical && client.id === technicalClientKey) {send = false;}
+        return send;
+    });
 
     return clientsToSend;
 };
 
 exports.getUserClients = function(user, showHidden, showTechnical) {
-    let clientsToSend = user.clients;
+    let clientsToCheck = user.clients;
 
-    if(!showHidden) {
-        for(let index in clientsToSend) {
-            if(clientsToSend[index].hidden) {
-                clientsToSend.splice(index, 1);
-            }
-        }
-    }
-
-    if(!showTechnical) {
-        for(let index in clientsToSend) {
-            if(clientsToSend[index].id === technicalClientKey) {
-                clientsToSend.splice(index, 1);
-            }
-        }
-    }
+    let clientsToSend = clientsToCheck.filter( function(client) {
+        let send = true;
+        if (!showHidden && client.hidden) {send = false;}
+        if (!showTechnical && client.id === technicalClientKey) {send = false;}
+        return send;
+    });
 
     return clientsToSend;
 };

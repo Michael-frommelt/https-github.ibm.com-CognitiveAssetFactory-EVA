@@ -115,19 +115,19 @@ angular.module('eva.answerStore').controller('AnswerStoreCtrl', ['$scope', '$int
     };
 
     $scope.newAnswer = function() {
-      $location.path('/admin/answerStore/' + encodeURIComponent($scope.currentAnswerSetId) + '/_new_');
+      $location.path('/admin/answerStore/' + $scope.currentAnswerSetId + '/_new_');
     };
 
     $scope.editAnswer = function(answerId) {
-      $location.path('/admin/answerStore/' + encodeURIComponent($scope.currentAnswerSetId) + '/' + encodeURIComponent(answerId));
+      $location.path('/admin/answerStore/' + $scope.currentAnswerSetId + '/' + answerId);
     };
 
     $scope.newAnswerOption = function(answer) {
-      $location.path('/admin/answerStore/' + encodeURIComponent($scope.currentAnswerSetId) + '/' + encodeURIComponent(answer.answerId) + '/' + answer.answerOptions.length);
+      $location.path('/admin/answerStore/' + $scope.currentAnswerSetId + '/' + answer.answerId + '/' + answer.answerOptions.length);
     };
 
     $scope.editAnswerOption = function(answerId, answerOptionIndex) {
-      $location.path('/admin/answerStore/' + encodeURIComponent($scope.currentAnswerSetId) + '/' + encodeURIComponent(answerId) + '/' + answerOptionIndex);
+      $location.path('/admin/answerStore/' + $scope.currentAnswerSetId + '/' + answerId + '/' + answerOptionIndex);
     };
 
     $scope.openDeleteModal = function(answerId, answerOption) {

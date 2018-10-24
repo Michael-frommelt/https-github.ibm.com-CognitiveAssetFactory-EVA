@@ -181,13 +181,13 @@ exports.getTestResultInDetail = function(run, key, value, clientId, callbackSucc
       }
       resultArray[inputIndex].uuidResult[uuidResultIndex].inputResult.push({
           "date": result.date,
-          "confidence": result.body.confidence,
+          "confidence": (result.correctTopIntent && result.correctTopIntent == true) ? result.body.confidence : 0,
           "correctAnswerId": result.correctAnswerId == true ? 1 : 0,
-          "correctIntent": result.correctTopIntent == true ? 1 : 0,
+          "correctIntent": (result.correctTopIntent && result.correctTopIntent == true) ? 1 : 0,
       })
     }
     for (entry of resultArray) {
-      entry.uuidResult.sort(function(a,b) {return (a.counter > b.counter) ? 1 : ((b.counter > a.counter) ? -1 : 0);} ); 
+      entry.uuidResult.sort(function(a,b) {return (a.counter > b.counter) ? 1 : ((b.counter > a.counter) ? -1 : 0);} );
 
     }
 

@@ -46,7 +46,7 @@ angular.module('eva.answerStore').service('AnswerStoreService', ['$http', '$q', 
       if (!answerProperty.hasOwnProperty('name')) {
         return $q.reject('Invalid answer property format');
       }
-      return $http.post(answerPropertiesEndpoint + answerProperty.name, answerProperty).then(function() {
+      return $http.post(answerPropertiesEndpoint + encodeURIComponent(answerProperty.name), answerProperty).then(function() {
         for (var i = 0; i < answerProperties.length; i++) {
           if (answerProperties[i].name === answerProperty.name) {
             answerProperties[i] = answerProperty;
@@ -58,7 +58,7 @@ angular.module('eva.answerStore').service('AnswerStoreService', ['$http', '$q', 
     };
 
     this.deleteAnswerProperty = function(answerPropertyName) {
-      return $http.delete(answerPropertiesEndpoint + answerPropertyName).then(function() {
+      return $http.delete(answerPropertiesEndpoint + encodeURIComponent(answerPropertyName)).then(function() {
         for (var i = 0; i < answerProperties.length; i++) {
           if (answerProperties[i].name === answerPropertyName) {
             answerProperties.splice(i, 1);
@@ -72,7 +72,7 @@ angular.module('eva.answerStore').service('AnswerStoreService', ['$http', '$q', 
       /* if (!forceReload && answersTimestamps[answerSetId] && (Date.now() - answersTimestamps[answerSetId]) <= dataUpdateInterval) {
         return $q.resolve(answers[answerSetId]);
       } else { */
-      return $http.get(answerEndpoint + answerSetId).then(function(getResult) {
+      return $http.get(answerEndpoint + encodeURIComponent(answerSetId)).then(function(getResult) {
         if (!answers[answerSetId]) {
           answers[answerSetId] = [];
         }
@@ -94,7 +94,7 @@ angular.module('eva.answerStore').service('AnswerStoreService', ['$http', '$q', 
           }
         }
       } else { */
-      return $http.get(answerEndpoint + answerSetId + '/' + answerId).then(function(getResult) {
+      return $http.get(answerEndpoint + encodeURIComponent(answerSetId) + '/' + encodeURIComponent(answerId)).then(function(getResult) {
         var answer = getResult.data;
         // only update the cache if we are in a situation where we actually use it
         if (answers[answerSetId]) {
@@ -115,7 +115,7 @@ angular.module('eva.answerStore').service('AnswerStoreService', ['$http', '$q', 
       if (!answer.hasOwnProperty('answerId')) {
         return $q.reject('Invalid answer format');
       }
-      return $http.post(answerEndpoint + answerSetId + '/' + answer.answerId, answer).then(function() {
+      return $http.post(answerEndpoint + encodeURIComponent(answerSetId) + '/' + encodeURIComponent(answer.answerId), answer).then(function() {
         // only update the cache if we are in a situation where we actually use it
         if (answers[answerSetId]) {
           for (var i = 0; i < answers[answerSetId].length; i++) {
@@ -130,7 +130,7 @@ angular.module('eva.answerStore').service('AnswerStoreService', ['$http', '$q', 
     };
 
     this.deleteAnswer = function(answerSetId, answerId) {
-      return $http.delete(answerEndpoint + answerSetId + '/' + answerId).then(function() {
+      return $http.delete(answerEndpoint + encodeURIComponent(answerSetId) + '/' + encodeURIComponent(answerId)).then(function() {
         // only update the cache if we are in a situation where we actually use it
         if (answers[answerSetId]) {
           for (var i = 0; i < answers[answerSetId].length; i++) {
@@ -151,33 +151,33 @@ angular.module('eva.answerStore').service('AnswerStoreService', ['$http', '$q', 
     };
 
     this.getVersions = function(answerSetId, answerId) {
-      return $http.get(answerVersionEndpoint + answerSetId + '/' + answerId).then(function(getResult) {
+      return $http.get(answerVersionEndpoint + encodeURIComponent(answerSetId) + '/' + encodeURIComponent(answerId)).then(function(getResult) {
         var answerVersions = getResult.data;
         return answerVersions;
       });
     };
 
     this.getVersionsMarkedForDeletion = function(answerSetId) {
-      return $http.get(answerVersionEndpoint + 'deleted/' + answerSetId).then(function(getResult) {
+      return $http.get(answerVersionEndpoint + 'deleted/' + encodeURIComponent(answerSetId)).then(function(getResult) {
         var versionsForDeletedAnswers = getResult.data;
         return versionsForDeletedAnswers;
       });
     };
 
     this.unmarkVersionForDeletion = function(answerSetId, answerId) {
-      return $http.delete(answerVersionEndpoint + 'deleted/' + answerSetId + '/' + answerId);
+      return $http.delete(answerVersionEndpoint + 'deleted/' + encodeURIComponent(answerSetId) + '/' + encodeURIComponent(answerId));
     };
 
     this.importAnswers = function(answerSetId, file, override) {
       return Upload.upload({
-        url: answerEndpoint + 'import/' + answerSetId,
+        url: answerEndpoint + 'import/' + encodeURIComponent(answerSetId),
         params: { override: override },
         data: { uploadFile: file }
       });
     };
 
     this.exportAnswers = function(answerSetId, fileType, language) {
-      $window.open(answerEndpoint + 'export/' + answerSetId + '?type=' + fileType + '&lang=' + language);
+      $window.open(answerEndpoint + 'export/' + encodeURIComponent(answerSetId) + '?type=' + fileType + '&lang=' + language);
     };
   }
 ]);

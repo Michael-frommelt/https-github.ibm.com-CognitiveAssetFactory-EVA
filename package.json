@@ -1,6 +1,6 @@
 {
     "name": "EVA_Enhanced_conVersation_Asset",
-    "version": "1.2.7",
+    "version": "1.2.8",
     "description": "Asset to get Watson Conversation projects started",
     "main": "server.js",
     "dependencies": {

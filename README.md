@@ -109,6 +109,22 @@ Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
 Or read our technical documentation: <https://ibm.ent.box.com/file/288886407204>
 
 ## Changelog
+### v1.2.8 (2018-10-24)
+* Fixed Test Comparison Controller by changing $scope to this
+* Created translation for Entry 'NAV_TEST' and renamed test in Dialog Test
+* Changed Flow test behaviour: now answerId must be in answer exactly once
+* Added Dialog Test Examples
+* Fixed Dialog test for Cloudant (swapped group by file and intent)
+* Fixed Dialog test statistics: now correct sorting of results in detail view
+* Changed Confidence calculation in dialog test (wrong topIntent now equals 0) and added description field
+* Fixed loading of Dropdown elements in Confusion matrix for Cloudant, enhanced for MongoDB
+* correctly replace object variables in the answerStore (if entered in dot notation), dot not allowed as character for variables in the variableStore
+* prevent duplicate answer_proposals
+* all frontend pages (including reporting) will only show clients that the current user has the right to see
+* fixed client filtering
+* fixed uri encoding of answerIds
+* support for custom database names
+
 ### v1.2.7 (2018-10-10)
 * Added learning opt-out to all Watson services by default
 

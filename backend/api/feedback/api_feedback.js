@@ -15,6 +15,7 @@ var path = require('path');
 
 var db = require('./db/db.js').getDatabase();
 var permissions = require('../../helper/permissions.js');
+var clientsHelper = require('../../helper/clients.js');
 
 var fileExportTempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'csv-export'));
 var feedbackExportCache = {};
@@ -162,10 +163,33 @@ exports.saveFeedbackExternal = function(session, message_id, feedback_thumbs, fe
 };
 
 exports.countFeedback = function(req, res) {
+  var clients = clientsHelper.getUserClients(req.user,true,false);
+
+  var clientNames = [];
+
+  clients.forEach( function(client) {
+    clientNames.push(client.id);
+  });
+
+  var clientFilter = { 
+    value:{$in: clientNames},
+    type: 'system'
+  };
+
   var filter = {};
+
   if(req.body.filter) {
     filter = req.body.filter;
   }
+
+  if(filter.clientId && filter.clientId !== undefined) {
+    if(!clientNames.indexOf(filter.clientId)) {
+      filter.clientId = clientFilter;
+    }
+  } else {
+    filter.clientId = clientFilter;
+  }
+
 
   db.countFeedback(conversationsLogsContainer, filter, function(result) {
     res.json(result);
@@ -175,9 +199,27 @@ exports.countFeedback = function(req, res) {
 };
 
 exports.distinctFeedback = function(req, res) {
-  if(req.body.columnId) {
-    db.distinctFeedback(conversationsLogsContainer, req.body.columnId, function(result) {
-      res.json(result);
+  var clients = clientsHelper.getUserClients(req.user);
+  var clientNames = [];
+  for (let client of clients) {
+    clientNames.push(client.id);
+  }
+  var columnId = req.body.columnId;
+  if(columnId) {
+    db.distinctFeedback(conversationsLogsContainer, columnId, function(result) {
+      
+      if(columnId == 'clientId') {
+        var resultToSend = [];
+        for (let name of clientNames) {
+          if (result.indexOf(name) !== -1) {
+            resultToSend.push(name);
+          } 
+        }
+        res.json(resultToSend);
+      } else {
+        res.json(result);
+      }
+      
     }, function(errCode, errReason) {
       res.status(errCode).send(errReason);
     });
@@ -189,9 +231,31 @@ exports.distinctFeedback = function(req, res) {
 exports.getFeedback = function(req, res) {
   var documents = [];
 
+  var clients = clientsHelper.getUserClients(req.user,true,false);
+
+  var clientNames = [];
+
+  clients.forEach( function(client) {
+    clientNames.push(client.id);
+  });
+
+  var clientFilter = { 
+    value:{$in: clientNames},
+    type: 'system'
+  };
+
   var filter = {};
+
   if(req.body.filter) {
     filter = req.body.filter;
+  }
+
+  if(filter.clientId && filter.clientId !== undefined) {
+    if(!clientNames.indexOf(filter.clientId)) {
+      filter.clientId = clientFilter;
+    }
+  } else {
+    filter.clientId = clientFilter;
   }
 
   var limit = 0;
@@ -230,8 +294,33 @@ exports.getFeedback = function(req, res) {
 
 exports.generateFeedbackExport = function(req, res) {
   var username = req.user.username;
-
-  var filter = req.body.filter || {};
+  var clients = clientsHelper.getUserClients(req.user,true,false);
+  
+  var clientNames = [];
+  
+  clients.forEach( function(client) {
+    clientNames.push(client.id);
+  });
+  
+  var clientFilter = { 
+    value:{$in: clientNames},
+    type: 'system'
+  };
+  
+  var filter = {};
+  
+  if(req.body.filter) {
+    filter = req.body.filter;
+  }
+  
+  if(filter.clientId && filter.clientId !== undefined) {
+    if(!clientNames.indexOf(filter.clientId)) {
+      filter.clientId = clientFilter;
+    }
+  } else {
+    filter.clientId = clientFilter;
+  }
+  
   var sorting = null; // disabled sorting due to MongoDB rejection when out of RAM, happens for large amounts of data?
 
   if (feedbackExportCache[username]) {
@@ -317,7 +406,33 @@ exports.downloadFeedbackExport = function(req, res) {
 };
 
 exports.getConversationFeedback = function(req, res) {
-  const filter = req.body.filter || {};
+  var clients = clientsHelper.getUserClients(req.user,true,false);
+
+  var clientNames = [];
+
+  clients.forEach( function(client) {
+    clientNames.push(client.id);
+  });
+
+  var clientFilter = { 
+    value:{$in: clientNames},
+    type: 'system'
+  };
+
+  var filter = {};
+
+  if(req.body.filter) {
+    filter = req.body.filter;
+  }
+
+  if(filter.clientId && filter.clientId !== undefined) {
+    if(!clientNames.indexOf(filter.clientId)) {
+      filter.clientId = clientFilter;
+    }
+  } else {
+    filter.clientId = clientFilter;
+  }
+
   const limit = req.body.limit ? parseInt(req.body.limit) : 0;
   const page = req.body.page ? parseInt(req.body.page) : 1;
   const sorting = req.body.sorting || {};
@@ -370,15 +485,57 @@ exports.distinctColumnValuesConversation = function(req, res) {
     return res.status(400).send('columnName_not_set');
   }
 
-  db.distinctFeedback(conversationFeedbackContainer, req.body.columnName, function(result) {
-    res.json(result);
+  var clients = clientsHelper.getUserClients(req.user);
+  var clientNames = [];
+  for (let client of clients) {
+    clientNames.push(client.id);
+  }
+  var columnName = req.body.columnName;
+
+  db.distinctFeedback(conversationFeedbackContainer, columnName, function(result) {
+    if(columnName == 'clientId') {
+      var resultToSend = [];
+      for (let name of clientNames) {
+        if (result.indexOf(name) !== -1) {
+          resultToSend.push(name);
+        } 
+      }
+      res.json(resultToSend);
+    } else {
+      res.json(result);
+    }
   }, function(errCode, errReason) {
     res.status(errCode || 500).send(errReason);
   });
 };
 
 exports.countConversationFeedback = function(req, res) {
-  const filter = req.body.filter || {};
+  var clients = clientsHelper.getUserClients(req.user,true,false);
+
+  var clientNames = [];
+
+  clients.forEach( function(client) {
+    clientNames.push(client.id);
+  });
+
+  var clientFilter = { 
+    value:{$in: clientNames},
+    type: 'system'
+  };
+
+  var filter = {};
+
+  if(req.body.filter) {
+    filter = req.body.filter;
+  }
+
+  if(filter.clientId && filter.clientId !== undefined) {
+    if(!clientNames.indexOf(filter.clientId)) {
+      filter.clientId = clientFilter;
+    }
+  } else {
+    filter.clientId = clientFilter;
+  }
 
   db.countFeedback(conversationFeedbackContainer, filter, function(result) {
     res.json(result);
@@ -390,7 +547,33 @@ exports.countConversationFeedback = function(req, res) {
 exports.generateConversationFeedbackExport = function(req, res) {
   var username = req.user.username;
 
-  var filter = req.body.filter || {};
+  var clients = clientsHelper.getUserClients(req.user,true,false);
+
+  var clientNames = [];
+
+  clients.forEach( function(client) {
+    clientNames.push(client.id);
+  });
+
+  var clientFilter = { 
+    value:{$in: clientNames},
+    type: 'system'
+  };
+
+  var filter = {};
+
+  if(req.body.filter) {
+    filter = req.body.filter;
+  }
+
+  if(filter.clientId && filter.clientId !== undefined) {
+    if(!clientNames.indexOf(filter.clientId)) {
+      filter.clientId = clientFilter;
+    }
+  } else {
+    filter.clientId = clientFilter;
+  }
+
   var sorting = null; // disabled sorting due to MongoDB rejection when out of RAM, happens for large amounts of data?
 
   if (conversationFeedbackExportCache[username]) {
