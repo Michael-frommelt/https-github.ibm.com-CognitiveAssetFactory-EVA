@@ -8,6 +8,8 @@
 var db;
 if (globalDatabase.type === "mongodb") {
     db = require('./src/mongodb.js');
+} else if (globalDatabase.type === "cloudant") {
+    db = require('./src/cloudant.js');
 } else {
     throw new Error("No database functions for globalDatabase.type = '" + globalDatabase.type + "' for module 'externalFrontend'!");
 }

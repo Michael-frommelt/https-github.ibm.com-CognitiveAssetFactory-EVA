@@ -109,6 +109,9 @@ Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
 Or read our technical documentation: <https://ibm.ent.box.com/file/288886407204>
 
 ## Changelog
+### v1.2.9 (2018-10-24)
+* added cloudant integration for Facebook and Alexa APIs
+
 ### v1.2.8 (2018-10-24)
 * Fixed Test Comparison Controller by changing $scope to this
 * Created translation for Entry 'NAV_TEST' and renamed test in Dialog Test
