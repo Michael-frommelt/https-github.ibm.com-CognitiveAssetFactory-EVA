@@ -109,6 +109,9 @@ Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
 Or read our technical documentation: <https://ibm.ent.box.com/file/288886407204>
 
 ## Changelog
+### v1.2.10 (2018-11-09)
+* Fixed error on MongoDB credentials without ca certificate (see IBM Cloud changes)
+
 ### v1.2.9 (2018-10-24)
 * added cloudant integration for Facebook and Alexa APIs
 

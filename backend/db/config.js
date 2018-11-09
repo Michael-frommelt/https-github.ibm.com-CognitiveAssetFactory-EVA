@@ -24,11 +24,10 @@ if (globalDatabase.type === "mongodb") {
         dbconfig.credentials.ca_certificate_base64 = mongodb_credentials.ca_certificate_base64;
     } else {
         var uri = process.env.DB_URI ? process.env.DB_URI : undefined;
-        var ca_certificate = process.env.DB_CA_CERTIFICATE ? process.env.DB_CA_CERTIFICATE : undefined;
+        dbconfig.credentials.ca_certificate_base64 = process.env.DB_CA_CERTIFICATE ? process.env.DB_CA_CERTIFICATE : undefined;
 
-        if (uri && ca_certificate) {
+        if (uri) {
             dbconfig.credentials.uri = uri;
-            dbconfig.credentials.ca_certificate_base64 = ca_certificate;
         } else {
             throw new Error(ERROR_INSUFFICIENT_INFORMATION);
         }

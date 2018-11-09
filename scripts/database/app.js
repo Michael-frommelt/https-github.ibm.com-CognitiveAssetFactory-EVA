@@ -225,7 +225,7 @@ if (argv.db_type === 'cloudant') {
     throw new Error('Insufficient Cloudant credentials.');
   }
 } else if (argv.db_type === 'mongodb') {
-  if (argv.db_ca_certificate && argv.db_uri) {
+  if (argv.db_uri) {
     connect2MongoDB(0, function(mongodb) {
       async.forEachSeries(containers, function(containerName, callback) {
         mongodb.db("evawatson").createCollection(containerName, function(err, res) {
