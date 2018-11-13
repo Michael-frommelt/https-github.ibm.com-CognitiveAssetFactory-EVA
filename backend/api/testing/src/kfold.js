@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 // ##############################
 // ## IMPORTS                  ##
 // ##############################
@@ -131,44 +131,19 @@ exports.runTest = function(req, res) {
 
                                 target.service.message(payload, function(err, data) {
                                     if (err) {
-                                        callback(err);
+                                        console.log("KFold Test Message Error first try failed", err);
+                                        target.service.message(payload, function(err, data) {
+                                            if (err) {
+                                                console.log("KFold Test Message Error second try failed", err);
+                                                callback(err);
+                                            } else {
+                                                console.log("KFold Test Message Error second try successfull", err);
+                                                resultPerIntent= processResult(data, intent, example, resultPerIntent);
+                                                callback();
+                                            }
+                                        });
                                     } else {
-                                        if (data.intents[0] && intent.test.intent === data.intents[0].intent) {
-                                            if ((chitchatConfig && chitchatConfig.enabled && data.intents[0].confidence > chitchatConfig.reassurance_confidence_level) || (chitchatConfig && !chitchatConfig.enabled) || !chitchatConfig) {
-                                                resultPerIntent.examples.push({
-                                                    correctIntent: true,
-                                                    confidence: data.intents[0].confidence,
-                                                    input: example.text
-                                                });
-                                            } else {
-                                                resultPerIntent.examples.push({
-                                                    correctIntent: false,
-                                                    confidence: data.intents[0].confidence,
-                                                    input: example.text
-                                                });
-                                            }
-                                        } else {
-                                            var intent_array = [];
-                                            for (var i = 0; i < data.intents.length; i++) {
-                                                intent_array.push(data.intents[i].intent);
-                                            }
-                                            var intentIndex = intent_array.indexOf(intent.test.intent);
-                                            if (intentIndex != -1) {
-                                                resultPerIntent.examples.push({
-                                                    correctIntent: false,
-                                                    classifiedIntent: data.intents[0] ? data.intents[0].intent : null,
-                                                    confidence: data.intents[intentIndex] ? data.intents[intentIndex].confidence : null,
-                                                    input: example.text
-                                                });
-                                            } else {
-                                                resultPerIntent.examples.push({
-                                                    correctIntent: false,
-                                                    classifiedIntent: data.intents[0] ? data.intents[0].intent : null,
-                                                    confidence: 0.0,
-                                                    input: example.text
-                                                });
-                                            }
-                                        }
+                                        resultPerIntent= processResult(data, intent, example, resultPerIntent);
                                         callback();
                                     }
                                 });
@@ -515,3 +490,44 @@ function calculateFrequency(result) {
 
     return frequencyPerIntent;
 };
+
+
+function processResult(data, intent, example, resultPerIntent){
+  if (data.intents[0] && intent.test.intent === data.intents[0].intent) {
+      if ((chitchatConfig && chitchatConfig.enabled && data.intents[0].confidence > chitchatConfig.reassurance_confidence_level) || (chitchatConfig && !chitchatConfig.enabled) || !chitchatConfig) {
+          resultPerIntent.examples.push({
+              correctIntent: true,
+              confidence: data.intents[0].confidence,
+              input: example.text
+          });
+      } else {
+          resultPerIntent.examples.push({
+              correctIntent: false,
+              confidence: data.intents[0].confidence,
+              input: example.text
+          });
+      }
+  } else {
+      var intent_array = [];
+      for (var i = 0; i < data.intents.length; i++) {
+          intent_array.push(data.intents[i].intent);
+      }
+      var intentIndex = intent_array.indexOf(intent.test.intent);
+      if (intentIndex != -1) {
+          resultPerIntent.examples.push({
+              correctIntent: false,
+              classifiedIntent: data.intents[0] ? data.intents[0].intent : null,
+              confidence: data.intents[intentIndex] ? data.intents[intentIndex].confidence : null,
+              input: example.text
+          });
+      } else {
+          resultPerIntent.examples.push({
+              correctIntent: false,
+              classifiedIntent: data.intents[0] ? data.intents[0].intent : null,
+              confidence: 0.0,
+              input: example.text
+          });
+      }
+  }
+  return resultPerIntent;
+}

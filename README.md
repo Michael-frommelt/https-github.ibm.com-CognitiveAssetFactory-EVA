@@ -109,6 +109,9 @@ Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
 Or read our technical documentation: <https://ibm.ent.box.com/file/288886407204>
 
 ## Changelog
+### v1.2.11 (2018-11-13)
+* Added retry attempt for message call in K-Fold testing
+
 ### v1.2.10 (2018-11-09)
 * Fixed error on MongoDB credentials without ca certificate (see IBM Cloud changes)
 
