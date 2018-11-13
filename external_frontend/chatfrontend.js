@@ -582,14 +582,14 @@ var evaStartConversation = function(callback) {
         evaSendUserMessageToWatson(evaChatHolderObject.clientId, undefined, function(data) {
             evaToggleTypingAnimation(false);
             evaLockInputField(0);
-            if (data.lockLevel) {
-                evaLockInputField(data.lockLevel);
+            if (data.lock_level) {
+                evaLockInputField(data.lock_level);
             }
 
             var welcomeMessage = {
                 text: data.text[0] ? data.text[0] : "",
                 user: 'watson',
-                messageId: data.messageId,
+                messageId: data.message_id,
                 topIntent: data.topIntent ? data.topIntent : undefined,
                 topConfidence: data.confidence ? data.confidence.toString() : undefined
             };
@@ -627,8 +627,8 @@ var evaConductConversation = function(userInput) {
     evaLockInputField(1);
 
     evaSendUserMessageToWatson(evaChatHolderObject.clientId, userInput, function(data) {
-        if (data.lockLevel) {
-            evaLockInputField(data.lockLevel);
+        if (data.lock_level) {
+            evaLockInputField(data.lock_level);
         }
 
         var dontRemoveLock = false;
@@ -653,7 +653,7 @@ var evaConductConversation = function(userInput) {
                 var message = {};
                 message.user = 'watson';
                 message.text = data.text[i];
-                message.messageId = data.messageId;
+                message.messageId = data.message_id;
                 message.automatedRated = data.rated ? data.rated : undefined;
 
                 // show watson answer after short delay and stop input-disabling & animation after last message
@@ -663,7 +663,7 @@ var evaConductConversation = function(userInput) {
                     if (lastMessage == data.text.length) {
                         evaToggleTypingAnimation(false);
 
-                        if (!data.lockLevel && data.answer_id.indexOf("Profanity_1") == -1 && !dontRemoveLock) {
+                        if (!data.lock_level && data.answer_id.indexOf("Profanity_1") == -1 && !dontRemoveLock) {
                             evaLockInputField(0);
                         }
 
@@ -687,7 +687,7 @@ var evaConductConversation = function(userInput) {
             var message = {};
             message.user = 'watson';
             message.text = "";
-            message.messageId = data.messageId;
+            message.messageId = data.message_id;
             message.automatedRated = data.rated ? data.rated : undefined;
 
             // show message and stop input-disabling & animation after last message

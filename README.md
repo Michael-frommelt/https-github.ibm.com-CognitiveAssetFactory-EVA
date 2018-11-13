@@ -109,6 +109,10 @@ Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
 Or read our technical documentation: <https://ibm.ent.box.com/file/288886407204>
 
 ## Changelog
+### v1.3.0 (2018-11-13)
+* Breaking Change: Fixed inconsistencies in the data model of the external frontend API
+* Added Swagger documentation feature to external frontend API (further documentation under docs/external_api.md)
+
 ### v1.2.11 (2018-11-13)
 * Added retry attempt for message call in K-Fold testing
 

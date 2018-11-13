@@ -17,7 +17,8 @@ module.exports = {
     syncApi: './api/sync/api_sync.js',
     testingApi: './api/testing/api_testing.js',
     userApi: './api/user/api_user.js',
-    variableApi: './api/variable/api_variable.js' // ,
+    variableApi: './api/variable/api_variable.js', 
+    // swaggerApi: './api/swagger/api_swagger.js',
     // facebookApi: './api/facebook/api_facebook.js',
-    // alexaApi: './api/alexa/api_alexa.js'
+    // alexaApi: './api/alexa/api_alexa.js',
 };

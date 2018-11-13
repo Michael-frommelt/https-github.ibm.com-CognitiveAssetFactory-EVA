@@ -1,9 +1,9 @@
 /**
-  * Copyright 2018 IBM Deutschland. All Rights Reserved.
-  *
-  * Enhanced conVersation Asset - EVA
-  * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
-  */
+ * Copyright 2018 IBM Deutschland. All Rights Reserved.
+ *
+ * Enhanced conVersation Asset - EVA
+ * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
+ */
 
 // ##############################
 // ## IMPORTS                  ##
@@ -64,25 +64,21 @@ exports.authenticateApp = function(req, res) {
   var jwt_secret = externalFrontendConfig.jwt_secret;
 
   if(jwt_secret === undefined || jwt_secret === null || jwt_secret === "") {
-    return res.status(500).send(
-      {
-        success: false,
-        message: 'jwt_secret_missing'
-      }
-    );
+    return res.status(500).send({
+      success: false,
+      message: 'jwt_secret_missing'
+    });
   }
 
   var given_app_id = req.body.app_id;
   var given_secret = req.body.secret;
 
   if(given_app_id === undefined || given_app_id === null || given_app_id === "" ||
-      given_secret === undefined || given_secret === null || given_secret === "") {
-        return res.status(403).send(
-          {
-            success: false,
-            message: 'app_id_or_secret_not_set'
-          }
-        );
+    given_secret === undefined || given_secret === null || given_secret === "") {
+    return res.status(403).send({
+      success: false,
+      message: 'app_id_or_secret_not_set'
+    });
   }
 
   var token_exp = Math.floor(Date.now() / 1000) + (60 * 60 * 24);
@@ -92,43 +88,34 @@ exports.authenticateApp = function(req, res) {
     var app = result;
 
     if(app.app_id === given_app_id && app.secret === given_secret) {
-      var token = jwt.sign(
-        {
-          exp: token_exp,
-          app_id: given_app_id,
-          rnd_secret: rnd_secret
-        }, jwt_secret);
+      var token = jwt.sign({
+        exp: token_exp,
+        app_id: given_app_id,
+        rnd_secret: rnd_secret
+      }, jwt_secret);
 
-      return res.json(
-        {
-          success: true,
-          message: 'authentication_successful',
-          auth_token: token
-        }
-      );
+      return res.json({
+        success: true,
+        message: 'authentication_successful',
+        auth_token: token
+      });
     } else {
-      return res.status(403).send(
-        {
-  				success: false,
-  				message: 'wrong_app_id_or_secret'
-        }
-      );
+      return res.status(403).send({
+        success: false,
+        message: 'wrong_app_id_or_secret'
+      });
     }
   }, function(errReason) {
     if(errReason === "app_not_found") {
-      return res.status(403).send(
-        {
-  				success: false,
-  				message: 'wrong_app_id_or_secret'
-        }
-      );
+      return res.status(403).send({
+        success: false,
+        message: 'wrong_app_id_or_secret'
+      });
     } else {
-      return res.status(500).send(
-        {
-  				success: false,
-  				message: 'internal_server_error'
-        }
-      );
+      return res.status(500).send({
+        success: false,
+        message: 'internal_server_error'
+      });
     }
   });
 };
@@ -138,16 +125,18 @@ exports.startPipeline = function(req, res) {
   var client_id = req.body.client_id;
   var username = req.body.user_name;
   var text = req.body.text;
-
+  
   if(session_id === undefined || !session_id) {
     return res.status(400).send({
-      error: 'session_id_missing'
+      success: false,
+      message: 'session_id_missing'
     });
   }
 
   if(client_id === undefined || !client_id) {
     return res.status(400).send({
-      error: 'client_id_missing'
+      success: false,
+      message: 'client_id_missing'
     });
   }
 
@@ -170,22 +159,52 @@ exports.startPipeline = function(req, res) {
     };
     inputObject.user = user;
     inputObject.clientId = client_id;
-
+    
     pipeline.callFromExternalFrontend(inputObject, function(err, output) {
-      if(err) {
-        return res.status(err.code || err.errCode || 500).send(err);
+      if (err) {
+        var errMessage = '';
+        if (typeof err === "string") errMessage = err;
+        else {
+          try {
+            errMessage = JSON.stringify(err);
+          } catch (e) {
+            console.error(err);
+            errMessage = 'unknown_error';
+          }
+        }
+
+        return res.status(500).send({
+          success: false,
+          message: errString
+        });
       }
 
       var cleanedOutput = {};
 
-      if(output) {
-          cleanedOutput.text = output.text;
-          cleanedOutput.answer_id = output.answer_id;
-          cleanedOutput.lockLevel = output.lockLevel;
-          cleanedOutput.answer_proposals = output.answer_proposals;
-          cleanedOutput.warnings = output.warnings;
-          cleanedOutput.messageId = output.messageId;
-          cleanedOutput.actions = output.actions;
+      if (output) {
+        var answerIdStringArray = [];
+        for (var answerId of output.answer_id) {
+          if (typeof answerId === 'object') {
+            answerIdStringArray.push(answerIdObject.id);
+          } else if (typeof answerId === 'string') {
+            answerIdStringArray.push(answerIdObject);
+          }
+        }
+
+        cleanedOutput.success = true;
+        cleanedOutput.message = 'answer_given';
+        cleanedOutput.text = output.text ? output.text : [];
+        cleanedOutput.answer_id = answerIdStringArray;
+        cleanedOutput.lock_level = output.lockLevel ? output.lockLevel : 0;
+        cleanedOutput.answer_proposals = output.answer_proposals ? output.answer_proposals : [];
+        cleanedOutput.warnings = output.warnings ? output.warnings : [];
+        cleanedOutput.message_id = output.messageId;
+        cleanedOutput.actions = output.actions ? output.actions : [];
+      } else {
+        return res.status(500).send({
+          success: false,
+          message: 'got_no_output_object'
+        });
       }
 
       db.saveSession(session, function() {
@@ -197,11 +216,10 @@ exports.startPipeline = function(req, res) {
       })
     });
   }, function(errReason) {
-    return res.status(500).send(
-      {
-				message: 'internal_server_session_error'
-      }
-    );
+    return res.status(500).send({
+      success: false,
+      message: 'internal_server_session_error'
+    });
   });
 };
 
@@ -214,19 +232,22 @@ exports.saveFeedback = function(req, res) {
 
   if(session_id === undefined || !session_id) {
     return res.status(400).send({
-      error: 'session_id_missing'
+      success: false,
+      message: 'session_id_missing'
     });
   }
 
   if(client_id === undefined || !client_id) {
     return res.status(400).send({
-      error: 'client_id_missing'
+      success: false,
+      message: 'client_id_missing'
     });
   }
 
   if(message_id === undefined || !message_id) {
     return res.status(400).send({
-      error: 'message_id_missing'
+      success: false,
+      message: 'message_id_missing'
     });
   }
 
@@ -242,10 +263,12 @@ exports.saveFeedback = function(req, res) {
         function() {
           db.saveSession(session, function() {
             return res.json({
+              success: true,
               message: 'feedback_saved'
             });
           }, function(errCode, errMessage) {
             var output = {
+              success: true,
               message: 'feedback_saved',
               warning: 'session_not_saved',
               session_error: errMessage
@@ -255,23 +278,22 @@ exports.saveFeedback = function(req, res) {
         },
         function(errCode, errMessage) {
           return res.status(500).send({
+            success: false,
             message: 'feedback_not_saved'
           })
         }
       );
     } else {
-      return res.status(404).send(
-        {
-          message: 'session_object_empty'
-        }
-      );
+      return res.status(404).send({
+        success: false,
+        message: 'session_object_empty'
+      });
     }
   }, function(errReason) {
-    return res.status(500).send(
-      {
-        message: 'internal_server_session_error'
-      }
-    );
+    return res.status(500).send({
+      success: false,
+      message: 'internal_server_session_error'
+    });
   });
 };
 
@@ -284,13 +306,15 @@ exports.saveConversationFeedback = function(req, res) {
 
   if(session_id === undefined || !session_id) {
     return res.status(400).send({
-      error: 'session_id_missing'
+      success: false,
+      message: 'session_id_missing'
     });
   }
 
   if(client_id === undefined || !client_id) {
     return res.status(400).send({
-      error: 'client_id_missing'
+      success: false,
+      message: 'client_id_missing'
     });
   }
 
@@ -305,6 +329,7 @@ exports.saveConversationFeedback = function(req, res) {
       var conversationId;
       if (!(session_object.watson && typeof session_object.watson.conversationId === 'string')) {
         return res.status(404).send({
+          success: false,
           message: 'no_conversation_id_in_session'
         });
       } else {
@@ -313,26 +338,26 @@ exports.saveConversationFeedback = function(req, res) {
 
       feedbackApi.saveConversationFeedbackExternal(client_id, comment, conversationId, rating, username, function() {
         return res.json({
+          success: true,
           message: 'conversation_feedback_saved',
         });
       }, function(error) {
         res.status(500).send({
+          success: false,
           message: 'conversation_feedback_not_saved',
         });
       });
     } else {
-      return res.status(404).send(
-        {
-          message: 'session_object_empty'
-        }
-      );
+      return res.status(404).send({
+        success: false,
+        message: 'session_object_empty'
+      });
     }
   }, function(errReason) {
-    return res.status(500).send(
-      {
-        message: 'internal_server_session_error'
-      }
-    );
+    return res.status(500).send({
+      success: false,
+      message: 'internal_server_session_error'
+    });
   });
 };
 
@@ -341,28 +366,42 @@ exports.resetSession = function(req, res) {
 
   if(session_id === undefined || !session_id) {
     return res.status(400).send({
-      error: 'session_id_missing'
+      success: false,
+      message: 'session_id_missing'
     });
   }
 
   db.deleteSession(session_id, function(session_id) {
-    return res.json({session_deleted: true});
+    return res.json({
+      success: true,
+      message: 'session_deleted'
+    });
   }, function(error) {
-    return res.status(500).send(
-      {
-				message: error,
-        session_id: session_id
+    var errMessage = '';
+    if (typeof err === "string") errMessage = err;
+    else {
+      try {
+        errMessage = JSON.stringify(err);
+      } catch (e) {
+        console.error(err);
+        errMessage = 'unknown_error';
       }
-    );
+    }
+
+    return res.status(500).send({
+      success: false,
+      message: errString
+    });
   });
 };
 
 exports.keepaliveSession = function(req, res) {
   var session_id = req.body.session_id;
 
-  if(session_id === undefined || !session_id) {
+  if (session_id === undefined || !session_id) {
     return res.status(400).send({
-      error: 'session_id_missing'
+      success: false,
+      message: 'session_id_missing'
     });
   }
 
@@ -370,16 +409,21 @@ exports.keepaliveSession = function(req, res) {
     var session = result;
 
     db.saveSession(session, function() {
-      return res.json({session_updated: true});
+      return res.json({
+        success: true,
+        message: 'session_updated'
+      });
     }, function(errCode, errMessage) {
-      return res.status(500).send({error: 'session_not_saved'});
+      return res.status(500).send({
+        success: false,
+        message: 'session_not_saved'
+      });
     });
   }, function(errReason) {
-    return res.status(500).send(
-      {
-				message: 'internal_server_session_error'
-      }
-    );
+    return res.status(500).send({
+      success: false,
+      message: 'internal_server_session_error'
+    });
   });
 };
 
@@ -394,7 +438,10 @@ exports.validateAuthentication = function(req, res, next) {
         if(err.name === "TokenExpiredError") {
           errMessage = "auth_token_expired";
         }
-        return res.status(403).send({ success: false, message: errMessage });
+        return res.status(403).send({
+          success: false,
+          message: errMessage
+        });
       } else {
         db.getApp(decoded.app_id, function(result) {
           var app = result;
@@ -402,21 +449,17 @@ exports.validateAuthentication = function(req, res, next) {
           if(app.app_id === decoded.app_id) {
             return next();
           } else {
-            return res.status(403).send(
-              {
-        				success: false,
-        				message: 'app_id_not_valid'
-              }
-            );
+            return res.status(403).send({
+              success: false,
+              message: 'app_id_not_valid'
+            });
           }
         }, function(errReason) {
           if(errReason === "app_not_found") {
-            return res.status(403).send(
-              {
-        				success: false,
-        				message: 'app_id_not_valid'
-              }
-            );
+            return res.status(403).send({
+              success: false,
+              message: 'app_id_not_valid'
+            });
           } else {
             console.error("could_not_valid_app_id_db_connection_error");
             return next();

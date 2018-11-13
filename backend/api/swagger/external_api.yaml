@@ -1,0 +1,398 @@
+swagger: '2.0'
+info:
+  x-ibm-name: eva-external-api
+  title: EVA External API
+  version: 1.0.0
+schemes:
+  - https
+basePath: /api/public
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  JWT:
+    type: apiKey
+    in: header
+    name: X-Access-Token
+    description: Json Web Token (JWT) used to check authentication of the client. The client requests the token using the /authenticate method and has to add the returned token to subsequent calls to the other methods.
+security:
+  - JWT: []
+x-ibm-configuration:
+  testable: true
+  enforced: false
+  cors:
+    enabled: true
+  assembly:
+    execute:
+      - invoke:
+          target-url: $(target-url)$(request.path)
+  phase: realized
+  properties:
+    hostname:
+      description: host name of the API endpoint
+      encoded: false
+  catalogs: {}
+paths:
+  /authenticate:
+    post:
+      description: Used to authenticate to the API and recieve an authentication token for the other endpoints
+      parameters:
+        - in: body
+          name: Authentication
+          required: true
+          schema:
+            $ref: '#/definitions/authentication'
+      responses:
+        '200':
+          description: OK - Request handled successfully
+          schema:
+            $ref: '#/definitions/authentication-response'
+        '403':
+          description: Unauthorized - Used if the appId or secret are missing or wrong
+          schema:
+            $ref: '#/definitions/error-response'
+        '500':
+          description: Internal Server Error - Generic error response
+          schema:
+            $ref: '#/definitions/error-response'
+      security: []
+  /message:
+    post:
+      description: Used to send a users chat message to the API and recieve the chatbots answer
+      parameters:
+        - in: body
+          name: Message
+          required: true
+          schema:
+            $ref: '#/definitions/message'
+      responses:
+        '200':
+          description: OK - Request handled successfully
+          schema:
+            $ref: '#/definitions/message-response'
+        '400':
+          description: Bad request - Used if the required parameters are missing
+          schema:
+            $ref: '#/definitions/error-response'
+        '500':
+          description: Internal Server Error - Generic error response
+          schema:
+            $ref: '#/definitions/error-response'
+  /feedback:
+    post:
+      description: Used to send a users feedback for a specific message
+      parameters:
+        - in: body
+          name: Feedback
+          required: true
+          schema:
+            $ref: '#/definitions/feedback'
+      responses:
+        '200':
+          description: OK - Request handled successfully
+          schema:
+            $ref: '#/definitions/simple-response'
+        '400':
+          description: Bad request - Used if the required parameters are missing
+          schema:
+            $ref: '#/definitions/error-response'
+        '404':
+          description: Not found - Used if the feedback is submitted for an empty session
+          schema:
+            $ref: '#/definitions/error-response'
+        '500':
+          description: Internal Server Error - Generic error response
+          schema:
+            $ref: '#/definitions/error-response'
+  /conversation-feedback:
+    post:
+      description: Used to send a users feedback for the whole conversation
+      parameters:
+        - in: body
+          name: Conversation feedback
+          required: true
+          schema:
+            $ref: '#/definitions/conversation-feedback'
+      responses:
+        '200':
+          description: OK - Request handled successfully
+          schema:
+            $ref: '#/definitions/simple-response'
+        '400':
+          description: Bad request - Used if the required parameters are missing
+          schema:
+            $ref: '#/definitions/error-response'
+        '404':
+          description: Not found - Used if the feedback is submitted for an empty session
+          schema:
+            $ref: '#/definitions/error-response'
+        '500':
+          description: Internal Server Error - Generic error response
+          schema:
+            $ref: '#/definitions/error-response'
+  /session/reset:
+    post:
+      description: Used to send a users session and conversation
+      parameters:
+        - in: body
+          name: Session information
+          required: true
+          schema:
+            $ref: '#/definitions/session-information'
+      responses:
+        '200':
+          description: OK - Request handled successfully
+          schema:
+            $ref: '#/definitions/simple-response'
+        '400':
+          description: Bad request - Used if the required parameters are missing
+          schema:
+            $ref: '#/definitions/error-response'
+        '500':
+          description: Internal Server Error - Generic error response
+          schema:
+            $ref: '#/definitions/error-response'
+  /session/keepalive:
+    post:
+      description: Used to keep a users session and conversation from timing out
+      parameters:
+        - in: body
+          name: Session information
+          required: true
+          schema:
+            $ref: '#/definitions/session-information'
+      responses:
+        '200':
+          description: OK - Request handled successfully
+          schema:
+            $ref: '#/definitions/simple-response'
+        '400':
+          description: Bad request - Used if the required parameters are missing
+          schema:
+            $ref: '#/definitions/error-response'
+        '500':
+          description: Internal Server Error - Generic error response
+          schema:
+            $ref: '#/definitions/error-response'
+definitions:
+  authentication:
+    additionalProperties: false
+    properties:
+      app_id:
+        type: string
+        description: Unique identifier of the authenticating application
+      secret:
+        type: string
+        description: Secret password of the authenticating application
+    required:
+      - app_id
+      - secret
+    example:
+      app_id: testapp
+      secret: testsecret
+  authentication-response:
+    additionalProperties: false
+    properties:
+      success:
+        type: boolean
+        description: Whether the request was handled successfully
+      message:
+        type: string
+        description: Status message
+      auth_token:
+        type: string
+        description: Authorization token for further requests
+    required:
+      - success
+      - message
+      - auth_token
+    example:
+      success: true
+      message: authentication successful
+      auth_token: KFSh5-jwt-token-zKX4K
+  message:
+    additionalProperties: false
+    properties:
+      session_id:
+        type: string
+        description: Unique identifier of the users current session
+      client_id:
+        type: string
+        description: Unique identifier of the chatbot client the user wants to talk to
+      text:
+        type: string
+        description: Message of the user
+      user_name:
+        type: string
+        description: Users name or unique identifier for logging purposes
+    required:
+      - session_id
+      - client_id
+      - text
+    example:
+      session_id: test-session-A9lbESV3O291MoSKkIzn
+      client_id: standard
+      text: Hi, who are you?
+      user_name: testuser
+  message-response:
+    additionalProperties: false
+    properties:
+      success:
+        type: boolean
+        description: Whether the request was handled successfully
+      message:
+        type: string
+        description: Status message
+      message_id:
+        type: integer
+        description: Unique identifier for this message in this session. It can be used to provide a user feedback for this message
+      text:
+        type: array
+        items:
+          type: string
+        description: Answer texts of the chatbot
+      answer_id:
+        type: array
+        items:
+          type: string
+        description: Unique identifiers of the answer texts
+      answer_proposals:
+        type: array
+        items:
+          type: string
+        description: Proposed answers to this message which can be provided to the user
+      lock_level:
+        type: integer
+        enum: [0, 1, 2, 3]
+        description: Whether the users text input should be locked.
+          - If 0, the input should not be locked
+          - If 1, the input should be locked due to unspecified reasons
+          - If 2, the input should be locked to force the user to use an answer proposal
+          - If 3, the input should be locked due to user profanities in the earlier messages
+      actions:
+        type: array
+        items:
+          type: string
+        description: List of unique identifiers for actions that ocurred during the response computation and that may need special handling in the UI
+      warnings:
+        type: array
+        items:
+          type: string
+        description: List of status messages for warnings / non-critical errors that ocurred during the response computation
+    required:
+      - success
+      - message
+      - message_id
+      - text
+      - answer_id
+      - answer_proposals
+      - lock_level
+      - actions
+      - warnings
+    example:
+      success: true
+      message: answer_given
+      message_id: 0
+      text: ['Herzlich Willkommen']
+      answer_id: ['Welcome01']
+      answer_proposals: ['Hallo', 'Wie gehts?']
+      lock_level: 0
+      actions: ['showWelcomeBanner']
+      warnings: []
+  feedback:
+    additionalProperties: false
+    properties:
+      session_id:
+        type: string
+        description: Unique identifier of the users current session
+      client_id:
+        type: string
+        description: Unique identifier of the chatbot client the user wants to give feedback to
+      message_id:
+        type: integer
+        description: Unique identifier of the message that this feedback is for
+      feedback:
+        type: string
+        enum: ['positive', 'negative']
+        description: Whether this is a positive or negative feedback
+      comment:
+        type: string
+        description: Text comment of this feedback
+    required:
+      - session_id
+      - client_id
+      - message_id
+      - feedback
+    example:
+      session_id: test-session-A9lbESV3O291MoSKkIzn
+      client_id: standard
+      message_id: 4
+      feedback: negative
+      comment: Die Antwort passt leider gar nicht zu der gestellten Frage
+  conversation-feedback:
+    additionalProperties: false
+    properties:
+      session_id:
+        type: string
+        description: Unique identifier of the users current session
+      client_id:
+        type: string
+        description: Unique identifier of the chatbot client the user wants to give feedback to
+      rating:
+        type: integer
+        minimum: 1
+        maximum: 5
+        description: Users rating of the conversation in a range from one to five
+      comment:
+        type: string
+        description: Text comment of this conversation feedback
+      user_name:
+        type: string
+        description: Users name or unique identifier for logging purposes
+    required:
+      - session_id
+      - client_id
+    example:
+      session_id: test-session-A9lbESV3O291MoSKkIzn
+      client_id: standard
+      rating: 4
+      comment: Das war ein gutes Gespräch
+  session-information:
+    additionalProperties: false
+    properties:
+      session_id:
+        type: string
+        description: Unique identifier of the users current session
+    required:
+      - session_id
+    example:
+      session_id: test-session-A9lbESV3O291MoSKkIzn
+  simple-response:
+    additionalProperties: false
+    properties:
+      success:
+        type: boolean
+        description: Whether the request was handled successfully
+      message:
+        type: string
+        description: Status message
+    required:
+      - success
+    example:
+      success: true
+      message: ... is saved
+  error-response:
+    additionalProperties: false
+    properties:
+      success:
+        type: boolean
+        description: Whether the request was handled successfully
+      message:
+        type: string
+        description: Error message
+    required:
+      - success
+    example:
+      success: false
+      message: ... is missing or did not work
