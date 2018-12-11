@@ -9,6 +9,7 @@
 // ## IMPORTS                  ##
 // ##############################
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 var db = require('./db/db.js').getDatabase();
 var clients = require('../../helper/clients.js');
 var pipeline = require('../../pipeline/pipeline.js');
@@ -86,8 +87,16 @@ exports.authenticateApp = function(req, res) {
 
   db.getApp(given_app_id, function(result) {
     var app = result;
+    
+    var same = false;
+    try {
+      same = crypto.timingSafeEqual(Buffer.from(app.app_id), Buffer.from(given_app_id)) 
+    && crypto.timingSafeEqual(Buffer.from(app.secret), Buffer.from(given_secret));
+    } catch (error) {
+      same = false;
+    }
 
-    if(app.app_id === given_app_id && app.secret === given_secret) {
+    if(same) {
       var token = jwt.sign({
         exp: token_exp,
         app_id: given_app_id,
@@ -175,7 +184,7 @@ exports.startPipeline = function(req, res) {
 
         return res.status(500).send({
           success: false,
-          message: errString
+          message: errMessage
         });
       }
 
@@ -185,9 +194,9 @@ exports.startPipeline = function(req, res) {
         var answerIdStringArray = [];
         for (var answerId of output.answer_id) {
           if (typeof answerId === 'object') {
-            answerIdStringArray.push(answerIdObject.id);
+            answerIdStringArray.push(answerId.id);
           } else if (typeof answerId === 'string') {
-            answerIdStringArray.push(answerIdObject);
+            answerIdStringArray.push(answerId);
           }
         }
 
@@ -376,7 +385,7 @@ exports.resetSession = function(req, res) {
       success: true,
       message: 'session_deleted'
     });
-  }, function(error) {
+  }, function(err) {
     var errMessage = '';
     if (typeof err === "string") errMessage = err;
     else {
@@ -390,7 +399,7 @@ exports.resetSession = function(req, res) {
 
     return res.status(500).send({
       success: false,
-      message: errString
+      message: errMessage
     });
   });
 };
@@ -445,8 +454,15 @@ exports.validateAuthentication = function(req, res, next) {
       } else {
         db.getApp(decoded.app_id, function(result) {
           var app = result;
+          
+          var same = false;
+          try {
+            same = crypto.timingSafeEqual(Buffer.from(app.app_id), Buffer.from(decoded.app_id));
+          } catch (error) {
+            same = false;
+          }
 
-          if(app.app_id === decoded.app_id) {
+          if(same) {
             return next();
           } else {
             return res.status(403).send({

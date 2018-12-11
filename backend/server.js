@@ -24,9 +24,25 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
     session = require('express-session'),
+    MemoryStore = require('memorystore')(session),
     passport = require('passport');
 
 var appEnv = require('./env.js');
+
+/////////////////////////////
+// Redirection of unsecure requests to https, if not running local
+//////////////////////////////
+if (!appEnv.isLocal) {
+	app.enable('trust proxy');
+	
+  app.use(function(req, res, next) {
+    if (req.secure) {
+      next();
+    } else {
+      res.redirect('https://' + req.headers.host + req.url);
+    }
+  });
+}
 
 var db;
 try {
@@ -34,7 +50,7 @@ try {
 } catch (err) {
     console.log("db.js could not be loaded correctly. shutting down!");
     console.log(err);
-    return process.exit(1);
+    process.exit(1);
 }
 
 var loadedAPIs = {};
@@ -56,9 +72,10 @@ var initExpressApp = function() {
     app.use(session({
         secret: 'qwertyuio',
         resave: false,
-        saveUninitialized: true
-        // ,
-        // store: store
+        saveUninitialized: true,
+        store: new MemoryStore({
+            checkPeriod: 86400000
+        })
     }));
 
     // initialize passport and create session handling

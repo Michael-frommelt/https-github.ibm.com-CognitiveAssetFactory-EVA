@@ -42,8 +42,7 @@ angular.module('main')
         id: 'username',
         name: 'Username',
         active: true,
-        filter: 'select',
-        filterAutoSelect: true
+        filter: 'text'
       }, {
         id: 'originalQuestion',
         name: 'Not Modified Question',

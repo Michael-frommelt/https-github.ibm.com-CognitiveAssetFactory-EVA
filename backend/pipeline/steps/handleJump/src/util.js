@@ -539,13 +539,13 @@ function callConversation(resultHolder, conversation, payload, answerFrom, callb
     }
 
     conversation.message(payload, function(err, data) {
-        delete data.context.calledByJumpHandler;
-
-        resultHolder.debug.handleJump.data = data;
         resultHolder.debug.totalWcsCalls++;
-
+        
         if (err) return callback(err, resultHolder);
-
+        
+        delete data.context.calledByJumpHandler;
+        resultHolder.debug.handleJump.data = data;
+        
         resultHolder.output = JSON.parse(JSON.stringify(data.output));
 
         var replacablePrompts = [];

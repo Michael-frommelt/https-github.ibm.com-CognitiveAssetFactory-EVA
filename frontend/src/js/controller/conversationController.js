@@ -24,7 +24,6 @@ angular.module('main')
       if($rootScope.showDebug) {
         $scope.shortConcatTimeout = 0;
         $scope.longConcatTimeout = 0;
-        $scope.extendedFeedback = false;
       }
     };
     $scope.setNegativeRatingAutomatically = false;
@@ -61,8 +60,6 @@ angular.module('main')
       $scope.lockLevel = 0;
       $scope.lockLevelPlaceholder = "Ihre Nachricht..."
     }
-
-    $scope.extendedFeedback = false;
 
     var conversation = {};
     $scope.shortConcatTimeout = 1500;
@@ -231,7 +228,7 @@ angular.module('main')
         // plot watson messages
         $scope.messages.push(message);
         if (message.feedbackAllowed) {
-          if (message.automatedRated && $scope.extendedFeedback && $scope.setNegativeRatingAutomatically) {
+          if (message.automatedRated && $scope.setNegativeRatingAutomatically) {
             var lastIndex = $scope.messages.length - 1;
             $scope.setNegativeRating(lastIndex, true);
           }
@@ -572,62 +569,8 @@ angular.module('main')
           }
         }
 
-        if ($scope.extendedFeedbackActive) {
-          return;
-        }
+        $scope.setPositiveRating(index, false);
 
-        if ($scope.extendedFeedback) {
-            $scope.extendedFeedbackActive = true;
-            var modalInstance = $uibModal.open({
-                animation: true,
-                backdropClass: 'modeless-backdrop',
-                windowClass: 'modeless',
-                ariaLabelledBy: 'modal-title',
-                ariaDescribedBy: 'modal-body',
-                templateUrl: 'views/directives/extFeedbackModal.html',
-                controller: 'ExtFeedbackModalCtrl',
-                controllerAs: '$ctrl',
-                size: 'lg',
-                keyboard: false,
-                backdrop: 'static',
-                resolve: {
-                    feedbackRow: function() {
-                        return feedbackRowSource;
-                    }
-                }
-            });
-
-            modalInstance.result.then(function(result) {
-                $scope.extendedFeedbackActive = false;
-
-                $scope.messages[index].rated = true;
-                if (result.comment && result.comment !== "") {
-                    $scope.messages[index].commenting = false;
-                    $scope.messages[index].commented = true;
-                }
-
-                conversationService.saveFeedback($scope.clientId,
-                        result.messageId,
-                        result.feedback || false,
-                        result.comment || undefined,
-                        result.reason
-                    )
-                    .then(function(data) {
-                        $scope.messages[index].id = data.id;
-                        $scope.messages[index].rev = data.rev;
-                    }, function(data) {
-                        $scope.chatError = "Feedback konnte nicht gespeichert werden:";
-                        $scope.errorText = data;
-                        $scope.messages[index].rated = false;
-                        $scope.messages[index].commented = false;
-                    });
-            }, function() {
-                $scope.extendedFeedbackActive = false;
-                console.log('Modal dismissed at: ' + new Date());
-            });
-        } else {
-            $scope.setPositiveRating(index, false);
-        }
     };
 
     $scope.loadAudio = function(message) {
@@ -912,7 +855,7 @@ angular.module('main')
        $scope.chatError = "Feedback konnte nicht gespeichert werden:";
        $scope.errorText = data;
      });
-     
+
       $scope.conversationFeedbackGiven = true;
       $scope.requestConversationFeedback = false;
  };

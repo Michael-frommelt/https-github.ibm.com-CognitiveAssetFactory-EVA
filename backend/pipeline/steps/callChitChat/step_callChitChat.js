@@ -46,8 +46,6 @@ exports.call = function(resultHolder, callback) {
 
             chitChatConversation.service.message(payload, function(err, data) {
                 resultHolder.debug.totalWcsCalls++;
-                resultHolder.debug.chitChat.data = JSON.parse(JSON.stringify(data));
-                resultHolder.chitChat = JSON.parse(JSON.stringify(data));
                 if (!resultHolder.isTest && config && config.backendLogLevel && config.backendLogLevel >= 3) console.log("##### jump to chitchat");
                 if (err) {
                     console.error('##### chitchat error');
@@ -55,7 +53,9 @@ exports.call = function(resultHolder, callback) {
                     resultHolder.debug.chitChat.error = err;
                 } else {
                     if (!resultHolder.isTest && config && config.backendLogLevel && config.backendLogLevel >= 3) console.log('##### replace old answer by chitchat');
+                    resultHolder.debug.chitChat.data = JSON.parse(JSON.stringify(data));
                     resultHolder.debug.chitChat.success = true;
+                    resultHolder.chitChat = JSON.parse(JSON.stringify(data));
                     resultHolder.answerFrom = "callChitChat";
                     resultHolder.currentContext = data.context;
                     resultHolder.output = data.output;

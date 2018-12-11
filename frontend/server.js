@@ -18,6 +18,21 @@ var proxy = require('http-proxy-middleware');
 
 var appEnv = require('./env');
 
+/////////////////////////////
+// Redirection of unsecure requests to https, if not running local
+//////////////////////////////
+if (!appEnv.isLocal) {
+	app.enable('trust proxy');
+	
+  app.use(function(req, res, next) {
+    if (req.secure) {
+      next();
+    } else {
+      res.redirect('https://' + req.headers.host + req.url);
+    }
+  });
+}
+
 var backend = '';
 if(appEnv.isLocal) {
 	backend = 'http://localhost:8070'

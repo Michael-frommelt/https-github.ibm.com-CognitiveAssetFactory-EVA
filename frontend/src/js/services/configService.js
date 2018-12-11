@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 angular.module('main').service('ConfigService', ['$http', '$q',
   function($http, $q) {
     // return public API.
@@ -12,7 +12,6 @@ angular.module('main').service('ConfigService', ['$http', '$q',
       getConfig: getConfig,
       updateConfig: updateConfig,
       reloadClients: reloadClients,
-      getExtendedFeedbackConfig: getExtendedFeedbackConfig,
       getClientsForUser: getClientsForUser
     });
 
@@ -31,10 +30,6 @@ angular.module('main').service('ConfigService', ['$http', '$q',
 
     function reloadClients() {
       return $http.get('/api/clients/reload').then(handleSuccess, handleError);
-    }
-
-    function getExtendedFeedbackConfig() {
-      return $http.post('/api/config/extended_feedback_config/get').then(handleSuccess, handleError);
     }
 
     function getClientsForUser(showHidden, showTechnical) {

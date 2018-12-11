@@ -106,9 +106,20 @@ Important: Every client has his primary Conversation and Retrieve and Rank works
 
 ## Further Information needed?
 Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
-Or read our technical documentation: <https://ibm.ent.box.com/file/288886407204>
+Or read our technical documentation: <https://apps.na.collabserv.com/wikis/basic/api/wiki/5f5e6b89-23d2-41b7-86a8-c3e708f5ec01/page/b405ea70-d3d0-4314-af49-aaafbfb17ec6/attachment/b00cde56-c1dc-47f2-a7d5-826c92f9d3da/media/EVA_Documentation_1.x.pdf>
 
 ## Changelog
+### v1.3.1 (2018-12-07)
+* Redirect all http-requests to https, if not running local
+* Changed filtering for username in reporting to improve performance with huge amounts of usernames
+* Deleted unused images
+* Prevent timing attacks (double HMAC) in external frontend API
+* Fixed some errors with external frontend API
+* Removed extended feedback components
+* Changed link to technical documentation to ensure general access to file
+* Replaced standard session store to prevent memory leaks
+* Improved error resistance when Assistant requests fail
+
 ### v1.3.0 (2018-11-13)
 * Breaking Change: Fixed inconsistencies in the data model of the external frontend API
 * Added Swagger documentation feature to external frontend API (further documentation under docs/external_api.md)

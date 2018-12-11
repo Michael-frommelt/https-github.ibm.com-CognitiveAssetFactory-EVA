@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 // ##############################
 // ## IMPORTS                  ##
 // ##############################
@@ -17,7 +17,6 @@ const permissions = require('../../helper/permissions.js');
 // ##############################
 exports.createRoutes = function(app) {
   app.post('/api/config/get', permissions.mwHasPermission('isAuthenticated'), this.getConfig);
-  app.post('/api/config/extended_feedback_config/get', permissions.mwHasPermission('isAuthenticated'), this.getExtendedFeedbackConfig);
   app.post('/api/config/update', permissions.mwHasSomePermission('editConfiguration','editSettings'), this.updateConfig);
 };
 
@@ -49,14 +48,6 @@ exports.getConfig = function(req, res) {
   }
 
   getConfigFunction(id, function(result) {
-    res.json(result);
-  }, function(errReason) {
-    res.status(500).send(errReason);
-  });
-};
-
-exports.getExtendedFeedbackConfig = function(req, res) {
-  getConfigFunction("extended_feedback_config", function(result) {
     res.json(result);
   }, function(errReason) {
     res.status(500).send(errReason);
