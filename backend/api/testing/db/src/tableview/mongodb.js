@@ -54,12 +54,12 @@ exports.getTestcasePerformance = function(run, clientId, callbackSuccess, callba
         $sort: {
             "_id": 1
         }
-    }, (function(err, result) {
+    }).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
         return callbackSuccess(result);
-    }));
+    });
 };
 
 // get test results aggregated by test steps
@@ -107,13 +107,12 @@ exports.getTeststepPerformance = function(run, clientId, callbackSuccess, callba
             $sort: {
                 "_id": -1
             }
-        },
-        (function(err, result) {
+        }).toArray(function(err, result) {
             if (err) {
                 return callbackError(500, err);
             }
             return callbackSuccess(result);
-        }));
+        });
 };
 
 exports.getTestResultByFile = function(run, clientId, callbackSuccess, callbackError) {
@@ -187,7 +186,7 @@ exports.getTestResultByFile = function(run, clientId, callbackSuccess, callbackE
         $sort: {
             _id: 1
         }
-    }, function(err, result) {
+    }).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
@@ -266,7 +265,7 @@ exports.getTestResultByIntent = function(run, clientId, callbackSuccess, callbac
         $sort: {
             _id: 1
         }
-    }, function(err, result) {
+    }).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
@@ -365,7 +364,7 @@ exports.getTestResultInDetail = function(run, key, value, clientId, callbackSucc
                 $push: "$uuidResult"
             }
         }
-    }, function(err, result) {
+    }).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
@@ -396,12 +395,12 @@ exports.getRun = function(clientId, callbackSuccess, callbackError) {
         {
             $limit: 5
         }
-    ], (function(err, result) {
+    ]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
         return callbackSuccess(result);
-    }));
+    });
 };
 
 //List names of test files
@@ -421,12 +420,12 @@ exports.getFileNames = function(clientId, callbackSuccess, callbackError) {
                 name: 1
             }
         }
-    ], (function(err, result) {
+    ]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
         return callbackSuccess(result);
-    }));
+    });
 };
 
 exports.deleteTestrun = function(date, clientId, callbackSuccess, callbackError) {

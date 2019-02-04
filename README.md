@@ -109,6 +109,12 @@ Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
 Or read our technical documentation: <https://apps.na.collabserv.com/wikis/basic/api/wiki/5f5e6b89-23d2-41b7-86a8-c3e708f5ec01/page/b405ea70-d3d0-4314-af49-aaafbfb17ec6/attachment/b00cde56-c1dc-47f2-a7d5-826c92f9d3da/media/EVA_Documentation_1.x.pdf>
 
 ## Changelog
+### v1.4.0 (2019-02-04)
+* Fixed "Deploy to IBM Cloud" button - 1-click auto deployment working again
+* Fixed version numbers to be IBM OSS approved
+* Fixed several deprecation warnings
+* Prepared EVA for multi-language deployment (not working yet)
+
 ### v1.3.2 (2019-02-04)
 * Added import/export functionality for the variableStore
 * Replaced deprecated method to create Buffer

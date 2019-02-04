@@ -46,6 +46,7 @@
         "prod-region",
         "prod-organization",
         "prod-space",
+        "api-key"
     ],
     "form": [
         {

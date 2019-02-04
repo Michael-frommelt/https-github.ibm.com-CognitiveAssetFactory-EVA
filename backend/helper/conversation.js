@@ -4,7 +4,7 @@
   * Enhanced conVersation Asset - EVA
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
-  
+
 var clients = require('./clients.js');
 var watson = require('watson-developer-cloud');
 var config = require('./config.js').getConfig('general');
@@ -44,15 +44,14 @@ function getConversationSetup(clientId, user, test, type) {
 
         var conversation_credentials, workspace;
         if (client.hasOwnProperty('conversation')) {
-            if (client.conversation.url && client.conversation.username && client.conversation.password && client.conversation.version_date && client.conversation.version) {
+            if (client.conversation.url && client.conversation.api_key && client.conversation.version_date && client.conversation.version) {
                 if (config && config.backendLogLevel && config.backendLogLevel >= 3) {
                     console.log("Client is using its own credentials for WCS.");
                 }
 
                 conversation_credentials = {
                     url: client.conversation.url,
-                    username: client.conversation.username,
-                    password: client.conversation.password,
+                    iam_apikey: client.conversation.api_key,
                     version_date: client.conversation.version_date,
                     version: client.conversation.version
                 };
@@ -67,11 +66,10 @@ function getConversationSetup(clientId, user, test, type) {
 
             if (type === BUSINESS) {
 
-                if (conversationConfig.url && conversationConfig.username && conversationConfig.password && conversationConfig.version_date && conversationConfig.version) {
+                if (conversationConfig.url && conversationConfig.api_key && conversationConfig.version_date && conversationConfig.version) {
                     conversation_credentials = {
                         url: conversationConfig.url,
-                        username: conversationConfig.username,
-                        password: conversationConfig.password,
+                        iam_apikey: conversationConfig.api_key,
                         version_date: conversationConfig.version_date,
                         version: conversationConfig.version
                     };
@@ -83,11 +81,10 @@ function getConversationSetup(clientId, user, test, type) {
 
             } else if (type === CHITCHAT) {
 
-                if (chitchatConfig.url && chitchatConfig.username && chitchatConfig.password && chitchatConfig.version_date && chitchatConfig.version) {
+                if (chitchatConfig.url && chitchatConfig.api_key && chitchatConfig.version_date && chitchatConfig.version) {
                     conversation_credentials = {
                         url: chitchatConfig.url,
-                        username: chitchatConfig.username,
-                        password: chitchatConfig.password,
+                        iam_apikey: chitchatConfig.api_key,
                         version_date: chitchatConfig.version_date,
                         version: chitchatConfig.version
                     };
@@ -143,11 +140,10 @@ function getTestingConversationSetup(testtype, conversationtype) {
     if (testingConfig.conversation.workspaces.hasOwnProperty(property)) {
 
         var conversation_credentials;
-        if (testingConfig.conversation.url && testingConfig.conversation.username && testingConfig.conversation.password && testingConfig.conversation.version_date && testingConfig.conversation.version) {
+        if (testingConfig.conversation.url && testingConfig.conversation.api_key && testingConfig.conversation.version_date && testingConfig.conversation.version) {
             conversation_credentials = {
                 url: testingConfig.conversation.url,
-                username: testingConfig.conversation.username,
-                password: testingConfig.conversation.password,
+                iam_apikey: testingConfig.conversation.api_key,
                 version_date: testingConfig.conversation.version_date,
                 version: testingConfig.conversation.version
             };

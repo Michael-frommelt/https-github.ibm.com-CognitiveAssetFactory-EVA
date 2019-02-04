@@ -34,7 +34,7 @@ exports.getClientStatistic = function(filter, callbackSuccess, callbackError) {
                 }
             }
         }
-    }], (function(err, resultData) {
+    }]).toArray(function(err, resultData) {
         if (err) {
             return callbackError(500, err);
         }
@@ -45,7 +45,7 @@ exports.getClientStatistic = function(filter, callbackSuccess, callbackError) {
                     $first: "$created"
                 }
             }
-        }], (function(err, resultFirstDate) {
+        }]).toArray(function(err, resultFirstDate) {
             if (err) {
                 return callbackError(500, err);
             }
@@ -56,8 +56,8 @@ exports.getClientStatistic = function(filter, callbackSuccess, callbackError) {
             };
 
             return callbackSuccess(result);
-        }));
-    }));
+        });
+    });
 };
 
 // gets all conversations (=users) in the given interval with timestamp ("created") grouped by day
@@ -100,12 +100,12 @@ exports.getUserStatistic = function(client, startFromFrontend, callbackSuccess, 
                 }
             }
         },
-    ], (function(err, result) {
+    ]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
         return callbackSuccess(result);
-    }));
+    });
 };
 
 // gets all conversations (=users) in the given interval with timestamp ("created") grouped by weekday
@@ -162,12 +162,12 @@ exports.getConversationsByDay = function(client, startFromFrontend, endFromBacke
                 "_id": 1
             }
         }
-    ], (function(err, result) {
+    ]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
         return callbackSuccess(result);
-    }));
+    });
 };
 
 // gets all conversations (=users) in the given interval with timestamp ("created") grouped by hour
@@ -223,12 +223,12 @@ exports.getConversationsByHour = function(client, startFromFrontend, endFromBack
                 "_id": 1
             }
         }
-    ], (function(err, result) {
+    ]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
         return callbackSuccess(result);
-    }));
+    });
 };
 
 // gets all conversations (=users) in the given interval with timestamp ("created") for longterm
@@ -287,12 +287,12 @@ exports.getConversationsLongterm = function(client, startFromFrontend, endFromBa
                 "_id": 1
             }
         }
-    ], (function(err, result) {
+    ]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
         return callbackSuccess(result);
-    }));
+    });
 };
 
 // gets all messages in the given interval
@@ -325,12 +325,12 @@ exports.getMessagesStatistic = function(client, callbackSuccess, callbackError) 
                 "_id": 1
             }
         }
-    ], (function(err, result) {
+    ]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
         return callbackSuccess(result);
-    }));
+    });
 };
 
 // gets number of messages-buckets and how many users chatted that much,  in the given interval
@@ -371,12 +371,12 @@ exports.getMessagesPerUser = function(client, start, end, callbackSuccess, callb
                 _id: 1
             }
         }
-    ], (function(err, result) {
+    ]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
         return callbackSuccess(result);
-    }));
+    });
 };
 
 // gets the 10 top intents in the given interval
@@ -411,12 +411,12 @@ exports.getTopIntentStatistic = function(client, startFromFrontend, endFromBacke
         {
             $limit: 10
         }
-    ], (function(err, result) {
+    ]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
         return callbackSuccess(result);
-    }));
+    });
 };
 
 // gets the number of all answerFrom in the given interval
@@ -448,12 +448,12 @@ exports.getAnswerFromStatistic = function(client, startFromFrontend, endFromBack
                 answerFromCount: -1
             }
         }
-    ], (function(err, result) {
+    ]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
         return callbackSuccess(result);
-    }));
+    });
 };
 
 function getFirstDayOfTheMonth() {

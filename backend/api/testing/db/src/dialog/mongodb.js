@@ -22,7 +22,7 @@ exports.getTestCases = function(testCases, callbackSuccess, callbackError) {
             name: 1,
             testCase: 1
         }
-    }], function(err, result) {
+    }]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         } else {
@@ -81,7 +81,7 @@ exports.aggregateTestResults = function(timestamp, callbackSuccess, callbackErro
         }, {
             $limit: 1
         }
-    ], function(err, res) {
+    ]).toArray(function(err, res) {
         if (err) {
             callbackError(500, err);
         } else if (res && res.length == 0) {

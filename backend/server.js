@@ -58,11 +58,6 @@ var initExpressApp = function() {
     // pass passport for configuration
     require('./config/passport.js')(passport);
 
-    // set up express application
-    app.set('views', __dirname + '/../frontend/views');
-    app.set('view engine', 'html'); // set up html for templating
-    app.engine('.html', require('ejs').__express);
-    app.use(express.static(__dirname + '/../frontend/public'));
     // required for passport
     app.use(bodyParser.urlencoded({
         extended: true

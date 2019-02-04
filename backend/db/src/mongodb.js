@@ -15,7 +15,8 @@ exports.init = function(callbackSuccess, callbackError) {
         ssl: true,
         sslValidate: true,
         poolSize: 1,
-        reconnectTries: 1
+        reconnectTries: 1,
+	    useNewUrlParser: true
     };
     if(dbconfig.credentials.ca_certificate_base64 && dbconfig.credentials.ca_certificate_base64.length > 0) {
         var ca = [Buffer.from(dbconfig.credentials.ca_certificate_base64, 'base64')];

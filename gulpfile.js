@@ -67,10 +67,6 @@ const frontend = {
         img: frontendSrcFolder + 'images/**/*.*',
         libs: frontendSrcFolder + 'js/lib/**/*.js',
         fonts: frontendSrcFolder + 'fonts/**/*.*',
-        gridFonts: [
-            frontendSrcFolder + 'js/lib/angular-ui-grid/ui-grid.ttf',
-            frontendSrcFolder + 'js/lib/angular-ui-grid/ui-grid.woff'
-        ],
         all: '**/*'
     },
     dest: {
@@ -80,7 +76,6 @@ const frontend = {
         img: frontendDestFolder + 'images/',
         libs: frontendDestFolder + 'js/lib/',
         fonts: frontendDestFolder + 'fonts/',
-        gridFonts: frontendDestFolder + 'css/admin/'
     },
     server: {
         src: frontendFolder + '*.js',
@@ -195,14 +190,6 @@ gulp.task('frontend:fonts', function(callback) {
     ], callback);
 });
 
-gulp.task('frontend:gridFonts', function(callback) {
-    pump([
-        gulp.src(frontend.src.gridFonts),
-        cache(defaultCacheName),
-        gulp.dest(frontend.dest.gridFonts)
-    ], callback);
-});
-
 //////////////////////////////
 // External Frontend Task
 //////////////////////////////
@@ -244,7 +231,6 @@ gulp.task('frontend:watch', ['build'], function() {
     watchFiles(frontend.src.img, ['frontend:img']);
     watchFiles(frontend.src.libs, ['frontend:libs']);
     watchFiles(frontend.src.fonts, ['frontend:fonts']);
-    watchFiles(frontend.src.gridFonts, ['frontend:gridFonts']);
     watchFiles(externalFrontendSrcFolder + frontend.src.all, ['frontend:extFrontend']);
 });
 
@@ -277,7 +263,7 @@ gulp.task('browserSync', ['frontend:serverWatch', 'frontend:watch'], function() 
 //////////////////////////////
 // Running Tasks
 //////////////////////////////
-gulp.task('build', ['frontend:html', 'frontend:js', 'frontend:sass', 'frontend:img', 'frontend:libs', 'frontend:fonts', 'frontend:gridFonts', 'frontend:extFrontend']);
+gulp.task('build', ['frontend:html', 'frontend:js', 'frontend:sass', 'frontend:img', 'frontend:libs', 'frontend:fonts', 'frontend:extFrontend']);
 
 gulp.task('watch', ['frontend:watch', 'frontend:serverWatch', 'backend:watch', 'browserSync']);
 

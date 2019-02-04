@@ -6,13 +6,13 @@
   */
   
 var dbconfig = require('../config.js');
-var Cloudant = require('../cloudant');
+var Cloudant = require('@cloudant/cloudant');
 
 exports.init = function(callbackSuccess, callbackError) {
     Cloudant({
         account: dbconfig.credentials.account,
         password: dbconfig.credentials.password,
-        plugins: ['retry429'],
+        plugins: ['retry'],
         maxAttempt: 15,
         retryInitialDelayMsecs: 1300
     }, function(err, database) {

@@ -30,7 +30,7 @@ exports.getQuestionsByEntities = function(entities, jargon, callbackSuccess, cal
                 }
             }
         }
-    }], function(err, result) {
+    }]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         } else {
@@ -59,7 +59,7 @@ exports.getQuestionsByIntents = function(intents, jargon, callbackSuccess, callb
             },
             options: "$questions.options"
         }
-    }], function(err, result) {
+    }]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         } else {

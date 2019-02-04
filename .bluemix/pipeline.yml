@@ -18,6 +18,18 @@ stages:
   - name: PASSWORD
     value: ${PASSWORD}
     type: text
+  - name: LANGUAGE
+    value: de
+    type: text
+  - name: PROD_REGION_ID
+    value: ${PROD_REGION_ID}
+  - name: API_KEY
+    value: ${API_KEY}
+    type: secure
+  - name: PROD_ORG_NAME
+    value: ${PROD_ORG_NAME}
+  - name: PROD_SPACE_NAME
+    value: ${PROD_SPACE_NAME}
   jobs:
   - name: Setup
     type: deployer
@@ -25,6 +37,7 @@ stages:
       region_id: ${PROD_REGION_ID}
       organization: ${PROD_ORG_NAME}
       space: ${PROD_SPACE_NAME}
+      api_key: ${API_KEY}
     script: |-
       #!/bin/bash
 
@@ -86,9 +99,10 @@ stages:
       organization: ${PROD_ORG_NAME}
       space: ${PROD_SPACE_NAME}
       application: EVA-Backend
+      api_key: ${API_KEY}
     script: |-
       #!/bin/bash
-      cf push "${CF_APP}"
+      cf push "${CF_APP}" --random-route
 
       # View logs
       # cf logs "${CF_APP}" --recent
@@ -125,9 +139,10 @@ stages:
       organization: ${PROD_ORG_NAME}
       space: ${PROD_SPACE_NAME}
       application: EVA-Frontend
+      api_key: ${API_KEY}
     script: |-
       #!/bin/bash
-      cf push "${CF_APP}"
+      cf push "${CF_APP}" --random-route
 
       # View logs
       # cf logs "${CF_APP}" --recent

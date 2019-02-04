@@ -59,7 +59,15 @@ exports.getTestComparison = function(baseRunDate, compareRunDate, clientId) {
                 }
             }
         },
-    ]).toArray();
+    ]).toArray(function(err, result) {
+        if (err) {
+            return callbackError(500, err);
+        } else if (result && result.length == 0) {
+            return callbackError(500, "No results found.");
+        } else {
+            return callbackSuccess(result);
+        }
+    });
 };
 
 exports.getTestResult = function(resultId, clientId) {

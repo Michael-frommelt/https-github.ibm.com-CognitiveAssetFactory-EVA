@@ -1,8 +1,7 @@
 {
-  "$schema": "http://json-schema.org/draft-06/schema#",
-  "additionalProperties": false,
+  "$id": "eva-answer-store-answer",
   "definitions": {},
-  "id": "eva-answer-store-answer",
+  "additionalProperties": false,
   "properties": {
     "answerId": {
       "type": "string"

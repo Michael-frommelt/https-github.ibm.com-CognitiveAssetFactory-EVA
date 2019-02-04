@@ -1,7 +1,6 @@
 {
-    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$id": "eva-answer-store-answer-property",
     "definitions": {},
-    "id": "eva-answer-store-answer-property",
     "properties": {
         "displayName": {
             "type": "string"

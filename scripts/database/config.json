@@ -138,26 +138,24 @@
             "enabled": true,
             "id": "chitchat",
             "override_variable": "prevent_override",
-            "password": "",
             "reassurance_confidence_level": 0.5,
             "url": "",
-            "username": "",
+            "api_key": "",
             "version": "v1",
-            "version_date": "2017-05-26",
+            "version_date": "2018-09-20",
             "wcs_confidence_level": 0.7,
             "workspace": "",
             "timezone": "Europe/Berlin"
         },
         {
             "id": "conversation",
-            "password": "",
             "show_alternate_intents": true,
             "entity_anaphora_memory": 1,
             "intent_anaphora_name": "anaphora",
             "url": "",
-            "username": "",
+            "api_key": "",
             "version": "v1",
-            "version_date": "2017-05-26",
+            "version_date": "2018-09-20",
             "offtopic": "Off_Topic"
         },
         {
@@ -251,9 +249,8 @@
         {
             "conversation": {
                 "url": "",
-                "username": "",
-                "password": "",
-                "version_date": "2017-05-26",
+                "api_key": "",
+                "version_date": "2018-09-20",
                 "version": "v1",
                 "workspaces": {
                     "kfold": "",

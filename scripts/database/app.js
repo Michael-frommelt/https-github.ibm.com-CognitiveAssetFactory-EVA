@@ -268,22 +268,20 @@ if (argv.db_type === 'cloudant') {
 }
 
 function insertCredentials() {
-  if (true || (argv.wcs_username && argv.wcs_password && argv.wcs_url && argv.business_workspace && argv.chitchat_workspace)) {
+  if (true || (argv.conversation_api_key && argv.wcs_url && argv.business_workspace && argv.chitchat_workspace)) {
 
     var conversation = config.config.find(function(element) {
       return element.id === "conversation";
     });
 
-    conversation.username = argv.wcs_username;
-    conversation.password = argv.wcs_password;
+    conversation.api_key = argv.conversation_api_key;
     conversation.url = argv.wcs_url;
 
     var chitchat = config.config.find(function(element) {
       return element.id === "chitchat";
     });
 
-    chitchat.username = argv.wcs_username;
-    chitchat.password = argv.wcs_password;
+    chitchat.api_key = argv.conversation_api_key;
     chitchat.url = argv.wcs_url;
     chitchat.workspace = argv.chitchat_workspace;
 
@@ -291,8 +289,7 @@ function insertCredentials() {
       return element.id === "testing";
     });
 
-    testing.conversation.username = argv.wcs_username;
-    testing.conversation.password = argv.wcs_password;
+    testing.conversation.api_key = argv.conversation_api_key;
     testing.conversation.url = argv.wcs_url;
 
     var standardClient = config.clients.find(function(element) {

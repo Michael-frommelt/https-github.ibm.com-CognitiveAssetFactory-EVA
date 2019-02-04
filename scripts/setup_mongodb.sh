@@ -24,7 +24,15 @@ echo ""
 echo "######## CREATE BACKEND & FRONTEND ########"
 echo ""
 
-(cd ./runtimes && cf push)
+if [ "${PROD_REGION_ID#ibm:yp:}" == "us-south" ]; then
+    endpoint="https://api.ng.bluemix.net"
+else 
+    endpoint="https://api.${PROD_REGION_ID#ibm:yp:}.bluemix.net"
+fi
+
+ibmcloud login -a "$endpoint" --apikey "$API_KEY" -o "$PROD_ORG_NAME" -s "$PROD_SPACE_NAME"
+
+(cd ./runtimes && ibmcloud cf push)
 
 echo ""
 echo "######## SET ENVIRONMENT VARIABLES ########"
@@ -33,8 +41,8 @@ echo ""
 backend_url=https://$(cf app EVA-Backend | grep -e urls: -e routes: | awk '{print $2}')
 db_type="mongodb"
 
-cf set-env EVA-Frontend BACKEND_URL $backend_url
-cf set-env EVA-Backend DB_TYPE $db_type
+ibmcloud cf set-env EVA-Frontend BACKEND_URL $backend_url
+ibmcloud cf set-env EVA-Backend DB_TYPE $db_type
 
 echo ""
 echo "########## CREATE & BIND MONGODB ##########"
@@ -49,28 +57,27 @@ db_ca_certificate=$(cf service-key eva-mongodb credentials | sed -n '/{/,/}$/p' 
 cf bind-service EVA-Backend eva-mongodb
 
 echo ""
-echo "########### CREATE WCS INSTANCE ###########"
+echo "########### CREATE WA INSTANCE ###########"
 echo ""
 
-cf create-service conversation standard eva-conversation
-cf create-service-key eva-conversation credentials
-
-wcs_username=$(cf service-key eva-conversation credentials | sed -n '/{/,/}/p' | jq -r '.username')
-wcs_password=$(cf service-key eva-conversation credentials | sed -n '/{/,/}/p' | jq -r '.password')
-wcs_url=$(cf service-key eva-conversation credentials | sed -n '/{/,/}/p' | jq -r '.url')
+ibmcloud service create conversation standard eva-conversation
+ibmcloud iam service-id-create eva-conversation
+ibmcloud service key-create eva-conversation eva-conversation-key
+conversation_api_key=$(ibmcloud service key-show eva-conversation eva-conversation-key | sed -n '/{/,/}/p' | jq -r '.apikey')
+wcs_url=$(ibmcloud service key-show eva-conversation eva-conversation-key | sed -n '/{/,/}/p' | jq -r '.url')
 
 echo ""
 echo "############ CREATE WORKSPACES ############"
 echo ""
 
-business_workspace=$(curl -H "Content-Type: application/json" -X POST -u $wcs_username:$wcs_password -T wcs/business.json $wcs_url"/v1/workspaces?version=2017-05-26" | jq -r '.workspace_id')
-chitchat_workspace=$(curl -H "Content-Type: application/json" -X POST -u $wcs_username:$wcs_password -T wcs/chitchat.json $wcs_url"/v1/workspaces?version=2017-05-26" | jq -r '.workspace_id')
+business_workspace=$(curl -H "Content-Type: application/json" -X POST -u "apikey":"$conversation_api_key" -T wcs/business_$LANGUAGE.json  $wcs_url"/v1/workspaces?version=2018-09-20" | jq -r '.workspace_id')
+chitchat_workspace=$(curl -H "Content-Type: application/json" -X POST -u "apikey":"$conversation_api_key" -T wcs/chitchat_$LANGUAGE.json  $wcs_url"/v1/workspaces?version=2018-09-20" | jq -r '.workspace_id')
 
 echo ""
 echo "############## SETUP DATABASE #############"
 echo ""
 
-(cd ./database && npm install && node app.js --db_type=$db_type --db_uri=$db_uri --db_ca_certificate=$db_ca_certificate --wcs_username=$wcs_username --wcs_password=$wcs_password --wcs_url=$wcs_url --business_workspace=$business_workspace --chitchat_workspace=$chitchat_workspace --username=$USERNAME --password=$PASSWORD)
+(cd ./database && npm install && node app.js --db_type=$db_type --db_uri=$db_uri --db_ca_certificate=$db_ca_certificate --conversation_api_key=$conversation_api_key --wcs_url=$wcs_url --business_workspace=$business_workspace --chitchat_workspace=$chitchat_workspace --username=$USERNAME --password=$PASSWORD)
 
 echo ""
 echo "###### CREATE .ENV FILE FOR LOCAL DEV #####"

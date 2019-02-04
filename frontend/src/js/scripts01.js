@@ -1,22 +1,13 @@
-/*
-Licensed Materials - Property of IBM
-
-© Copyright IBM Corporation 2015. All Rights Reserved.
-
-This licensed material is licensed under the Apache 2.0 license. http://www.apache.org/licenses/LICENSE-2.0.
-*/
+/**
+  * Copyright 2018 IBM Deutschland. All Rights Reserved.
+  *
+  * Enhanced conVersation Asset - EVA
+  * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
+  */
 
 (function(global) {
   global.utils = {};
 })(this);
-
-/*
-Licensed Materials - Property of IBM
-
-© Copyright IBM Corporation 2015. All Rights Reserved.
-
-This licensed material is licensed under the Apache 2.0 license. http://www.apache.org/licenses/LICENSE-2.0.
-*/
 
 var utils = utils || {},
   Window = Window || {};
@@ -76,14 +67,6 @@ var utils = utils || {},
   utils.addMultipleListeners = addMultipleListeners;
 }());
 
-/*
-Licensed Materials - Property of IBM
-
-© Copyright IBM Corporation 2015. All Rights Reserved.
-
-This licensed material is licensed under the Apache 2.0 license. http://www.apache.org/licenses/LICENSE-2.0.
-*/
-
 var utils = utils || {};
 
 (function() {
@@ -108,14 +91,6 @@ var utils = utils || {};
   // binds this helper function to the global 'utils'
   utils.enumerator = enumerator;
 }());
-
-/*
-Licensed Materials - Property of IBM
-
-© Copyright IBM Corporation 2015. All Rights Reserved.
-
-This licensed material is licensed under the Apache 2.0 license. http://www.apache.org/licenses/LICENSE-2.0.
-*/
 
 var Window = Window || {},
   utils = utils || {};
@@ -157,14 +132,6 @@ var Window = Window || {},
     return stringName + ' must be an HTMLElement or Window. It is currently a(n) ' + typeof element;
   }
 }());
-
-/*
-Licensed Materials - Property of IBM
-
-© Copyright IBM Corporation 2015. All Rights Reserved.
-
-This licensed material is licensed under the Apache 2.0 license. http://www.apache.org/licenses/LICENSE-2.0.
-*/
 
 var utils = utils || {};
 
@@ -215,14 +182,6 @@ var utils = utils || {};
   utils.keys = keys;
 }());
 
-/*
-Licensed Materials - Property of IBM
-
-© Copyright IBM Corporation 2015. All Rights Reserved.
-
-This licensed material is licensed under the Apache 2.0 license. http://www.apache.org/licenses/LICENSE-2.0.
-*/
-
 var utils = utils || {};
 
 (function() {
@@ -268,14 +227,6 @@ var utils = utils || {};
   utils.$ = $;
 }());
 
-/*
-Licensed Materials - Property of IBM
-
-© Copyright IBM Corporation 2015. All Rights Reserved.
-
-This licensed material is licensed under the Apache 2.0 license. http://www.apache.org/licenses/LICENSE-2.0.
-*/
-
 var utils = utils || [];
 
 (function() {
@@ -309,14 +260,6 @@ var utils = utils || [];
 
 }());
 
-/*
-Licensed Materials - Property of IBM
-
-© Copyright IBM Corporation 2015. All Rights Reserved.
-
-This licensed material is licensed under the Apache 2.0 license. http://www.apache.org/licenses/LICENSE-2.0.
-*/
-
 var utils = utils || {};
 
 (function() {
@@ -342,25 +285,9 @@ var utils = utils || {};
   utils.timeout = timeout;
 }());
 
-/*
-Licensed Materials - Property of IBM
-
-© Copyright IBM Corporation 2015. All Rights Reserved.
-
-This licensed material is licensed under the Apache 2.0 license. http://www.apache.org/licenses/LICENSE-2.0.
-*/
-
 (function(global) {
   global.components = {};
 })(this);
-
-/*
-Licensed Materials - Property of IBM
-
-© Copyright IBM Corporation 2015. All Rights Reserved.
-
-This licensed material is licensed under the Apache 2.0 license. http://www.apache.org/licenses/LICENSE-2.0.
-*/
 
 var components = components || {},
   utils = utils || {};
@@ -532,14 +459,6 @@ var components = components || {},
   components.Menu = Menu;
 })(this);
 
-/*
-Licensed Materials - Property of IBM
-
-© Copyright IBM Corporation 2015. All Rights Reserved.
-
-This licensed material is licensed under the Apache 2.0 license. http://www.apache.org/licenses/LICENSE-2.0.
-*/
-
 var components = components || {},
   utils = utils || {};
 
@@ -642,14 +561,6 @@ var components = components || {},
 
   components.Scrollable = Scrollable;
 })(this);
-
-/*
-Licensed Materials - Property of IBM
-
-© Copyright IBM Corporation 2015. All Rights Reserved.
-
-This licensed material is licensed under the Apache 2.0 license. http://www.apache.org/licenses/LICENSE-2.0.
-*/
 
 var utils = utils || {},
   components = components || {};
@@ -773,6 +684,5 @@ var utils = utils || {},
 
   components.SearchDataObject = SearchDataObject;
 
-  // REVIEW: why do I have this return here?
   return SearchDataObject;
 }());

@@ -106,10 +106,10 @@ exports.getTestTimes = function(clientId, callbackSuccess, callbackError) {
                 "_id": -1
             }
         }
-    ], (function(err, result) {
+    ]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
         return callbackSuccess(result);
-    }));
+    });
 };

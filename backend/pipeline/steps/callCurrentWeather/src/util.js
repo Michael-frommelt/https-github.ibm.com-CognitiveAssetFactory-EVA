@@ -6,9 +6,7 @@
   */
   
 'use strict';
-var pick = require('object.pick');
 var format = require('string-template');
-var extend = require('extend');
 var fields = ['temp', 'pop', 'uv_index', 'narrative', 'phrase_12char', 'phrase_22char', 'phrase_32char'];
 var weatherConfig = require('../../../../helper/config.js').getConfig('weather');
 
@@ -19,6 +17,25 @@ var requestNoAuthDefaults = {
 var weatherKey = '';
 var request;
 var timeout = 5000;
+
+function pick(object, keys) {
+  if (object == null || typeof object !== 'object' || Array.isArray(object)) return {};
+
+  var result = {};
+  if (typeof keys === 'string') {
+    if (keys in object) {
+      result[keys] = object[keys];
+    }
+  } else if (Array.isArray(keys)) {
+    for (var key of keys) {
+      if (key in object) {
+        result[key] = object[key];
+      }
+    }
+  }
+
+  return result;
+};
 
 module.exports = {
 
@@ -100,7 +117,7 @@ module.exports = {
       json: true
     };
 
-    var _params = extend({ range: '10day' }, params);
+    var _params = Object.assign({ range: '10day' }, params);
 
     if (!_params.latitude || !_params.longitude) {
       callback('latitude and longitude cannot be null')
