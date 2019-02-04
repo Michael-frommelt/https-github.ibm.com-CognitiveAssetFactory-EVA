@@ -5,8 +5,8 @@
   * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
   */
   
-angular.module('eva.variableStore').service('VariableStoreService', ['$http', '$q', '$window',
-  function($http, $q, $window) {
+angular.module('eva.variableStore').service('VariableStoreService', ['$http', '$q', '$window','Upload',
+  function($http, $q, $window,Upload) {
     var variablesEndpoint = '/api/variables';
     var dataUpdateInterval = 300000; //ms, default value
 
@@ -61,6 +61,18 @@ angular.module('eva.variableStore').service('VariableStoreService', ['$http', '$
           return variables;
         });
       }
+    };
+
+    this.importVariables = function( file, override) {
+      return Upload.upload({
+        url: variablesEndpoint + '/import' ,
+        params: { override: override },
+        data: { uploadFile: file }
+      });
+    };
+
+    this.exportVariables = function( language, fileType) {
+      $window.open(variablesEndpoint + '/export'  + '?lang=' + language + '&type=' + fileType);
     };
   }
 ]);

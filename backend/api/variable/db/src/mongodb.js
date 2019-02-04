@@ -42,3 +42,26 @@ exports.getVariables = function(limit) {
     }
     return cursor.toArray();
 };
+
+exports.upsertVariable = function( varia, override) {
+  let insertLogic = {};
+  if (override === true) {
+    insertLogic = {
+      $set: varia
+    };
+  } else {
+    insertLogic = {
+      $setOnInsert: varia
+    };
+  }
+  return globalDatabase.connection.collection('variables').updateOne({
+    name: varia.variableName
+  }, insertLogic, {
+    upsert: true
+  }).then(function(result) {
+    return {
+      inserted: result.upsertedId ? 1 : 0,
+      modified: result.modifiedCount
+    };
+  });
+};

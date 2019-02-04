@@ -110,6 +110,44 @@ angular.module('eva.variableStore').controller('VariableStoreCtrl', ['$scope', '
       }).result.catch(function() {});
     };
 
+    $scope.openImportModal = function() {
+      if ($scope.importInProgress) {
+        $scope.error = { data: $translate.instant('IMPORT_ALREADY_RUNNING') };
+      } else {
+        $uibModal.open({
+          templateUrl: 'importModal.html',
+          scope: $scope,
+          controller: ['$scope', 'ConfigService', function($scope, ConfigService) {
+            $scope.uploadFile = null;
+            $scope.uploadMode = false;
+            $scope.maxSize = '500 MB';
+
+            ConfigService.getConfig('answerStore').then(function(config) {
+              if (config.fileSizeLimit) {
+                $scope.maxSize = config.fileSizeLimit * 1024;
+              }
+            });
+            $scope.importFile = function() {
+              $scope.$dismiss();
+              $scope.importInProgress = true;
+              $scope.importProgress = 0;
+              VariableStoreService.importVariables( $scope.uploadFile, $scope.uploadMode).then(function(response) {
+              $scope.importInProgress = response.data.importRunning;
+              location.reload();
+
+              }).catch(handleError);
+            };
+          }]
+
+        }
+      ).result.catch(function() {});
+    };
+    }
+
+    $scope.exportVariables = function( fileType) {
+      VariableStoreService.exportVariables( $translate.use(), fileType);
+    };
+
     function handleError(error) {
       console.log(error);
       $scope.error = error;

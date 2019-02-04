@@ -8,6 +8,7 @@
 var variableStore = angular.module('eva.variableStore', [
   'pascalprecht.translate',
   'smart-table',
+  'ngFileUpload',
   'ui.bootstrap'
 ]);
 
@@ -34,6 +35,10 @@ variableStore.config(['$translateProvider', function($translateProvider) {
     'VARIABLE_TOOLTIP': 'Tooltip',
     'CANCEL': 'Cancel',
     'SAVE': 'Save',
+    'UPLOAD_VARIABLES': 'Upload variables',
+    'UPLOAD_VARIABLES_TEXT': 'Please choose the file of variables you want to import.',
+    'IMPORT_MODE_OVERRIDE':'Override variables if they exist',
+    'IMPORT_MODE_INSERT':'Only insert new variables',
     'REQUIRED_INPUT': 'Required input'
   });
 
@@ -58,6 +63,10 @@ variableStore.config(['$translateProvider', function($translateProvider) {
     'VARIABLE_TOOLTIP': 'Tooltip',
     'CANCEL': 'Abbrechen',
     'SAVE': 'Speichern',
+    'UPLOAD_VARIABLES':'Variablern hochladen',
+    'UPLOAD_VARIABLES_TEXT': 'Bitte wählen Sie die Datei mit Variablern aus, die Sie hochladen möchten.',
+    'IMPORT_MODE_OVERRIDE':'Variablern überschreiben, falls sie existieren',
+    'IMPORT_MODE_INSERT':'Nur neue Variablern übernehmen',
     'REQUIRED_INPUT': 'Verpflichtende Eingabe'
   });
 }]);

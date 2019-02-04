@@ -18,7 +18,7 @@ exports.init = function(callbackSuccess, callbackError) {
         reconnectTries: 1
     };
     if(dbconfig.credentials.ca_certificate_base64 && dbconfig.credentials.ca_certificate_base64.length > 0) {
-        var ca = [new Buffer(dbconfig.credentials.ca_certificate_base64, 'base64')];
+        var ca = [Buffer.from(dbconfig.credentials.ca_certificate_base64, 'base64')];
         connObject.sslCA = ca;
     }
     mongoClient.connect(dbconfig.credentials.uri, connObject,

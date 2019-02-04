@@ -18,6 +18,19 @@
           </button>
         </span>
       </span>
+      <button class="btn btn-primary header-inputs" type="button" ng-click="openImportModal()" translate>IMPORT</button>
+      <span class="btn-group header-inputs" uib-dropdown>
+        <button type="button" class="btn btn-primary" ng-click="exportVariables('xlsx')" translate>EXPORT</button>
+        <button type="button" class="btn btn-primary" uib-dropdown-toggle>
+          <i class="caret"></i>
+          <ul class="dropdown-menu dropdown-menu-right" uib-dropdown-menu>
+            <li><a ng-click="exportVariables('xlsx')" translate>EXPORT_EXCEL</a></li>
+            <li><a ng-click="exportVariables('xlml')" translate>EXPORT_EXCEL_2003</a></li>
+            <li><a ng-click="exportVariables('ods')" translate>EXPORT_OPENDOCUMENT</a></li>
+            <li><a ng-click="exportVariables('csv')" translate>EXPORT_CSV</a></li>
+          </ul>
+      </span>
+
     </form>
   </header>
   <div class="alert alert-danger" ng-show="error" uib-alert close="error = null">
@@ -93,6 +106,49 @@
       </tbody>
     </table>
   </div>
+
+  <!-- import modal -->
+  <script type="text/ng-template" id="importModal.html">
+    <div class="modal-header">
+      <button class="close" type="button" ng-click="$dismiss()">&times;</button>
+      <h4 class="modal-title" translate>UPLOAD_VARIABLES</h4>
+      <h4 class="modal-title" ng-if="importStatus">Status: {{importStatus}} ({{importProgress}} %)</h4>
+    </div>
+    <div class="modal-body">
+      <p translate>UPLOAD_VARIABLES_TEXT</p>
+      <div class="input-group margin-top-15">
+        <label class="input-group-btn">
+          <span class="btn btn-primary" ngf-select ng-model="$parent.uploadFile" ngf-pattern="'.csv,.ods,.xls,.xlsx'"
+            ngf-accept="'.csv,.ods,.xls,.xlsx'" ngf-max-size="{{maxSize}}" translate>
+            BROWSE
+          </span>
+        </label>
+        <input class="form-control" type="text" ng-model="uploadFile.name" readonly>
+      </div>
+      <hr>
+      <h4 translate>IMPORT_MODE</h4>
+      <div class="radio">
+        <label>
+          <input type="radio" name="importModeRadios" ng-model="uploadMode" ng-value="true">
+          <span translate>IMPORT_MODE_OVERRIDE</span>
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="importModeRadios" ng-model="uploadMode" ng-value="false">
+          <span translate>IMPORT_MODE_INSERT</span>
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>GENERAL_CANCEL</button>
+      <button type="button" class="btn btn-primary" ng-click="importFile()" ng-disabled="!uploadFile">
+        <span translate>GENERAL_UPLOAD</span>
+        <i class="glyphicon glyphicon-refresh spinning" ng-show="isImporting"></i>
+      </button>
+    </div>
+  </script>
+
 
   <!-- delete modal -->
   <script type="text/ng-template" id="deleteModal.html">
