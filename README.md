@@ -109,6 +109,13 @@ Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
 Or read our technical documentation: <https://apps.na.collabserv.com/wikis/basic/api/wiki/5f5e6b89-23d2-41b7-86a8-c3e708f5ec01/page/b405ea70-d3d0-4314-af49-aaafbfb17ec6/attachment/b00cde56-c1dc-47f2-a7d5-826c92f9d3da/media/EVA_Documentation_1.x.pdf>
 
 ## Changelog
+### v1.4.1 (2019-02-08)
+* Fixed unescaped '\_' characters in Readme
+* Dialog test: cells in test overview have colors depending on value
+* Dialog test: in test details, view cells are colored and filter option to only show failed test cases
+* KFold: adjusted colors to match dialog test
+* Testing: default value in radio buttons changed to "answerId" from "confidence"
+
 ### v1.4.0 (2019-02-04)
 * Fixed "Deploy to IBM Cloud" button - 1-click auto deployment working again
 * Fixed version numbers to be IBM OSS approved
@@ -200,7 +207,7 @@ Or read our technical documentation: <https://apps.na.collabserv.com/wikis/basic
 * Enhancement: Answer store import now shows answers that were not imported due to them being invalid
 * Fixed bug: Corrected infinite answer import process when file contained invalid / badly formatted answers
 * Fixed bug: Corrected saveFeedback function in conversationController to prevent need for double clicking on save Feedback button in oneColumn view
-* Fixed bug: Corrected cloudant function of saveFeedback to return _id of inserted document (user feedback will be assigned to correct reporting entry now)
+* Fixed bug: Corrected cloudant function of saveFeedback to return \_id of inserted document (user feedback will be assigned to correct reporting entry now)
 * Fixed bug: external frontend api always sent 500 error instead of correct error code
 
 ### v1.1.0 (2018-02-22)
@@ -212,7 +219,7 @@ Or read our technical documentation: <https://apps.na.collabserv.com/wikis/basic
 * Show error message in frontend for dialog tests
 * Removed styling from default answers
 * Changed "jumpTo" to "skip user input" in business workspace
-* Fixed bug: profanity list using _rev from cloudant
+* Fixed bug: profanity list using \_rev from cloudant
 * Fixed bug: Avoid crashing on testing when testing workspaces are not defined
 * Fixed bug: Corrected cloudant implementations of getVersionsMarkedForDeletion and deleteAnswerProperty
 * Fixed bug: Prevent answer schema json from becoming polluted

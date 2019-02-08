@@ -47,6 +47,7 @@ userManagement.config(['$translateProvider', function($translateProvider) {
         'TEXT_DELETE_TESTRUN': 'Do you really want to delete the following test run?',
         'TREND_OVERVIEW': 'Trend Overview',
         'NO_TREND_RESULTS': 'No trend overview available for selected client.',
+        'SHOW_NUMBER_OF_TEST_CASES': 'number of test cases',
 
         // Test comparison
         'ACTUAL': 'Actual',
@@ -105,6 +106,7 @@ userManagement.config(['$translateProvider', function($translateProvider) {
         'TEXT_DELETE_TESTRUN': 'Wollen Sie den folgenden Testdurchlauf wirklich löschen?',
         'TREND_OVERVIEW': 'Trendübersicht',
         'NO_TREND_RESULTS': 'Es existiert keine Trendübersicht für den ausgewählten Client.',
+        'SHOW_NUMBER_OF_TEST_CASES': 'Anzahl Testfälle',
 
         // Test comparison
         'ACTUAL': 'Erhalten',

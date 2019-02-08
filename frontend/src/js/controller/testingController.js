@@ -10,7 +10,7 @@ angular.module('eva.testing')
         function($scope, $interval, $http, $translate, $uibModal, $rootScope) {
 
             $scope.selectedAll = false;
-            $scope.displayOption = "conf";
+            $scope.displayOption = "numId";
             $scope.groupBy = "TEST_FILE";
             $scope.testFiles = [];
             $scope.selectedObjectForDetail = "";
@@ -30,6 +30,7 @@ angular.module('eva.testing')
             $scope.clientSelection = {};
             $scope.clientSelection.availableClients = [];
             $scope.disableClientChange = false;
+            $scope.numberOfTestCases = false;
 
             $scope.selectAll = function() {
                 $scope.selectedAll = !$scope.selectedAll;
@@ -42,6 +43,18 @@ angular.module('eva.testing')
                 $scope.selectedAll = $scope.testFiles.every(function(file) {
                     return file.selected == true
                 })
+            };
+
+            $scope.getColor = function(value) {
+                if (value === null) {
+                    return {};
+                };
+                var hue = (value * 120).toString(10);
+                color =  ["hsl(", hue, ",65%,75%)"].join("");
+                style = {
+                    "background-color": color,
+                };
+                return style;
             };
 
             $scope.changeGroupBy = function(showGroupBy) {

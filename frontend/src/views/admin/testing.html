@@ -401,7 +401,8 @@
                         </tr>
                     </thead>
                     <tbody ng-repeat="uuid in rowResult track by $index" id="{{uuid._id}}">
-                        <tr ng-repeat="input in uuid.uuidResult track by $index">
+                        <tr ng-repeat="input in uuid.uuidResult track by $index"
+                            ng-hide="input.inputResult[4].correctAnswerId != 0 && showOnlyFailedTestResults===true">
                             <td class="ng-scope">
                                 <div class="flex-container">
                                     <div class="padding-10-5">
@@ -442,7 +443,10 @@
                                 </div>
                             </td>
 
-                            <td ng-repeat="date in input.inputResult | orderBy:'-':false" class="ng-scope">
+                            <td ng-repeat="date in input.inputResult | orderBy:'-':false" class="ng-scope"
+                                ng-style="displayOptionModal === 'conf' && getColor(date.confidence)
+                                || displayOptionModal === 'numInt' && getColor(date.correctIntent)
+                                || displayOptionModal === 'numId' && getColor(date.correctAnswerId)">
                                 <div class="flex-container">
                                     <div class="padding-10-5">
                                     </div>
@@ -520,8 +524,7 @@
                     <ratio-label translate>NUMID</ratio-label>
                     <input type="radio" value="numInt" ng-model="displayOption" ng-disabled="isLoadingTestPerformance">
                     <ratio-label translate>NUMINT</ratio-label>
-                    <input type="radio" value="numCases" ng-model="displayOption" ng-disabled="isLoadingTestPerformance">
-                    <ratio-label translate>NUMCASES</ratio-label>
+                    <input type="checkbox" ng-model="numberOfTestCases" /> {{'SHOW_NUMBER_OF_TEST_CASES'| translate}}
                 </fieldset>
                 <div translate>CONF_DESCRIPTION</div><br/>
             </div>
@@ -552,7 +555,11 @@
                                 </div>
                             </td>
                             <td ng-repeat="runPerformance in entry.resultPerDate" class="padding-0">
-                                <div class="flex-container">
+                                <div class="flex-container"
+                                     ng-style="displayOption === 'numId' && getColor(runPerformance.correctAnswerIdRatio)
+                                     || displayOption === 'numInt' && getColor(runPerformance.correctIntentRatio)
+                                     || displayOption === 'conf' && getColor(runPerformance.avgConfidence)
+                                     || displayOption === 'numCases' && getColor(runPerformance.correctAnswerIdRatio)">
                                     <div class="padding-10-5">
                                     </div>
                                     <div ng-if="runPerformance.date == null" class="flex-container space-between flex-grow padding-10-5">
@@ -562,7 +569,7 @@
                                         <span ng-switch-when="conf">{{runPerformance.avgConfidence}}</span>
                                         <span ng-switch-when="numId">{{runPerformance.correctAnswerIdRatio}}</span>
                                         <span ng-switch-when="numInt">{{runPerformance.correctIntentRatio}}</span>
-                                        <span ng-switch-when="numCases">{{runPerformance.testTotal}}</span>
+                                        <span ng-if="numberOfTestCases">({{runPerformance.testTotal}})</span>
                                     </div>
                                 </div>
                             </td>

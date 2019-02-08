@@ -372,7 +372,7 @@ angular.module('eva.kfoldOverview')
 
                 function getColor(value) {
                     var hue = (value * 120).toString(10);
-                    return ["hsl(", hue, ",65%,50%)"].join("");
+                    return ["hsl(", hue, ",65%,75%)"].join("");
                 }
 
                 $scope.isLoading = false;
