@@ -1,9 +1,25 @@
-/**
-  * Copyright 2018 IBM Deutschland. All Rights Reserved.
-  *
-  * Enhanced conVersation Asset - EVA
-  * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
-  */
+/*
+
+  IBM Services Artificial Intelligence Development Toolkit ISAIDT
+
+  Enhanced conVersation Asset - EVA
+  Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
+
+  Licensed Materials - Property of IBM
+  6949-70S
+
+  © Copyright IBM Corp. 2019 All Rights Reserved
+
+  US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+
+
+  External chat frontend.
+  Provides an easy to include chat frontend written in plain javascript.
+  
+  Author:
+  Sebastian Kowalski (sebastian.kowalski@de.ibm.com)
+  
+*/
 
 
 // CONFIG VARIABLES

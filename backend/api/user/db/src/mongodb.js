@@ -1,9 +1,18 @@
-/**
-  * Copyright 2018 IBM Deutschland. All Rights Reserved.
-  *
-  * Enhanced conVersation Asset - EVA
-  * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
-  */
+/*
+
+  IBM Services Artificial Intelligence Development Toolkit ISAIDT
+
+  Enhanced conVersation Asset - EVA
+  Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
+
+  Licensed Materials - Property of IBM
+  6949-70S
+
+  © Copyright IBM Corp. 2019 All Rights Reserved
+
+  US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+
+*/
   
 const usersContainer = globalDatabase.config.containers.users;
 
@@ -82,12 +91,14 @@ exports.updateUser = function(username, user, callbackSuccess, callbackError) {
     globalDatabase.connection.collection(usersContainer).updateOne({
         username: username
     }, {
-        username: user.username,
-        password: user.password,
-        clients: user.clients,
-        debugmode: user.debugmode,
-        role: user.role,
-        permissions: user.permissions,
+        $set: {
+            username: user.username,
+            password: user.password,
+            clients: user.clients,
+            debugmode: user.debugmode,
+            role: user.role,
+            permissions: user.permissions,
+        }
     }, function(err, result) {
         if (err) {
             return callbackError(500, err);

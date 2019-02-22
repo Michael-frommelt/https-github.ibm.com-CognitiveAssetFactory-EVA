@@ -1,9 +1,18 @@
-/**
-  * Copyright 2018 IBM Deutschland. All Rights Reserved.
-  *
-  * Enhanced conVersation Asset - EVA
-  * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
-  */
+/*
+
+  IBM Services Artificial Intelligence Development Toolkit ISAIDT
+
+  Enhanced conVersation Asset - EVA
+  Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
+
+  Licensed Materials - Property of IBM
+  6949-70S
+
+  © Copyright IBM Corp. 2019 All Rights Reserved
+
+  US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+
+*/
   
 var ObjectID = require('mongodb').ObjectID;
 
@@ -59,15 +68,7 @@ exports.getTestComparison = function(baseRunDate, compareRunDate, clientId) {
                 }
             }
         },
-    ]).toArray(function(err, result) {
-        if (err) {
-            return callbackError(500, err);
-        } else if (result && result.length == 0) {
-            return callbackError(500, "No results found.");
-        } else {
-            return callbackSuccess(result);
-        }
-    });
+    ]).toArray();
 };
 
 exports.getTestResult = function(resultId, clientId) {

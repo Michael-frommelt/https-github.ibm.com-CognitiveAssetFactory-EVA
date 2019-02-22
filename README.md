@@ -2,6 +2,9 @@
 
 EVA, the **E**nhanced con**V**ersation **A**sset, enables you to start your chatbot *within hours* instead of days by providing the things you'll need besides Watson Conversation Service.  
 
+> **Important**: Users upgrading to version 1.4.0 and up need to migrate their Watson Conversation / Assistant services from their Cloud Foundry environment to IAM and create new service credentials to get an IAM API key.
+> This key replaces the old username+password authentication and needs to be inserted into the database "config" documents. (Replace the old "username" and "password" properties on the documents with ids "conversation", "chitchat" and "testing" with a new property "api_key")
+
 ## How to run a Project with EVA
 
 EVA is **property of IBM GBS**. Please contact [Rainer Groesser](mailto:rainer.groesser@de.ibm.com) or [Mascha Lentz](mailto:mascha.lentz@de.ibm.com) regarding terms and conditions for using EVA in a client engagement.
@@ -109,6 +112,11 @@ Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
 Or read our technical documentation: <https://apps.na.collabserv.com/wikis/basic/api/wiki/5f5e6b89-23d2-41b7-86a8-c3e708f5ec01/page/b405ea70-d3d0-4314-af49-aaafbfb17ec6/attachment/b00cde56-c1dc-47f2-a7d5-826c92f9d3da/media/EVA_Documentation_1.x.pdf>
 
 ## Changelog
+### v1.4.2 (2019-02-22)
+* Added asset copyright headers
+* Fixed testing aggregations with MongoDB
+* Fixed users without "editUsers" permission not being able to change their password
+
 ### v1.4.1 (2019-02-08)
 * Fixed unescaped '\_' characters in Readme
 * Dialog test: cells in test overview have colors depending on value

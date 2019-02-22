@@ -1,16 +1,25 @@
-/**
-  * Copyright 2018 IBM Deutschland. All Rights Reserved.
-  *
-  * Enhanced conVersation Asset - EVA
-  * Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
-  */
+/*
+
+  IBM Services Artificial Intelligence Development Toolkit ISAIDT
+
+  Enhanced conVersation Asset - EVA
+  Repository: https://github.ibm.com/CognitiveAssetFactory/EVA
+
+  Licensed Materials - Property of IBM
+  6949-70S
+
+  © Copyright IBM Corp. 2019 All Rights Reserved
+
+  US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+
+*/
 
 const testResultContainer = globalDatabase.config.containers.test_results;
 const testFilesContainer = globalDatabase.config.containers.test_files;
 
 // get test results aggregated by test case
 exports.getTestcasePerformance = function(run, clientId, callbackSuccess, callbackError) {
-    globalDatabase.connection.collection(testResultContainer).aggregate({
+    globalDatabase.connection.collection(testResultContainer).aggregate([{
         $match: {
             clientId: clientId
         }
@@ -54,7 +63,7 @@ exports.getTestcasePerformance = function(run, clientId, callbackSuccess, callba
         $sort: {
             "_id": 1
         }
-    }).toArray(function(err, result) {
+    }]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
@@ -64,7 +73,7 @@ exports.getTestcasePerformance = function(run, clientId, callbackSuccess, callba
 
 // get test results aggregated by test steps
 exports.getTeststepPerformance = function(run, clientId, callbackSuccess, callbackError) {
-    globalDatabase.connection.collection(testResultContainer).aggregate({
+    globalDatabase.connection.collection(testResultContainer).aggregate([{
             $match: {
                 clientId: clientId
             }
@@ -107,7 +116,7 @@ exports.getTeststepPerformance = function(run, clientId, callbackSuccess, callba
             $sort: {
                 "_id": -1
             }
-        }).toArray(function(err, result) {
+        }]).toArray(function(err, result) {
             if (err) {
                 return callbackError(500, err);
             }
@@ -116,7 +125,7 @@ exports.getTeststepPerformance = function(run, clientId, callbackSuccess, callba
 };
 
 exports.getTestResultByFile = function(run, clientId, callbackSuccess, callbackError) {
-    globalDatabase.connection.collection(testResultContainer).aggregate({
+    globalDatabase.connection.collection(testResultContainer).aggregate([{
         $match: {
             timestamp: {
                 $gte: new Date(run)
@@ -186,7 +195,7 @@ exports.getTestResultByFile = function(run, clientId, callbackSuccess, callbackE
         $sort: {
             _id: 1
         }
-    }).toArray(function(err, result) {
+    }]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
@@ -195,7 +204,7 @@ exports.getTestResultByFile = function(run, clientId, callbackSuccess, callbackE
 }
 
 exports.getTestResultByIntent = function(run, clientId, callbackSuccess, callbackError) {
-    globalDatabase.connection.collection(testResultContainer).aggregate({
+    globalDatabase.connection.collection(testResultContainer).aggregate([{
         $match: {
             timestamp: {
                 $gte: new Date(run)
@@ -265,7 +274,7 @@ exports.getTestResultByIntent = function(run, clientId, callbackSuccess, callbac
         $sort: {
             _id: 1
         }
-    }).toArray(function(err, result) {
+    }]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
@@ -274,7 +283,7 @@ exports.getTestResultByIntent = function(run, clientId, callbackSuccess, callbac
 }
 
 exports.getTestResultInDetail = function(run, key, value, clientId, callbackSuccess, callbackError) {
-    globalDatabase.connection.collection(testResultContainer).aggregate({
+    globalDatabase.connection.collection(testResultContainer).aggregate([{
         $match: {
             timestamp: {
                 $gte: new Date(run)
@@ -364,7 +373,7 @@ exports.getTestResultInDetail = function(run, key, value, clientId, callbackSucc
                 $push: "$uuidResult"
             }
         }
-    }).toArray(function(err, result) {
+    }]).toArray(function(err, result) {
         if (err) {
             return callbackError(500, err);
         }
