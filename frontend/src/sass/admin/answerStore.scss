@@ -196,3 +196,20 @@ input[type=number].form-control::-webkit-inner-spin-button {
 input[type=number].form-control {
     -moz-appearance:textfield;
 }
+
+.pagination>li>a,
+.pagination>li>span {
+  border: 1px solid #a51598 !important;
+  color: #a51598 !important;
+}
+.pagination>li.active>a {
+  background: #a51598 !important;
+  color: #fff !important;
+}
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+  background: #a51598 !important;
+  color: #fff !important;
+}

@@ -80,7 +80,7 @@
           <tr><td class="text-center" translate>ANSWER_SEARCH_NOT_FOUND</td></tr>
         </tbody>
         <tbody ng-show="!isLoading && displayedAnswers.length">
-          <tr ng-repeat="answer in displayedAnswers track by answer.answerId">
+          <tr ng-repeat="answer in displayedAnswers track by $index">
             <td class="padding-0">
               <div class="flex-container">
                 <div class="padding-10-5">
@@ -124,6 +124,9 @@
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="button-header flex-container space-between">
+      <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" style="margin: auto"></div>
     </div>
   </div>
 
