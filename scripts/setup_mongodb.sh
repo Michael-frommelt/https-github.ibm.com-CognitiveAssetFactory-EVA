@@ -26,45 +26,63 @@ echo ""
 
 if [ "${PROD_REGION_ID#ibm:yp:}" == "us-south" ]; then
     endpoint="https://api.ng.bluemix.net"
-else 
+else
     endpoint="https://api.${PROD_REGION_ID#ibm:yp:}.bluemix.net"
 fi
 
-ibmcloud login -a "$endpoint" --apikey "$API_KEY" -o "$PROD_ORG_NAME" -s "$PROD_SPACE_NAME"
+ibmcloud login -a "$endpoint" --apikey "$API_KEY" -g "$PROD_RESOURCE_GROUP_NAME"
 
-(cd ./runtimes && ibmcloud cf push)
+(cd ./runtimes && cf push ${PROD_APP_NAME}-Backend)
+(cd ./runtimes && cf push ${PROD_APP_NAME}-Frontend)
 
 echo ""
 echo "######## SET ENVIRONMENT VARIABLES ########"
 echo ""
 
-backend_url=https://$(cf app EVA-Backend | grep -e urls: -e routes: | awk '{print $2}')
+ibmcloud target --cf-api "$endpoint" -o "$PROD_ORG_NAME" -s "$PROD_SPACE_NAME"
+
+backend_url=https://$(cf app ${PROD_APP_NAME}-Backend | grep -e urls: -e routes: | awk '{print $2}')
 db_type="mongodb"
 
-ibmcloud cf set-env EVA-Frontend BACKEND_URL $backend_url
-ibmcloud cf set-env EVA-Backend DB_TYPE $db_type
+ibmcloud cf set-env ${PROD_APP_NAME}-Frontend BACKEND_URL $backend_url
+ibmcloud cf set-env ${PROD_APP_NAME}-Backend DB_TYPE $db_type
 
 echo ""
 echo "########## CREATE & BIND MONGODB ##########"
 echo ""
 
-cf create-service compose-for-mongodb Standard eva-mongodb
-cf create-service-key eva-mongodb credentials
+ibmcloud resource service-instance-create ${PROD_APP_NAME}-mongodb compose-for-mongodb standard ${PROD_REGION_ID#ibm:yp:}
+m_state=$(ibmcloud resource service-instance ${PROD_APP_NAME}-mongodb | grep -e State: | awk '{print $2}')
 
-db_uri=$(cf service-key eva-mongodb credentials | sed -n '/{/,/}$/p' | jq -r '.uri')
-db_ca_certificate=$(cf service-key eva-mongodb credentials | sed -n '/{/,/}$/p' | jq -r '.ca_certificate_base64')
+while [ "$m_state" != "active" ]
+do
+    sleep 15
+    m_state=$(ibmcloud resource service-instance ${PROD_APP_NAME}-mongodb | grep -e State: | awk '{print $2}')
+done
+ibmcloud resource service-key-create ${PROD_APP_NAME}-mongodb-credentials Administrator --instance-name ${PROD_APP_NAME}-mongodb
 
-cf bind-service EVA-Backend eva-mongodb
+db_uri=$(ibmcloud resource service-key ${PROD_APP_NAME}-mongodb-credentials | grep -e mongodb:// | awk '{print $2}' | tr -d '[:space:]' | tr -d '[')
+db_ca_certificate=$(ibmcloud resource service-key ${PROD_APP_NAME}-mongodb-credentials | grep -e certificate_base64: | awk '{print $2}' | tr -d '[:space:]')
+
+ibmcloud resource service-alias-create ${PROD_APP_NAME}-mongodb --instance-name ${PROD_APP_NAME}-mongodb
 
 echo ""
 echo "########### CREATE WA INSTANCE ###########"
 echo ""
 
-ibmcloud service create conversation standard eva-conversation
-ibmcloud iam service-id-create eva-conversation
-ibmcloud service key-create eva-conversation eva-conversation-key
-conversation_api_key=$(ibmcloud service key-show eva-conversation eva-conversation-key | sed -n '/{/,/}/p' | jq -r '.apikey')
-wcs_url=$(ibmcloud service key-show eva-conversation eva-conversation-key | sed -n '/{/,/}/p' | jq -r '.url')
+ibmcloud resource service-instance-create ${PROD_APP_NAME}-conversation conversation standard ${PROD_REGION_ID#ibm:yp:}
+
+wa_state=$(ibmcloud resource service-instance ${PROD_APP_NAME}-conversation | grep -e State: | awk '{print $2}')
+
+while [ "$wa_state" != "active" ]
+do
+    sleep 15
+    wa_state=$(ibmcloud resource service-instance ${PROD_APP_NAME}-conversation | grep -e State: | awk '{print $2}')
+done
+
+ibmcloud resource service-key-create ${PROD_APP_NAME}-conversation-credentials Manager --instance-name ${PROD_APP_NAME}-conversation
+conversation_api_key=$(ibmcloud resource service-key ${PROD_APP_NAME}-conversation-credentials | grep -e Credentials: -e apikey: | awk '{print $2}' | tr -d '[:space:]')
+wcs_url=$(ibmcloud resource service-key ${PROD_APP_NAME}-conversation-credentials | grep -e Credentials: -e url: | awk '{print $2}' | tr -d '[:space:]')
 
 echo ""
 echo "############ CREATE WORKSPACES ############"

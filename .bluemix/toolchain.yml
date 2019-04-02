@@ -45,10 +45,12 @@ services:
           DATABASE_TYPE: '{{form.pipeline.parameters.database-type}}'
           USERNAME: '{{form.pipeline.parameters.username}}'
           PASSWORD: '{{form.pipeline.parameters.password}}'
-          PROD_SPACE_NAME: '{{form.pipeline.parameters.prod-space}}'
+          PROD_RESOURCE_GROUP_NAME: '{{form.pipeline.parameters.prod-resource-group}}'
           PROD_ORG_NAME: '{{form.pipeline.parameters.prod-organization}}'
+          PROD_SPACE_NAME: '{{form.pipeline.parameters.prod-space}}'
           PROD_REGION_ID: '{{form.pipeline.parameters.prod-region}}'
           API_KEY: '{{form.pipeline.parameters.api-key}}'
+          PROD_APP_NAME: '{{form.pipeline.parameters.prod-app-name}}'
         execute: true
   webide:
     service_id: orion

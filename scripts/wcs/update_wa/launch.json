@@ -1,0 +1,23 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Update Watson Assistant with answer text",
+            "program": "${workspaceFolder}/scripts/wcs/update_wa/updateWA.js",
+            "env": {
+                "db_uri": "",
+                "db_name": "",
+                "wa_url": "",
+                "wa_api_key": "",
+                "wa_version": "2018-09-20",
+                "target_parameter": "text",
+                "answer_id": "true"
+            }
+        }
+    ]
+}

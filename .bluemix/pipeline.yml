@@ -30,6 +30,10 @@ stages:
     value: ${PROD_ORG_NAME}
   - name: PROD_SPACE_NAME
     value: ${PROD_SPACE_NAME}
+  - name: PROD_RESOURCE_GROUP_NAME
+    value: ${PROD_RESOURCE_GROUP_NAME}
+  - name: PROD_APP_NAME
+    value: ${PROD_APP_NAME}
   jobs:
   - name: Setup
     type: deployer
@@ -37,6 +41,7 @@ stages:
       region_id: ${PROD_REGION_ID}
       organization: ${PROD_ORG_NAME}
       space: ${PROD_SPACE_NAME}
+      resource-group: ${PROD_RESOURCE_GROUP_NAME}
       api_key: ${API_KEY}
     script: |-
       #!/bin/bash
@@ -98,11 +103,13 @@ stages:
       region_id: ${PROD_REGION_ID}
       organization: ${PROD_ORG_NAME}
       space: ${PROD_SPACE_NAME}
-      application: EVA-Backend
+      resource-group: ${PROD_RESOURCE_GROUP_NAME}
+      application: ${PROD_APP_NAME}
       api_key: ${API_KEY}
     script: |-
       #!/bin/bash
-      cf push "${CF_APP}" --random-route
+      
+      cf push ${CF_APP}-Backend --random-route
 
       # View logs
       # cf logs "${CF_APP}" --recent
@@ -138,11 +145,13 @@ stages:
       region_id: ${PROD_REGION_ID}
       organization: ${PROD_ORG_NAME}
       space: ${PROD_SPACE_NAME}
-      application: EVA-Frontend
+      resource-group: ${PROD_RESOURCE_GROUP_NAME}
+      application: ${PROD_APP_NAME}
       api_key: ${API_KEY}
     script: |-
       #!/bin/bash
-      cf push "${CF_APP}" --random-route
+
+      cf push ${CF_APP}-Frontend --random-route
 
       # View logs
       # cf logs "${CF_APP}" --recent

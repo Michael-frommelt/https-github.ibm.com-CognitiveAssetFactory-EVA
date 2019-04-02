@@ -1,0 +1,6 @@
+# Config files
+.env
+launch.json
+
+# Dependency directory
+node_modules

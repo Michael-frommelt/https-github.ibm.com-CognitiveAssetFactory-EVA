@@ -54,39 +54,39 @@
         "npm": "5.6.0"
     },
     "repository": {
-      "type": "git",
-      "url": "https://github.ibm.com/CognitiveAssetFactory/EVA"
+        "type": "git",
+        "url": "https://github.ibm.com/CognitiveAssetFactory/EVA"
     },
     "author": "IBM Corp.",
     "contributors": [
-    {
-        "name": "Sebastian Kowalski",
-        "email": "sebastian.kowalski@de.ibm.com"
-    },
-    {
-        "name": "Lukas Meermann",
-        "email": "lukas.meermann@de.ibm.com"
-    },
-    {
-        "name": "Alena Schmickl",
-        "email": "alena.schmickl@de.ibm.com"
-    },
-    {
-      "name": "Christian Gawron",
-      "email": "christian.gawron@de.ibm.com"
-    },
-    {
-      "name": "Carlo Morgenstern",
-      "email": "carlo.morgenstern@de.ibm.com"
-    },
-    {
-      "name": "Jakob Stöber",
-      "email": "jakob.stoeber@de.ibm.com"
+        {
+            "name": "Sebastian Kowalski",
+            "email": "sebastian.kowalski@de.ibm.com"
+        },
+        {
+            "name": "Lukas Meermann",
+            "email": "lukas.meermann@de.ibm.com"
+        },
+        {
+            "name": "Alena Schmickl",
+            "email": "alena.schmickl@de.ibm.com"
+        },
+        {
+            "name": "Christian Gawron",
+            "email": "christian.gawron@de.ibm.com"
+        },
+        {
+            "name": "Carlo Morgenstern",
+            "email": "carlo.morgenstern@de.ibm.com"
+        },
+        {
+            "name": "Jakob Stöber",
+            "email": "jakob.stoeber@de.ibm.com"
+        }
+    ],
+    "scripts": {
+        "start": "node server.js",
+        "postinstall": "bower install",
+        "gulp": "gulp"
     }
-  ],
-  "scripts": {
-    "start": "node server.js",
-    "postinstall": "bower install",
-    "gulp": "gulp"
-  }
 }

@@ -1,0 +1,14 @@
+{
+    "name": "update Watson Assistant script",
+    "description": "This script is used to update the dialog nodes of the Watson Assistant with the answer text stored in the answer store.",
+    "dependencies": {
+        "@cloudant/cloudant": "2.1.0",
+        "dotenv": "6.0.0",
+        "mongodb": "3.1.10",
+        "watson-developer-cloud": "^3.15.0"
+    },
+    "engines": {
+        "node": "8.11.3",
+        "npm": "5.6.0"
+    }
+}

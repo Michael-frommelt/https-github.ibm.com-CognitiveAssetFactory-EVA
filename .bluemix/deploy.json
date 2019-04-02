@@ -36,9 +36,14 @@
             "type": "string"
         },
         "prod-space": {
-            "description": "The bluemix space",
-            "type": "string"
+            "description": "The bluemix space"
         },
+        "prod-resource-group":{
+            "description": "The bluemix resource group"
+        },
+        "prod-app-name":{
+            "description": "The application name"
+        }
     },
     "required": [
         "username",
@@ -46,6 +51,8 @@
         "prod-region",
         "prod-organization",
         "prod-space",
+        "prod-resource-group",
+        "prod-app-name",
         "api-key"
     ],
     "form": [
@@ -123,6 +130,32 @@
                 {
                     "type": "select",
                     "key": "prod-space"
+                },
+                {
+                    "type": "label",
+                    "title": {
+                        "$ref": "#/messages/resource-group"
+                    }
+                },
+                {
+                    "type": "label",
+                    "title": {
+                        "$ref": "#/messages/app-name"
+                    }
+                },
+                {
+                    "type": "label",
+                    "title": {
+                        "$ref": "#/messages/empty"
+                    }
+                },
+                {
+                    "type": "select",
+                    "key": "prod-resource-group"
+                },
+                {
+                    "type": "select",
+                    "key": "prod-app-name"
                 }
             ]
         }
