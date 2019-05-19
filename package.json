@@ -1,6 +1,6 @@
 {
     "name": "EVA_Enhanced_conVersation_Asset",
-    "version": "1.4.3",
+    "version": "1.6.0",
     "description": "Asset to get Watson Conversation projects started",
     "main": "server.js",
     "dependencies": {
@@ -42,7 +42,7 @@
         "gulp-autoprefixer": "3.1.1",
         "gulp-cached": "1.1.1",
         "gulp-if": "2.0.2",
-        "gulp-imagemin": "5.0.3",
+        "gulp-imagemin": "4.1.0",
         "gulp-sass": "4.0.2",
         "gulp-sourcemaps": "2.6.4",
         "gulp-uglify": "3.0.1",

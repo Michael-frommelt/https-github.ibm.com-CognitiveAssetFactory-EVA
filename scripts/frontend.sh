@@ -1,26 +1,25 @@
 #!/bin/bash
 
 echo ""
-echo "###### SET NODE VERSION TO 6.7.0 #######"
-echo ""
-
-export PATH=/opt/IBM/node-v6.7.0/bin:$PATH
-node -v
-
-echo ""
 echo "########### CLEAN DIRECTORY ############"
 echo ""
 
+rm -R .bluemix
 rm -R backend
 rm -R docs
-rm -R resources
 
 echo ""
 echo "############# NPM INSTALL ##############"
 echo ""
 
 npm install
-npm install -g gulp
+
+echo ""
+echo "############# BOWER INSTALL ##############"
+echo ""
+
+npm install -g bower
+bower install --allow-root
 
 echo ""
 echo "############# BUILD: SASS ##############"
@@ -32,8 +31,7 @@ echo ""
 echo "############# BUILD: GULP ##############"
 echo ""
 
-gulp --version
-gulp build
+npm run gulp build
 
 echo ""
 echo "########### CLEAN DIRECTORY ############"

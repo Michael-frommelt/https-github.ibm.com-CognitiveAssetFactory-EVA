@@ -1,6 +1,7 @@
 ---
+defaultBaseImageVersion: '2.0'
 stages:
-- name: EVA - Setup
+- name: One Time Setup
   inputs:
   - service: ${EVA_REPO}
     type: git
@@ -9,52 +10,58 @@ stages:
   triggers:
   - type: commit
   properties:
-  - name: DATABASE_TYPE
-    value: ${DATABASE_TYPE}
+  - name: API_KEY
+    value: ${API_KEY}
+    type: secure
+  - name: APPLICATION_NAME
+    value: ${APPLICATION_NAME}
     type: text
   - name: USERNAME
     value: ${USERNAME}
     type: text
   - name: PASSWORD
     value: ${PASSWORD}
+    type: secure
+  - name: PROD_REGION
+    value: ${PROD_REGION}
+    type: text
+  - name: PROD_ORGANIZATION
+    value: ${PROD_ORGANIZATION}
+    type: text
+  - name: PROD_SPACE
+    value: ${PROD_SPACE}
+    type: text
+  - name: DATABASE_TYPE
+    value: ${DATABASE_TYPE}
+    type: text
+  - name: PROD_RESOURCE_GROUP
+    value: ${PROD_RESOURCE_GROUP}
     type: text
   - name: LANGUAGE
-    value: de
+    value: ${LANGUAGE}
     type: text
-  - name: PROD_REGION_ID
-    value: ${PROD_REGION_ID}
-  - name: API_KEY
-    value: ${API_KEY}
-    type: secure
-  - name: PROD_ORG_NAME
-    value: ${PROD_ORG_NAME}
-  - name: PROD_SPACE_NAME
-    value: ${PROD_SPACE_NAME}
-  - name: PROD_RESOURCE_GROUP_NAME
-    value: ${PROD_RESOURCE_GROUP_NAME}
-  - name: PROD_APP_NAME
-    value: ${PROD_APP_NAME}
   jobs:
   - name: Setup
     type: deployer
     target:
-      region_id: ${PROD_REGION_ID}
-      organization: ${PROD_ORG_NAME}
-      space: ${PROD_SPACE_NAME}
-      resource-group: ${PROD_RESOURCE_GROUP_NAME}
+      region_id: ${PROD_REGION}
+      organization: ${PROD_ORGANIZATION}
+      space: ${PROD_SPACE}
+      resource-group: ${PROD_RESOURCE_GROUP}
+      application: ${APPLICATION_NAME}
       api_key: ${API_KEY}
     script: |-
       #!/bin/bash
 
       cd scripts
 
-      if [ -e setup.log ]
+      if [[ -e setup.log ]]
       then
         echo ""
         echo "########## SETUP ALREADY EXECUTED #########"
         echo ""
       else
-        if [ "${DATABASE_TYPE}" = "Compose for MongoDB" ]
+        if [[ "${DATABASE_TYPE}" = "Compose for MongoDB" ]]
         then
           bash setup_mongodb.sh | tee -a setup.log
         else
@@ -100,19 +107,19 @@ stages:
   - name: Deploy
     type: deployer
     target:
-      region_id: ${PROD_REGION_ID}
-      organization: ${PROD_ORG_NAME}
-      space: ${PROD_SPACE_NAME}
-      resource-group: ${PROD_RESOURCE_GROUP_NAME}
-      application: ${PROD_APP_NAME}
+      region_id: ${PROD_REGION}
+      organization: ${PROD_ORGANIZATION}
+      space: ${PROD_SPACE}
+      resource-group: ${PROD_RESOURCE_GROUP}
+      application: ${APPLICATION_NAME}
       api_key: ${API_KEY}
     script: |-
       #!/bin/bash
       
-      cf push ${CF_APP}-Backend --random-route
+      cf push "${CF_APP}-Backend" --random-route
 
       # View logs
-      # cf logs "${CF_APP}" --recent
+      # cf logs "${CF_APP}-Backend" --recent
 - name: Build Frontend
   inputs:
   - service: ${EVA_REPO}
@@ -142,19 +149,19 @@ stages:
   - name: Deploy
     type: deployer
     target:
-      region_id: ${PROD_REGION_ID}
-      organization: ${PROD_ORG_NAME}
-      space: ${PROD_SPACE_NAME}
-      resource-group: ${PROD_RESOURCE_GROUP_NAME}
-      application: ${PROD_APP_NAME}
+      region_id: ${PROD_REGION}
+      organization: ${PROD_ORGANIZATION}
+      space: ${PROD_SPACE}
+      resource-group: ${PROD_RESOURCE_GROUP}
+      application: ${APPLICATION_NAME}
       api_key: ${API_KEY}
     script: |-
       #!/bin/bash
 
-      cf push ${CF_APP}-Frontend --random-route
+      cf push "${CF_APP}-Frontend" --random-route
 
       # View logs
-      # cf logs "${CF_APP}" --recent
+      # cf logs "${CF_APP}-Frontend" --recent
 hooks:
 - enabled: true
   label: null

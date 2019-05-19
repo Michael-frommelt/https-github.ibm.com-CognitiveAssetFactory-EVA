@@ -39,7 +39,7 @@ exports.getQuestions = function(entities, intents, jargon, callback) {
       getQuestionsByIntents(intents, jargon, function(err, result) {
         if (err) return callback(err, result);
 
-        var answer_id = ["Anything_else_2"];
+        var answer_id = ["anything_else_2"];
         var answer_proposals = [];
 
         result.forEach(function(item) {

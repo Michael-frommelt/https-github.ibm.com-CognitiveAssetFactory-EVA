@@ -14,46 +14,45 @@
     },
     "type": "object",
     "properties": {
+        "application-name":{
+            "type": "string"
+        },
         "username": {
-            "description": "Username",
             "type": "string"
         },
         "password": {
-            "description": "Password",
-            "type": "password",
+            "type": "string",
             "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@!%*?&])[A-Za-z\\d@!%*?&]{8,16}"
         },
-        "database-type": {
-            "description": "The database type",
-            "type": "string"
-        },
         "prod-region": {
-            "description": "The bluemix region",
             "type": "string"
         },
         "prod-organization": {
-            "description": "The bluemix org",
             "type": "string"
         },
         "prod-space": {
-            "description": "The bluemix space"
+            "type": "string"
         },
-        "prod-resource-group":{
-            "description": "The bluemix resource group"
+        "database-type": {
+            "type": "string"
         },
-        "prod-app-name":{
-            "description": "The application name"
+        "prod-resource-group": {
+            "type": "string"
+        },
+        "language": {
+            "type": "string"
         }
     },
     "required": [
+        "application-name",
         "username",
         "password",
         "prod-region",
         "prod-organization",
         "prod-space",
+        "database-type",
         "prod-resource-group",
-        "prod-app-name",
-        "api-key"
+        "language"
     ],
     "form": [
         {
@@ -72,90 +71,127 @@
                 {
                     "type": "label",
                     "title": {
-                        "$ref": "#/messages/username"
+                        "$ref": "#/messages/deploy.application-name"
                     }
                 },
                 {
                     "type": "label",
                     "title": {
-                        "$ref": "#/messages/password"
+                        "$ref": "#/messages/deploy.username"
                     }
                 },
                 {
                     "type": "label",
                     "title": {
-                        "$ref": "#/messages/database"
+                        "$ref": "#/messages/deploy.password"
                     }
                 },
                 {
-                    "key": "username"
+                    "type": "text",
+                    "key": "application-name",
+                    "description": {
+                        "$ref": "#/messages/deploy.application-name.placeholder"
+                    }
                 },
                 {
-                    "key": "password"
+                    "type": "text",
+                    "key": "username",
+                    "description": {
+                        "$ref": "#/messages/deploy.username.placeholder"
+                    }
+                },
+                {
+                    "type": "password",
+                    "key": "password",
+                    "description": {
+                        "$ref": "#/messages/deploy.password.placeholder"
+                    }
+                },
+                {
+                    "type": "label",
+                    "title": {
+                        "$ref": "#/messages/deploy.prod-region"
+                    }
+                },
+                {
+                    "type": "label",
+                    "title": {
+                        "$ref": "#/messages/deploy.prod-organization"
+                    }
+                },
+                {
+                    "type": "label",
+                    "title": {
+                        "$ref": "#/messages/deploy.prod-space"
+                    }
+                },
+                {
+                    "type": "select",
+                    "key": "prod-region",
+                    "description": {
+                        "$ref": "#/messages/deploy.prod-region.placeholder"
+                    }
+                },
+                {
+                    "type": "select",
+                    "key": "prod-organization",
+                    "description": {
+                        "$ref": "#/messages/deploy.prod-organization.placeholder"
+                    }
+                },
+                {
+                    "type": "select",
+                    "key": "prod-space",
+                    "description": {
+                        "$ref": "#/messages/deploy.prod-space.placeholder"
+                    }
+                },
+                {
+                    "type": "label",
+                    "title": {
+                        "$ref": "#/messages/deploy.database-type"
+                    }
+                },
+                {
+                    "type": "label",
+                    "title": {
+                        "$ref": "#/messages/deploy.prod-resource-group"
+                    }
+                },
+                {
+                    "type": "label",
+                    "title": {
+                        "$ref": "#/messages/deploy.language"
+                    }
                 },
                 {
                     "type": "select",
                     "key": "database-type",
+                    "description": {
+                        "$ref": "#/messages/deploy.database-type.placeholder"
+                    },
                     "enum": [
-                        "Cloudant NoSQL DB",
+                        "IBM Cloudant",
                         "Compose for MongoDB"
                     ]
                 },
                 {
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/region"
-                    }
-                },
-                {
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/organization"
-                    }
-                },
-                {
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/space"
+                    "type": "select",
+                    "key": "prod-resource-group",
+                    "description": {
+                        "$ref": "#/messages/deploy.prod-resource-group.placeholder"
                     }
                 },
                 {
                     "type": "select",
-                    "key": "prod-region"
-                },
-                {
-                    "type": "select",
-                    "key": "prod-organization"
-                },
-                {
-                    "type": "select",
-                    "key": "prod-space"
-                },
-                {
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/resource-group"
-                    }
-                },
-                {
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/app-name"
-                    }
-                },
-                {
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/empty"
-                    }
-                },
-                {
-                    "type": "select",
-                    "key": "prod-resource-group"
-                },
-                {
-                    "type": "select",
-                    "key": "prod-app-name"
+                    "key": "language",
+                    "description": {
+                        "$ref": "#/messages/deploy.language.placeholder"
+                    },
+                    "enum": [
+                        "de",
+                        "en"
+                    ]
                 }
             ]
         }

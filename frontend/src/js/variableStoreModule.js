@@ -72,7 +72,7 @@ variableStore.config(['$translateProvider', function($translateProvider) {
     'VARIABLE_TOOLTIP': 'Tooltip',
     'CANCEL': 'Abbrechen',
     'SAVE': 'Speichern',
-    'UPLOAD_VARIABLES':'Variablern hochladen',
+    'UPLOAD_VARIABLES':'Variablen hochladen',
     'UPLOAD_VARIABLES_TEXT': 'Bitte wählen Sie die Datei mit Variablern aus, die Sie hochladen möchten.',
     'IMPORT_MODE_OVERRIDE':'Variablern überschreiben, falls sie existieren',
     'IMPORT_MODE_INSERT':'Nur neue Variablern übernehmen',

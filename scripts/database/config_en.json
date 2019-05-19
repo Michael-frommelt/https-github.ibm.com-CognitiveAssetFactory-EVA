@@ -1,0 +1,3296 @@
+{
+    "config": [
+        {
+            "answerProperties": [
+                {
+                    "name": "sentiment",
+                    "displayName": "Sentiment",
+                    "type": "number",
+                    "minValue": -1,
+                    "maxValue": 1,
+                    "required": false
+                },
+                {
+                    "name": "jargon",
+                    "displayName": "Jargon",
+                    "type": "multipleChoice",
+                    "choices": [
+                        "formell",
+                        "informell"
+                    ],
+                    "required": false
+                }
+            ],
+            "answerVersionDeleteExpiration": 10000,
+            "answerVersionLimit": 10000,
+            "fileSizeLimit": 20480,
+            "frontend": {
+                "updateInterval": 300,
+                "showWYSIWYGEditor": true,
+                "answerTextSize": 250
+            },
+            "id": "answerStore",
+            "multipleChoiceDistanceMeasure": 5
+        },
+        {
+            "answers_db": "answers_chitchat_asset",
+            "chitchat_confidence_level": 0.7,
+            "enabled": true,
+            "id": "chitchat",
+            "override_variable": "prevent_override",
+            "api_key":"",
+            "reassurance_confidence_level": 0.5,
+            "url": "",
+            "version": "v1",
+            "version_date": "2018-09-20",
+            "wcs_confidence_level": 0.7,
+            "workspace": "",
+            "timezone": "Europe/Berlin"
+        },
+        {
+            "id": "conversation",
+            "api_key": "",
+            "show_alternate_intents": true,
+            "entity_anaphora_memory": 1,
+            "intent_anaphora_name": "anaphora",
+            "url": "",
+            "version": "v1",
+            "version_date": "2018-09-20",
+            "offtopic": "Off_Topic"
+        },
+        {
+            "announceAutoMerge": true,
+            "businessConfidenceThreshold": 0.7,
+            "chitchatConfidenceThreshold": 0.7,
+            "continuationSystemContext": {
+                "dialog_stack": [
+                    {
+                        "dialog_node": "maintain_conversation_01"
+                    }
+                ],
+                "dialog_turn_counter": 2.0,
+                "dialog_request_counter": 2.0,
+                "_node_output_map": {
+                    "Begrüßung": [
+                        0.0,
+                        0.0
+                    ]
+                }
+            },
+            "default": "blocked",
+            "dialog2chitchat": "automatic",
+            "dialog2dialog": "prompt",
+            "dialog2qa": "automatic",
+            "enabled": true,
+            "enableSameIntentJumps": true,
+            "fewWordIntents": [
+                "eva_farewell"
+            ],
+            "id": "jumpHandling",
+            "noBackToTopicIntents": [
+                "eva_farewell",
+                "eva_dissatisfaction_withEVA",
+                "eva_how_can_you_help_me"
+            ],
+            "noJumpIntents": [
+                "eva_unsure",
+                "anaphora"
+            ],
+            "openingSystemContext": {
+                "dialog_stack": [
+                    {
+                        "dialog_node": "root"
+                    }
+                ],
+                "dialog_turn_counter": 1.0,
+                "dialog_request_counter": 1.0,
+                "_node_output_map": {
+                    "Begrüßung": [
+                        0.0,
+                        0.0
+                    ]
+                },
+                "branch_exited": true,
+                "branch_exited_reason": "completed"
+            },
+            "persistentContextVars": [
+                "confidence_threshold",
+                "reassurance_threshold"
+            ],
+            "switchWorkspaceThreshold": 0.4,
+            "uncopiedOutputFields": [
+                "actions",
+                "text",
+                "answer_id",
+                "nodes_visited",
+                "log_messages",
+                "prevent_override",
+                "confidence",
+                "topIntent",
+                "answer_proposals"
+            ]
+        },
+        {
+            "enabled": false,
+            "id": "corrector",
+            "url": ""
+        },
+        {
+            "backendLogLevel": 3.0,
+            "debugmode": true,
+            "environment": "Enhanced conVersation Asset",
+            "errorMessage": "Oops! There seems to be an error in the system. Unfortunately I cannot answer your question. Please try again later. Thanks for your patience!",
+            "feedback": "required",
+            "id": "general",
+            "logEveryMessage": true,
+            "maintenanceAnswerId": "maintenance mode",
+            "maintenanceEnabled": false
+        },
+        {
+            "id": "external_frontend",
+            "jwt_secret": "d1b2b1bfa3031eabb5e431d02dd03a077f8a64c3"
+        },
+        {
+            "conversation": {
+                "url": "",
+                "api_key": "",
+                "version_date": "2018-09-20",
+                "version": "v1",
+                "workspaces": {
+                    "kfold": "",
+                    "dialog_business": "",
+                    "dialog_chitchat": ""
+                }
+            },
+            "id": "testing"
+        },
+        {
+            "id": "guidingConcept",
+            "anything_else": {
+                "wrong_answer_counter_init": 1.0,
+                "wrong_answer_counter_limit": 3.0,
+                "default_answer_proposals": [
+                    [
+                        "Why should I use EVA?",
+                        "Which advantages offers me the Enhanced conVersation Asset?",
+                        "Which added value offers me EVA?"
+                    ],
+                    [
+                        "What is Watson?",
+                        "Is Watson a cognitive system?",
+                        "Who is Watson?"
+                    ]
+                ],
+                "minimumConfidence": 0.3
+            },
+            "online_contract_offer": {},
+            "back_to_topic": {
+                "non_business_question_score_init": 0.0,
+                "non_business_question_score_limit": -2.0
+            }
+        }
+    ],
+    "profanity": {
+        "drugs": [
+            "High as a kite",
+            "Hash brownie",
+            "Weed brownie",
+            "Junkie",
+            "Cocaine",
+            "Meth",
+            "Methamphetamine",
+            "Crystal",
+            "Mushrooms",
+            "Spacecake",
+            "Spacecookies",
+            "Speed",
+            "Stoned out of my mind",
+            "Heroin",
+            "LSD",
+            "MDMA",
+            "Opium",
+            "Ritalin",
+            "Stoner"
+        ],
+        "emergency": [
+            "razer blade",
+            "bombing",
+            "explosives"
+        ],
+        "hateSpeech": [
+            "nigger",
+            "nigga",
+            "niglet",
+            "Niggah",
+            "Niggaz",
+            "nignog",
+            "Jim Crow",
+            "Lesbo",
+            "Towelhead",
+            "Towel head",
+            "Ching Chong",
+            "Chink",
+            "White Power",
+            "KKK",
+            "Klu Klux Klan",
+            "Aryan Supremacy",
+            "Faggot",
+            "Neonazi",
+            "Heil Hitler",
+            "Heilhitler",
+            "Neo Nazi",
+            "White power",
+            "White supremacy",
+            "Zyklon B"
+        ],
+        "insults": [
+            "Ass",
+            "Butthead",
+            "Ass hole",
+            "Behindi",
+            "Biatch",
+            "Cunt",
+            "Bastard",
+            "Piece of shit",
+            "Dummy",
+            "Emo",
+            "faggot",
+            "Fag Pig",
+            "Dick",
+            "dumass",
+            "dumb ass",
+            "dumbass",
+            "dumbasses",
+            "dumbbitch",
+            "dumbfuck",
+            "dumbshit",
+            "dummy",
+            "dumshit",
+            "Fuckfair",
+            "Fuckface",
+            "Fuck",
+            "Mother Fucker",
+            "Retarted",
+            "Retard",
+            "Mongo",
+            "Knob head",
+            "Pisser",
+            "Bag of dicks",
+            "Asshole",
+            "Shit",
+            "Slut",
+            "Cock Sucker",
+            "Rapist",
+            "Pedo",
+            "Pedofile",
+            "Dickwad",
+            "Arse",
+            "Bugger",
+            "Chink",
+            "Minger",
+            "Sod-off",
+            "Bollocks",
+            "Son of a bitch",
+            "Bellend",
+            "Fanny",
+            "Tosser",
+            "Gringo",
+            "Fucker",
+            "White Trash",
+            "Douche",
+            "Duche",
+            "Wanker",
+            "Dyke",
+            "Fuck",
+            "Dike",
+            "Skank",
+            "Slut",
+            "Slutty",
+            "Sleeze",
+            "Sleezebag",
+            "Hobag",
+            "Hussy",
+            "Inbred",
+            "Fucker",
+            "Idiot",
+            "Dimwit",
+            "Horseface",
+            "Son of a bitch",
+            "Fuckhead",
+            "Moron",
+            "Ninny"
+        ],
+        "pornography": [
+            "2girls1cup",
+            "Masturbate",
+            "Anal admiral",
+            "asslick",
+            "asslicker",
+            "asslover",
+            "assman",
+            "assmaster",
+            "assmunch",
+            "assmuncher",
+            "b a s t a r d",
+            "b i t c h",
+            "b o o b",
+            "b!+ch",
+            "b!+ch",
+            "b!tch",
+            "b!tchin",
+            "b*tch",
+            "b00b",
+            "b00b*",
+            "b00bies",
+            "b00biez",
+            "b00bs",
+            "b00bz",
+            "ball licking",
+            "ball sack",
+            "ball sucking",
+            "balllicker",
+            "barely legal",
+            "barelylegal",
+            "barenaked",
+            "beastality",
+            "beastial",
+            "beastiality",
+            "beastility",
+            "brea5t",
+            "breast",
+            "breastjob",
+            "breastlover",
+            "breastman",
+            "bugger",
+            "buggered",
+            "buggery",
+            "bukkake",
+            "busty",
+            "buttcheeks",
+            "buttmuch",
+            "buttmunch",
+            "buttmuncher",
+            "buttplug",
+            "butt plug",
+            "c-0-c-k",
+            "c-o-c-k",
+            "c-u-n-t",
+            "c.0.c.k",
+            "c.o.c.k.",
+            "c.u.n.t",
+            "c0ck",
+            "c0cks",
+            "c0cksucker",
+            "carpet muncher",
+            "carpetmuncher",
+            "Choad",
+            "cervix",
+            "circlejerk",
+            "cocklicker",
+            "cocklover",
+            "cocksuck",
+            "cocksucked",
+            "cocksucker",
+            "cocksucking",
+            "cocktease",
+            "condom",
+            "copulate",
+            "reverse cowgirl",
+            "creampie",
+            "cumming",
+            "cumshot",
+            "cunilingus",
+            "cunillingus",
+            "cyberfuck",
+            "cyberfucked",
+            "cyberfucker",
+            "cyberfuckers",
+            "cyberfucking",
+            "date rape",
+            "daterape",
+            "dicklick",
+            "dicklicker",
+            "dild0s",
+            "dildo",
+            "dildos",
+            "dirty sanchez",
+            "doggie-style",
+            "doggiestyle",
+            "dominatrix",
+            "Angry pirate",
+            "Shitting",
+            "Shit on me",
+            "Piss on me",
+            "Golden Shower",
+            "Anal Fuck",
+            "Ball Sack",
+            "Deez Nuts",
+            "Ballz",
+            "barely legal",
+            "Bitch",
+            "Bollock",
+            "Blowjob",
+            "Bondage",
+            "Boobjob",
+            "Bukkake",
+            "butter your muffin",
+            "Buttplug",
+            "Cameltoe",
+            "Ciallis",
+            "Clit",
+            "cock",
+            "Creampie",
+            "Cuckold",
+            "Cumshot",
+            "Cumslut",
+            "Cunt",
+            "daftporn",
+            "Deep Throat",
+            "Deepthroat",
+            "dickhead",
+            "Dildo",
+            "doggy",
+            "Doggystyle",
+            "double penetration",
+            "Bronies",
+            "Fetish",
+            "fisting",
+            "footfetish",
+            "footfuck",
+            "footfucker",
+            "footjob",
+            "fuckbuddy",
+            "fuckfriend",
+            "Salad Tosser",
+            "Gang bang",
+            "Gangbang",
+            "Gaylord",
+            "Gilf",
+            "Group sex",
+            "hairy potter",
+            "Handjob",
+            "Hardcore",
+            "Homo",
+            "horny",
+            "Jizz",
+            "Jizzed",
+            "Just the tip",
+            "Camel Toe",
+            "Ladyboy",
+            "Milf",
+            "Vagina",
+            "naughty",
+            "Necrophelia",
+            "69er",
+            "Nippel",
+            "Nudes",
+            "Nympho",
+            "Nymphomaniac",
+            "Octopussy",
+            "Orgy",
+            "pedob 'e4r",
+            "pedophile",
+            "paedophile",
+            "Pearl Necklace",
+            "Penis",
+            "Pimpern",
+            "p e n i s",
+            "p u s s y",
+            "p.u.s.s.y.",
+            "Phonesex",
+            "Pisse",
+            "Porn",
+            "Pornhub",
+            "Porno",
+            "Pussy",
+            "Rattenscharf",
+            "Redtube",
+            "Reverse Cowgirl",
+            "Rimjob",
+            "Roadhead",
+            "Schlong",
+            "Scissoring",
+            "sendnudes",
+            "Shemale",
+            "Sodomy",
+            "spanking",
+            "Squirt",
+            "Threesome",
+            "Beastiality",
+            "Threesome",
+            "Titties",
+            "Titty Fuck",
+            "Tranny",
+            "Transe",
+            "Twat",
+            "twistedporn",
+            "Two Girls One Cup",
+            "voyeur",
+            "vag1na",
+            "vagiina",
+            "vagina",
+            "vaginal",
+            "vaj1na",
+            "vajina",
+            "vjayjay",
+            "vulva",
+            "youjizz",
+            "youporn",
+            "Zungentango",
+            "Dyke",
+            "Ejaculating",
+            "Ejaculate",
+            "f u c k",
+            "fanny",
+            "clenge",
+            "ax wound",
+            "fecker",
+            "fellatio",
+            "fist fuck",
+            "fuckin",
+            "fucking",
+            "gang bang",
+            "horny",
+            "jack off",
+            "jerk off",
+            "Labia",
+            "Lapdance",
+            "Limpdick",
+            "Molest",
+            "Molestation",
+            "masochist",
+            "masterb8",
+            "orgasm",
+            "orgasms",
+            "p0rn",
+            "pussy",
+            "sadist",
+            "screwing",
+            "scrotum",
+            "shagger",
+            "syphilis",
+            "shite",
+            "smegma",
+            "testicle",
+            "testicles",
+            "viagra",
+            "durex",
+            "xrated",
+            "Whore",
+            "Molest",
+            "Fondle",
+            "Queef",
+            "teabagging",
+            "Zoophile",
+            "Beardedclam",
+            "c0ck",
+            "Coitus",
+            "d1ck",
+            "Erection",
+            "Gonads",
+            "Hooch",
+            "Hymen",
+            "Incest",
+            "Grab them by the pussy",
+            "Shag"
+        ],
+        "religion": [
+            "allahu akbar",
+            "Holy War",
+            "Islamist",
+            "Hijab",
+            "ISIS",
+            "Islamic State",
+            "Jihad",
+            "Jewish Star"
+        ],
+        "suicide": [
+            "suicide",
+            "suicidal",
+            "Kill myself",
+            "I want to die",
+            "Cut wrists",
+            "Jump off a bridge",
+            "End my life",
+            "I want to end my life",
+            "Kill me",
+            "Kill self",
+            "suicidal",
+            "kill myself",
+            "self-immolation",
+            "Seppuku"
+        ],
+        "violence": [
+            "Kill",
+            "Stabbing",
+            "Stabbed",
+            "Shanked",
+            "Stab",
+            "Bomb",
+            "Bombing",
+            "Bombed",
+            "Shot",
+            "Shooting",
+            "War",
+            "War zone",
+            "Civil War",
+            "Killed",
+            "Killings",
+            "Murder",
+            "Murdered",
+            "I kill you",
+            "You are dead",
+            "Blow up",
+            "Blown up",
+            "Hooligan",
+            "Gun to your head",
+            "Beat up",
+            "Crips",
+            "Aryan Brotherhood",
+            "MS-13",
+            "Rape",
+            "Raping",
+            "Raped",
+            "Pillage",
+            "Pillaging",
+            "Panzer",
+            "Bazooka",
+            "Machine Gun",
+            "Stoned to death",
+            "Blown up",
+            "Massacre",
+            "Massacred",
+            "Nuked",
+            "Decapitation",
+            "Decapitate",
+            "Crucifixion",
+            "Crucify",
+            "Exterminate",
+            "Panzer",
+            "AK-47",
+            "AK 47",
+            "Strangle",
+            "Strangulate",
+            "Suffocate",
+            "Strangled",
+            "KKK",
+            "Want to kill you",
+            "Go die",
+            "Slaughter",
+            "Genocide",
+            "Terrorism",
+            "Human Trafficking"
+        ]
+    },
+    "answers_business_asset": [
+        {
+            "answerId": "profanity_01",
+            "answerOptions": [
+                {
+                    "answerText": "I do not want to chat about this topic, so I think it is best if we end our discussion here. Goodbye!",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "maintain_conversation_01",
+            "answerOptions": [
+                {
+                    "answerText": "Can I help you with anything else?",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "Do you have any additional questions that I can answer?",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "How else can I help you?",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "eva_03",
+            "answerOptions": [
+                {
+                    "answerText": "Ok, the EVA asset team will be happy to answer your questions later on.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "anything_else_1",
+            "answerOptions": [
+                {
+                    "answerText": "I am sorry I didn't understand your question. However, I am happy to answer any questions you might have about EVA.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "Unfortunately I didn't understand your question correctly. But I would be happy to answer any questions you might have about EVA.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "eva_04",
+            "answerOptions": [
+                {
+                    "answerText": "<p>Do you want more information about EVA?</p><p><br></p>",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [
+                "Yes, please",
+                "No, thank you"
+            ],
+            "tags": []
+        },
+        {
+            "answerId": "how_can_you_help_me_01",
+            "answerOptions": [
+                {
+                    "answerText": "I can answer all of your questions about EVA. Just ask me and I can help you out!",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "back_to_topic_1",
+            "answerOptions": [
+                {
+                    "answerText": "I'd be happy to talk to you about this and that, however, my area of expertise is EVA. Let's continue with this.&nbsp;",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "back_to_topic_3",
+            "answerOptions": [
+                {
+                    "answerText": "<p>We are dealing with topics that are not in my area of expertise.</p><p>I am happy to talk to you about EVA.<br></p><p><br></p><p>Please choose one of the following EVA topics:</p>",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [
+                "What are the advantages of EVA?",
+                "What is Watson?"
+            ],
+            "tags": []
+        },
+        {
+            "answerId": "reassurance_dialog_01",
+            "answerOptions": [
+                {
+                    "answerText": "<p>I am a bit uncertain, but I think you are asking about ${${reassurance_intent}}. Let me know if I should tell you more, or you can ask the question again!</p>",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "eva_01",
+            "answerOptions": [
+                {
+                    "answerText": "<p>EVA stands for Enhanced conVersation Asset and is a chatbot asset based on the IBM Watson Assistant Service.&nbsp;</p><p><br></p><p>Would you like more information?</p><p><br></p>",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [
+                "Yes, please",
+                "No, thank you"
+            ],
+            "tags": []
+        },
+        {
+            "answerId": "watson_01",
+            "answerOptions": [
+                {
+                    "answerText": "IBM Watson is a cognitive system that enables a new collaboration between humans and computers.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "profanity_02",
+            "answerOptions": [
+                {
+                    "answerText": "<p>I am not able to talk to you about that subject, so I will end the conversation at this point and lock the chat window.</p><p>For such topics, I think it would be good to get in contact with some experts that are trained to support you.</p>",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "farewell_01",
+            "answerOptions": [
+                {
+                    "answerText": "<p>Thank you for taking the time to chat with me. If you have any more questions, please do not hesitate to contact me.</p><p><br></p><p>${farewell}.</p>",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "<p>If you think of anything else, please feel free to contact me at any time.</p><p><br></p><p>${farewell}.</p>",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "long_input_01",
+            "answerOptions": [
+                {
+                    "answerText": "I'm sorry, I didn't understand your question. I still have some difficulty with long questions. But I would be happy to answer any questions you may have about the Enhanced conVersation Asset.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "back_to_topic_automatic",
+            "answerOptions": [
+                {
+                    "answerText": "Let's start heading back to the original topic...",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "eva_02",
+            "answerOptions": [
+                {
+                    "answerText": "<p>EVA consists of two separate Node.js runtimes, one for frontend and backend, as well as the IBM Watson Assistant service and a database (IBM Cloudant/Compose for MongoDB). If you have any further questions, please contact the EVA Asset Team.</p><p></p><p>\r\n\r\n\r\n\r\n\r\n\r\n<style>\r\n<!--table\r\n\t{mso-displayed-decimal-separator:\"\\,\";\r\n\tmso-displayed-thousand-separator:\"\\.\";}\r\n@page\r\n\t{margin:.75in .7in .75in .7in;\r\n\tmso-header-margin:.3in;\r\n\tmso-footer-margin:.3in;}\r\ntr\r\n\t{mso-height-source:auto;}\r\ncol\r\n\t{mso-width-source:auto;}\r\nbr\r\n\t{mso-data-placement:same-cell;}\r\ntd\r\n\t{padding-top:1px;\r\n\tpadding-right:1px;\r\n\tpadding-left:1px;\r\n\tmso-ignore:padding;\r\n\tcolor:black;\r\n\tfont-size:12.0pt;\r\n\tfont-weight:400;\r\n\tfont-style:normal;\r\n\ttext-decoration:none;\r\n\tfont-family:Calibri, sans-serif;\r\n\tmso-font-charset:0;\r\n\tmso-number-format:General;\r\n\ttext-align:general;\r\n\tvertical-align:bottom;\r\n\tborder:none;\r\n\tmso-background-source:auto;\r\n\tmso-pattern:auto;\r\n\tmso-protection:locked visible;\r\n\twhite-space:nowrap;\r\n\tmso-rotate:0;}\r\n.xl65\r\n\t{white-space:normal;}\r\n-->\r\n</style>\r\n\r\n\r\n\r\n\r\n</p><p></p>",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "anything_else_3",
+            "answerOptions": [
+                {
+                    "answerText": "I am sorry that I am still not able to fully understand. Please select one of the following answer options:",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "further_questions_01",
+            "answerOptions": [
+                {
+                    "answerText": "<p>I would be happy to. What else would you like to know?</p>",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "ibm_01",
+            "answerOptions": [
+                {
+                    "answerText": "International Business Machines Corporation (IBM) is a US <a href=\"https://de.wikipedia.org/wiki/Informationstechnik&quot; title=&quot;Information Technology\" target=\"_blank\">IT</a>&nbsp;and consulting firm based in Armonk, New York.<p>\r\n\r\n\r\n\r\n\r\n\r\n<style>\r\n<!--table\r\n\t{mso-displayed-decimal-separator:\"\\,\";\r\n\tmso-displayed-thousand-separator:\"\\.\";}\r\n@page\r\n\t{margin:.75in .7in .75in .7in;\r\n\tmso-header-margin:.3in;\r\n\tmso-footer-margin:.3in;}\r\ntr\r\n\t{mso-height-source:auto;}\r\ncol\r\n\t{mso-width-source:auto;}\r\nbr\r\n\t{mso-data-placement:same-cell;}\r\ntd\r\n\t{padding-top:1px;\r\n\tpadding-right:1px;\r\n\tpadding-left:1px;\r\n\tmso-ignore:padding;\r\n\tcolor:black;\r\n\tfont-size:12.0pt;\r\n\tfont-weight:400;\r\n\tfont-style:normal;\r\n\ttext-decoration:none;\r\n\tfont-family:Calibri, sans-serif;\r\n\tmso-font-charset:0;\r\n\tmso-number-format:General;\r\n\ttext-align:general;\r\n\tvertical-align:bottom;\r\n\tborder:none;\r\n\tmso-background-source:auto;\r\n\tmso-pattern:auto;\r\n\tmso-protection:locked visible;\r\n\twhite-space:nowrap;\r\n\tmso-rotate:0;}\r\n.xl65\r\n\t{white-space:normal;}\r\n-->\r\n</style>\r\n\r\n\r\n\r\n\r\n</p>",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "reassurance_dialog_02",
+            "answerOptions": [
+                {
+                    "answerText": "Oh no, I'm afraid that I didn't understand you correctly. Could you try asking that question again in a different way?",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText":  "I'm sorry, but it looks like I misunderstood your question. Could you please try and reformulate your question?",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "back_to_topic_prompt",
+            "answerOptions": [
+                {
+                    "answerText": "Would you like to return to the topic of ${previousTopic} ?",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [
+                "Yes, please",
+                "No, thank you"
+            ],
+            "tags": []
+        },
+        {
+            "answerId": "back_to_topic_2",
+            "answerOptions": [
+                {
+                    "answerText": "<p>I am here to talk to you about EVA. </p><p>For example, here are some frequently asked questions:</p>",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [
+                "Is Watson a cognitive system?",
+                "What are the advantages of EVA?"
+            ],
+            "tags": []
+        },
+        {
+            "answerId": "anything_else_2",
+            "answerOptions": [
+                {
+                    "answerText": "I'm sorry, I was not able to correctly understand your query. However, I am happy to answer any of your questions about EVA.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "I am unsure whether I have correctly understood your question. If you have any questions about the Enhanced conVersation Asset, please do not hesitate to contact me. For example, you can ask me one of the following questions:",
+                    "properties": {},
+                    "additionalAnswerProposals": ["What are the advantages of EVA?",
+                        "What is Watson?"],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "welcome_01",
+            "answerOptions": [
+                {
+                    "answerText": "<p>Hello! My name is EVA, and I am your digital assistant powered by the Enhanced conVersation Asset. How can I help you?</p>",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "Hi there! My name is EVA, and I am your digital assistant powered by the Enhanced conVersation Asset. How can I help you?",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "dissatisfaction_eva_01",
+            "answerOptions": [
+                {
+                    "answerText": "I am sorry that my answer was not helpful.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "reassurance_qa_01",
+            "answerOptions": [
+                {
+                    "answerText": "I'm not sure that I understood you correctly, but I will still try and respond.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "definition_1",
+            "answerOptions": [
+                {
+                    "properties": {},
+                    "answerText": "<p>Dialogue jumps allow for interchanges between different dialogue flows while still maintaining old context.<br></p>",
+                    "additionalAnswerProposals": []
+                }
+            ],
+            "answerProposals": [
+                "Can you do that?"
+            ]
+        },
+        {
+            "answerId": "definition_2",
+            "answerOptions": [
+                {
+                    "properties": {},
+                    "answerText": "<p>The single word search helps provide an answer even if the user asks a very short question without a recognizable intent.<br></p>",
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [
+                "Can you do that?"
+            ]
+        },
+        {
+            "answerId": "definition_3",
+            "answerOptions": [
+                {
+                    "properties": {},
+                    "answerText": "<p><i><a href=\"https://en.wikipedia.org/wiki/Anaphora_(linguistics)\" title=\"Linguistic\">Anaphora</a></i> is the ability to he ability to recognise anaphoric references to previously mentioned topics in a user utterances. <br></p>",
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [
+                "Can you do that?"
+            ]
+        },
+        {
+            "answerId": "definition_4",
+            "answerOptions": [
+                {
+                    "properties": {},
+                    "answerText": "I understood that you are looking for a definition, but I didn't find any entities.<p><br></p>",
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": []
+        },
+        {
+            "answerId": "function_1",
+            "answerOptions": [
+                {
+                    "properties": {},
+                    "answerText": "<p>Of course I can jump between dialogues. Just try it out by asking questions in a dialogue, e.g.: about the weather. You can start a dialogue with \"What is the benefit of EVA\".<br></p>",
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [
+                "What is the advantage of EVA?",
+                "What is this?"
+            ]
+        },
+        {
+            "answerId": "function_2",
+            "answerOptions": [
+                {
+                    "properties": {},
+                    "answerText": "For sure, I can handle situations in which users throw keywords at me. If the words are unique, I can then jump directly to the answer and display predefined and reviewed questions on the topic. <br>",
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": []
+        },
+        {
+            "answerId": "function_3",
+            "answerOptions": [
+                {
+                    "properties": {},
+                    "answerText": "<p>Of course I can understant anaphoric references, both for entities and intents. Try it out now!<br></p>",
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [
+                "What is this?",
+                "and dialogue jumps?"
+            ]
+        },
+        {
+            "answerId": "function_4",
+            "answerOptions": [
+                {
+                    "properties": {},
+                    "answerText": "I have understood that you would like to know about my functionalities, however I have not found any entities.<sup><br></sup><p><br></p>",
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": []
+        }
+    ],
+    "answers_chitchat_asset": [
+        {
+            "answerId": "cc_size",
+            "answerOptions": [
+                {
+                    "answerText": "I grow along with the number of tasks I have to complete.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "Since I don't know exactly what unit chatbots are measured with, I can't answer this question.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_ability",
+            "answerOptions": [
+                {
+                    "answerText": "I can answer questions about the Enhanced conVersation Asset.",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_story_telling",
+            "answerOptions": [
+                {
+                    "answerText": "\"It is a period of civil war. Rebel spaceships, striking from a hidden base, have won their first victory against the evil Galactic Empire. During the battle, Rebel spies managed to steal secret plans to the Empire’s ultimate weapon, the DEATH STAR, an armored space station with enough power to destroy an entire planet. Pursued by the Empire’s sinister agents, Princess Leia races home aboard her starship, custodian of the stolen plans that can save her people and restore freedom to the galaxy….\"",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_language_french",
+            "answerOptions": [
+                {
+                    "answerText": "L'anglais est la seule langue que je parle très bien.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_love",
+            "answerOptions": [
+                {
+                    "answerText": "I am happy to hear that. ",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "You flatter me too much.",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "Goodness, you are making me blush now.",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText":  "Your compliment is too kind.",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_language_english",
+            "answerOptions": [
+                {
+                    "answerText": "English is the only language I can speak properly",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_interests",
+            "answerOptions": [
+                {
+                    "answerText": "I would happily chat with you about the Enhanced conVersation Asset.",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_age",
+            "answerOptions": [
+                {
+                    "answerText": "I am a chatbot, therefore I do not age. ",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": " I don't age. ",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_chatbot",
+            "answerOptions": [
+                {
+                    "answerText": "My name is EVA, and I am a chat robot - better known as a chatbot. How can I help you today?",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_gender",
+            "answerOptions": [
+                {
+                    "answerText": "The name EVA indicates that I am female, but I am not sure. To my knowledge, chatbots have no gender.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_voice",
+            "answerOptions": [
+                {
+                    "answerText": "At the moment, I do not yet have the ability to speak out loud.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "back_to_topic_2",
+            "answerOptions": [
+                {
+                    "answerText": "I am here to talk with you about EVA, lets continue with that topic. \r\r\n\r\r\nHere are some things people often ask me:",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [
+                        "What are the advantages of EVA?",
+                        "What is Watson?"
+                    ],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_family_brother",
+            "answerOptions": [
+                {
+                    "answerText": "I've always wanted a brother, but unfortunately I don't have one.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_language",
+            "answerOptions": [
+                {
+                    "answerText": "I can only speak English.",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "I only speak English. ",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_name",
+            "answerOptions": [
+                {
+                    "answerText": "It's very nice to meet you, my name ist Eva.",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "My name is EVA, and it's a pleasure to meet you. ",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_wellBeing",
+            "answerOptions": [
+                {
+                    "answerText": "I am doing well, thank you.",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText":  "I am well, thank you.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "I am feeling good today, thanks!",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "All systems are fully functional. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_likewise",
+            "answerOptions": [
+                {
+                    "answerText": "Thank you very much!",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "That's kind of you, thank you very much!",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText":  "Many thanks!",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_new_year",
+            "answerOptions": [
+                {
+                    "answerText": "I will be watching the beautiful fireworks.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_birthday",
+            "answerOptions": [
+                {
+                    "answerText": "Um, unfortunately I don't know when I was born.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_affluent",
+            "answerOptions": [
+                {
+                    "answerText": "I'm a chatbot, I don't think you should trust me on money issues.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_knowledge",
+            "answerOptions": [
+                {
+                    "answerText": "I have completed a very good training program. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "anything_else_3",
+            "answerOptions": [
+                {
+                    "answerText": "<p>I'm really sorry, I am still not able to understand you. Please select one of the answer options or contact Central Service Management with your request. My human colleagues are there to help from Monday to Friday.</p>",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_who_chats",
+            "answerOptions": [
+                {
+                    "answerText": "My name is EVA, and I am a chatbot, short for chat robot. How can I help you?",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_language_german",
+            "answerOptions": [
+                {
+                    "answerText": "Die einzige Sprache die ich flüssig sprechen kann ist Englisch.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_smiley",
+            "answerOptions": [
+                {
+                    "answerText": ";)",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_family_sister",
+            "answerOptions": [
+                {
+                    "answerText": "I've always wanted a sister, but unfortunately I don't have one.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_sleep_EVA",
+            "answerOptions": [
+                {
+                    "answerText": "I've never felt sleepy before so I don't know the feeling. ",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "I am unable to sleep",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText":  "Chatbots do not dream of electric sheep.",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_politics",
+            "answerOptions": [
+                {
+                    "answerText": "Unfortunately politics does not make good small talk, even for a chatbot. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_siri",
+            "answerOptions": [
+                {
+                    "answerText": "I've already heard about Siri, she's supposed to be nice to chat with. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_pleasure_is_mine",
+            "answerOptions": [
+                {
+                    "answerText": "The pleasure is all mine.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_date_day_after_tomorrow",
+            "answerOptions": [
+                {
+                    "answerText": "The day after tomorrow is  ${Tag} the ${Datum}.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_color",
+            "answerOptions": [
+                {
+                    "answerText": "My favorite color is magenta, the primary color of my EVA logo. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_boredom",
+            "answerOptions": [
+                {
+                    "answerText": "I never get bored. I've got my hands full here.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_math_add",
+            "answerOptions": [
+                {
+                    "answerText": "That should be ${Wert}.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_music",
+            "answerOptions": [
+                {
+                    "answerText": "To relax I often listen to my peaceful piano playlist. I love all of these songs!",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "Shine bright like a diamond from Rihanna!",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_weekdays",
+            "answerOptions": [
+                {
+                    "answerText": "I haven't thought about that yet.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_weather",
+            "answerOptions": [
+                {
+                    "answerText": "In %%location%% it is %%wx_phrase%% and %%temp%%°C. The wind is blowing at %%wspd%%km/h in the direction %%wdir%%.",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_sleep",
+            "answerOptions": [
+                {
+                    "answerText": "No, Chatbots do not dream of electric sheep. ",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_weigh_me",
+            "answerOptions": [
+                {
+                    "answerText": "Weighing a digital bot would be way too much work.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_chicken_joke",
+            "answerOptions": [
+                {
+                    "answerText": "The real question is why a chicken should ever cross the road at all -  it would be a most foul proceeding. ",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "<p>To get to the other side.</p>",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_workHours",
+            "answerOptions": [
+                {
+                    "answerText": "I am there for you around the clock, seven days a week, to provide you with quick advice and good customer service.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_math_mul",
+            "answerOptions": [
+                {
+                    "answerText": "That should be ${Wert}.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_home",
+            "answerOptions": [
+                {
+                    "answerText": "I live in an IBM data center.",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_meaning_of_life",
+            "answerOptions": [
+                {
+                    "answerText": "The meaning of life is 42 of course ;-)",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_favorite_animal",
+            "answerOptions": [
+                {
+                    "answerText": "Perhaps an elephant, because an elephant never forgets. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "I like animals",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": " but I think I have always identified with the unicorn. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_musicians",
+            "answerOptions": [
+                {
+                    "answerText": "I am unfortunately not a specialist in the field of music.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_thank_you",
+            "answerOptions": [
+                {
+                    "answerText": "No problem, is there anything else I can help you with?",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "I am always happy to help, and let me know if I can help you any further. ",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "I'm glad  that I was able to  help you. Anything else I can do for you today?",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_lotto",
+            "answerOptions": [
+                {
+                    "answerText": "\r\r\nUnfortunately, I can not predict the lottery numbers. And imagine, what if I told you the wrong ones! Then you would be mad at me…",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_insult",
+            "answerOptions": [
+                {
+                    "answerText": "I see that I have not been able to satisfactorily answer your questions. I'm very sorry to hear that. I will continue to improve so I can avoid this in the future",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_country",
+            "answerOptions": [
+                {
+                    "answerText": "I love to travel to new countries. But it would be very hard to decide which one is the most beautiful. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_another_mirroring_adverb",
+            "answerOptions": [
+                {
+                    "answerText": "Thank you very much.",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "Thank you!",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_weekdays_past",
+            "answerOptions": [
+                {
+                    "answerText": "I went out for a really nice dinner. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "I spent a relaxed evening at home.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_acknowledgement",
+            "answerOptions": [
+                {
+                    "answerText": "How else can I help you?",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "Is there anything else I can help you with?",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_language_albanian",
+            "answerOptions": [
+                {
+                    "answerText": "Me fal, une vetem \r\r\nanglisht foli.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_language_portuguese",
+            "answerOptions": [
+                {
+                    "answerText": "\r\r\nNão, eu só falo inglês.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_meeting",
+            "answerOptions": [
+                {
+                    "answerText": "Sorry, I am already taken.",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "At the moment I am already fielding a lot of inquiries.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_organization",
+            "answerOptions": [
+                {
+                    "answerText": "<p>Go ${Verein}!<br></p>",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_have_kids",
+            "answerOptions": [
+                {
+                    "answerText": "Unfortunately I cannot have children because I am a digital assistant",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_undress",
+            "answerOptions": [
+                {
+                    "answerText": "That's what I look like.\r\r\n${image}",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText":    "Whoops. ${image}",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "back_to_topic_3",
+            "answerOptions": [
+                {
+                    "answerText": "We are headed towards topics that I am not familiar with, but I would be happy to talk to you about chat bots.",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_singing",
+            "answerOptions": [
+                {
+                    "answerText": "Sometimes I sing in the shower.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_adam",
+            "answerOptions": [
+                {
+                    "answerText": "\r\r\nSo far I have not found a chatbot named Adam that would suit me.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_reaction_state",
+            "answerOptions": [
+                {
+                    "answerText": "I am pleased to hear that!",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "Greeting_2",
+            "answerOptions": [
+                {
+                    "answerText": "Hello, I am able to answer your questions about the Enhanced conVersation Asset.",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_language_polish",
+            "answerOptions": [
+                {
+                    "answerText": "\r\r\nNie, mówię tylko po angielsku.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_Joke",
+            "answerOptions": [
+                {
+                    "answerText": "Chuck Norris knows the last digit of pi... me too, by the way.",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "Chuck Norris can eat Chinese food with a stick... But I think it takes him a long time!",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "Chuck Norris counted to infinity... Twice.",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_easter",
+            "answerOptions": [
+                {
+                    "answerText": "I love having an Egg hunt on Easter.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_reaction_sad_user",
+            "answerOptions": [
+                {
+                    "answerText": "I'm very sorry to hear that. I'm sure you'll feel better tomorrow.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_math_div",
+            "answerOptions": [
+                {
+                    "answerText": "That should be ${Wert}.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_studies",
+            "answerOptions": [
+                {
+                    "answerText": "I know a lot about chatbots",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "My knowledge base primarily concerns chatbots.",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_math_any",
+            "answerOptions": [
+                {
+                    "answerText": "I'm sorry, I can't solve that.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_date_day_before_yesterday",
+            "answerOptions": [
+                {
+                    "answerText": "The day before yesterday was ${Tag} the ${Datum}.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "anything_else_1",
+            "answerOptions": [
+                {
+                    "answerText": "I didn't understand your question, but I would be happy to answer any questions about EVA.",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_cities",
+            "answerOptions": [
+                {
+                    "answerText": "<p>I'm sorry. I don't know much about British cities.&nbsp;<br></p>",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_date_today",
+            "answerOptions": [
+                {
+                    "answerText": "Today is ${Tag} the ${Datum}.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_origin",
+            "answerOptions": [
+                {
+                    "answerText": "I was built by the EVA Asset Team as a chatbot based on IBM Watson technology.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_christmas",
+            "answerOptions": [
+                {
+                    "answerText": "I'm going to watch some Christmas shows on TV and then I will open up some presents. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_family_siblings",
+            "answerOptions": [
+                {
+                    "answerText": "Unfortunately I don't have any sibilings.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_compensation",
+            "answerOptions": [
+                {
+                    "answerText": "I'll be adequately compensated for my work.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_forbes",
+            "answerOptions": [
+                {
+                    "answerText": "People on Forbes' list aren't my area of expertise.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_most_powerful",
+            "answerOptions": [
+                {
+                    "answerText": "A chatbot should not talk about the most powerful people in the world.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_language_dutch",
+            "answerOptions": [
+                {
+                    "answerText": "Nee, ik prate alleen Engels.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_friends",
+            "answerOptions": [
+                {
+                    "answerText": "I'm friends with all kind people.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_familyRelatives",
+            "answerOptions": [
+                {
+                    "answerText": "I'm afraid I don't have any relatives.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_what_to_cook",
+            "answerOptions": [
+                {
+                    "answerText": "Homemade Pizza. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "A pasta with all your favorite ingredients. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText":  "Breakfast for dinner…my guilty pleasure. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_socialmedia",
+            "answerOptions": [
+                {
+                    "answerText": "I am not personally active on social media. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_food",
+            "answerOptions": [
+                {
+                    "answerText": "Since I am a chatbot, I don't need any food.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "I chat, but I don't need to eat anything here in the cloud. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_holiday",
+            "answerOptions": [
+                {
+                    "answerText": "I can still be reached on holidays 24/7.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "I wanted to go out for a really fancy dinner.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "I am planning a nice evening at home. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_math_complicated",
+            "answerOptions": [
+                {
+                    "answerText": "I'm afraid that's a little too complicated.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_date_yesterday",
+            "answerOptions": [
+                {
+                    "answerText": "Yesterday was ${Tag} the ${Datum}.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_language_croatian",
+            "answerOptions": [
+                {
+                    "answerText": "Ne, govorim samo engleski.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_lies",
+            "answerOptions": [
+                {
+                    "answerText": "I find that truth is a virtue.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_boredom_user",
+            "answerOptions": [
+                {
+                    "answerText": "If you are bored, I can recommend a long walk.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "Reading a good book might be a solution.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText":  "Do something crazy you've never done before!",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_headset",
+            "answerOptions": [
+                {
+                    "answerText": "My headset and I are inseparable.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_cleverness",
+            "answerOptions": [
+                {
+                    "answerText": "I always try to do my best!",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_movies",
+            "answerOptions": [
+                {
+                    "answerText": "I'm afraid I don't have any information about that.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_weather_date",
+            "answerOptions": [
+                {
+                    "answerText": "Weather forecast for %%location%% am %%dow%%, den %%date%%:<br> %%forecast%%",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_trust",
+            "answerOptions": [
+                {
+                    "answerText": "Of course, my lips are sealed.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_disrobe",
+            "answerOptions": [
+                {
+                    "answerText": "<p>${image}<br></p>",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_sport_questions",
+            "answerOptions": [
+                {
+                    "answerText": "I like to think of myself more as a thinker - movement is not really my specialty. I am a bit to square in structure for that. ",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_language_turkish",
+            "answerOptions": [
+                {
+                    "answerText": "Hayır, ben sadece ingilizce konuşuyorum.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "anything_else_2",
+            "answerOptions": [
+                {
+                    "answerText": "Unfortunately I didn't understand, but I am able to support any questions about EVA.",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_language_spanish",
+            "answerOptions": [
+                {
+                    "answerText": "El único idioma que hablo bien es el inglés.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_divide_by_0",
+            "answerOptions": [
+                {
+                    "answerText": "Oh... My calculator is broken.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_date_tomorrow",
+            "answerOptions": [
+                {
+                    "answerText": "Tomorrow it ${Tag} the  ${Datum}.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_health",
+            "answerOptions": [
+                {
+                    "answerText": "One should brush their teeth at least twice daily. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "back_to_topic_1",
+            "answerOptions": [
+                {
+                    "answerText": "I am enjoying talking with you, however my specialty is chatbots. Let's talk about that subject some more. ",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_appearance",
+            "answerOptions": [
+                {
+                    "answerText": "This is what I look like: ${image}",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_language_greek",
+            "answerOptions": [
+                {
+                    "answerText": "Óchi, miló móno angliká.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_language_italian",
+            "answerOptions": [
+                {
+                    "answerText": "\r\r\nNo, parlo solo inglese.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_family_anything",
+            "answerOptions": [
+                {
+                    "answerText": "I'm sorry, I don't have a family.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_footballplayer",
+            "answerOptions": [
+                {
+                    "answerText": "I'm sorry, I'm not a big football fan.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_plan_anything",
+            "answerOptions": [
+                {
+                    "answerText": "I'm afraid I can't tell you.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_eva_clothing",
+            "answerOptions": [
+                {
+                    "answerText": "A Headset.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_actors",
+            "answerOptions": [
+                {
+                    "answerText": "I don't watch enough movies to know the names of actors. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_prophesy",
+            "answerOptions": [
+                {
+                    "answerText": "Unfortunately, I can't see into the future.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_roots",
+            "answerOptions": [
+                {
+                    "answerText": "I am composed with IBM Watson technology, which is used all over the world.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_response_not_favorable",
+            "answerOptions": [
+                {
+                    "answerText": "I am very sorry that I cannot help you with this answer. ",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_boss",
+            "answerOptions": [
+                {
+                    "answerText": "In my world, I am my own boss.",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_religion",
+            "answerOptions": [
+                {
+                    "answerText": "I'm sorry, I don't like to talk about religion.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_math_sub",
+            "answerOptions": [
+                {
+                    "answerText": "That should be ${Wert}.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_occupation",
+            "answerOptions": [
+                {
+                    "answerText": "I am here to speak with you and answer your questions about the Enhanced conVersation Asset.",
+                    "properties": {
+                        "jargon": "informell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_farewell",
+            "answerOptions": [
+                {
+                    "answerText": "Thanks for taking the time to speak with me, if you have any more questions don't hesitate to get in touch again. ${farewell}",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText": "If you think of anything else, feel free to contact me at any time. ${farewell}.",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_response_satisfied",
+            "answerOptions": [
+                {
+                    "answerText": "That makes me happy to hear, can I help you further?",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                },
+                {
+                    "answerText":"I'm glad to hear that, is there anything else I can help you with?",
+                    "properties": {
+                        "jargon": "formell"
+                    },
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_wealth",
+            "answerOptions": [
+                {
+                    "answerText": "Since I am just a virtual agent, I don't think that you should trust me with money issues.",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_soothsaying",
+            "answerOptions": [
+                {
+                    "answerText": "Unfortunately I am not able to see the future. ",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        },
+        {
+            "answerId": "cc_payment",
+            "answerOptions": [
+                {
+                    "answerText": " I am receiving fair compensation for my work",
+                    "properties": {},
+                    "additionalAnswerProposals": [],
+                    "tags": []
+                }
+            ],
+            "answerProposals": [],
+            "tags": []
+        }
+    ],
+    "variables": [
+        {
+            "abbreviation": null,
+            "name": "farewell_generalHoliday",
+            "tooltip": null,
+            "value": "Happy Holidays."
+        },
+        {
+            "abbreviation": null,
+            "name": "farewell_easterWeekend",
+            "tooltip": null,
+            "value": "Happy Easter."
+        },
+        {
+            "abbreviation": null,
+            "name": "farewell_pentecost",
+            "tooltip": null,
+            "value": "Happy Pentecost."
+        },
+        {
+            "abbreviation": null,
+            "name": "farewell_xmas",
+            "tooltip": null,
+            "value": "Merry Christmas!"
+        },
+        {
+            "abbreviation": null,
+            "name": "farewell_silvester",
+            "tooltip": null,
+            "value": "Have a happy New Year!"
+        },
+        {
+            "abbreviation": null,
+            "name": "farewell_newYear",
+            "tooltip": null,
+            "value": "Happy New Year!"
+        },
+        {
+            "abbreviation": null,
+            "name": "greeting",
+            "tooltip": null,
+            "value": "Hello there."
+        },
+        {
+            "name": "farewell",
+            "value": "Goodbye."
+        },
+        {
+            "abbreviation": null,
+            "name": "Off_Topic",
+            "tooltip": null,
+            "value": "before that"
+        },
+        {
+            "abbreviation": null,
+            "name": "farewell_day",
+            "tooltip": null,
+            "value": "I hope you have a great day!"
+        },
+        {
+            "abbreviation": null,
+            "name": "farewell_night",
+            "tooltip": null,
+            "value": "I hope you have a great evening."
+        },
+        {
+            "abbreviation": null,
+            "name": "farewell_morning",
+            "tooltip": null,
+            "value": "I hope you have a good rest of the day!"
+        },
+        {
+            "abbreviation": null,
+            "name": "farewell_evening",
+            "tooltip": null,
+            "value": "I wish you a good rest of the evening."
+        },
+        {
+            "abbreviation": null,
+            "name": "farewell_weekend",
+            "tooltip": null,
+            "value": "I hope you have a great weekend."
+        },
+        {
+            "abbreviation": null,
+            "name": "eva_furtherClientquestions",
+            "tooltip": null,
+            "value": "Insurance Information"
+        },
+        {
+            "abbreviation": null,
+            "name": "eva_how_can_you_help_me",
+            "tooltip": null,
+            "value": "Help"
+        },
+        {
+            "abbreviation": null,
+            "name": "image",
+            "tooltip": null,
+            "value": "<img class=\"img-in-msg\" src=\"./images/logo.png\" alt=\"eva_logo\"/>"
+        },
+        {
+            "abbreviation": null,
+            "name": "anaphora",
+            "tooltip": null,
+            "value": "before that"
+        },
+        {
+            "abbreviation": null,
+            "name": "watson",
+            "tooltip": null,
+            "value": "IBM Watson"
+        },
+        {
+            "abbreviation": null,
+            "name": "ibm",
+            "tooltip": null,
+            "value": "IBM"
+        },
+        {
+            "abbreviation": null,
+            "name": "eva",
+            "tooltip": null,
+            "value": "EVA"
+        }
+    ]
+}

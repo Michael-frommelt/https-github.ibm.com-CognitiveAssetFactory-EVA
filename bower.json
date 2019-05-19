@@ -1,6 +1,6 @@
 {
   "name": "EVA_Enhanced_conVersation_Asset",
-  "version": "1.4.3",
+  "version": "1.6.0",
   "dependencies": {
     "angular": "1.7.5",
     "angular-route": "1.6.10",

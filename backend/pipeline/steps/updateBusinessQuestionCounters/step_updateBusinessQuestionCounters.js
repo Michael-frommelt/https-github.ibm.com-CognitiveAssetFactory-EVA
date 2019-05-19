@@ -31,11 +31,11 @@ exports.call = function(resultHolder, callback) {
             resultHolder.session.context.non_business_question_score--;
 
             if (resultHolder.session.context.non_business_question_score == guidingConceptConfig.back_to_topic.non_business_question_score_limit) {
-                resultHolder.output.answer_id.push("Zurück_zum_Thema_1");
+                resultHolder.output.answer_id.push("back_to_topic_1");
             } else if (resultHolder.session.context.non_business_question_score == (guidingConceptConfig.back_to_topic.non_business_question_score_limit - 1)) {
-                resultHolder.output.answer_id.push("Zurück_zum_Thema_2");
+                resultHolder.output.answer_id.push("back_to_topic_2");
             } else if (resultHolder.session.context.non_business_question_score <= (guidingConceptConfig.back_to_topic.non_business_question_score_limit - 2)) {
-                resultHolder.output.answer_id.push("Zurück_zum_Thema_3");
+                resultHolder.output.answer_id.push("back_to_topic_3");
                 resultHolder.session.context.non_business_question_score = (guidingConceptConfig.back_to_topic.non_business_question_score_limit - 2);
                 resultHolder.output.lockLevel = 2;
             }

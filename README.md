@@ -2,8 +2,8 @@
 
 EVA, the **E**nhanced con**V**ersation **A**sset, enables you to start your chatbot *within hours* instead of days by providing the things you'll need besides Watson Conversation Service.  
 
-> **Important**: Users upgrading to version 1.4.0 and up need to migrate their Watson Conversation / Assistant services from their Cloud Foundry environment to IAM and create new service credentials to get an IAM API key.
-> This key replaces the old username+password authentication and needs to be inserted into the database "config" documents. (Replace the old "username" and "password" properties on the documents with ids "conversation", "chitchat" and "testing" with a new property "api_key")
+> **Important**: EVA is in the development phase of its next major release - 2.0 - which we plan to finish by the end of Q3 2019.
+> For the 1.x versions, we will only accept new feature requests up until 1st of June and can provide **bug fixes** until the **end of 2019**.
 
 ## How to run a Project with EVA
 
@@ -15,7 +15,7 @@ Once you start, be sure to have a look at the EVA Best Practices! This readme wi
 
 Clicking on the button below creates an IBM Cloud DevOps Toolchain and deploys EVA to IBM Cloud.
 
-[![Deploy to IBM Cloud](docs/deploy_button.png)](https://bluemix.net/devops/setup/deploy?repository=https://github.ibm.com/CognitiveAssetFactory/EVA&repository_token=869a6c8023cd323f68c42d898c09ed60f32b25c0)
+[![Deploy to IBM Cloud](docs/deploy_button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https://github.ibm.com/CognitiveAssetFactory/EVA&repository_token=869a6c8023cd323f68c42d898c09ed60f32b25c0)
 
 ## Support
 
@@ -112,6 +112,11 @@ Have a look at our wiki (Cognitive Asset Factory): <http://ibm.biz/eva-asset>
 Or read our technical documentation: <https://apps.na.collabserv.com/wikis/basic/api/wiki/5f5e6b89-23d2-41b7-86a8-c3e708f5ec01/page/b405ea70-d3d0-4314-af49-aaafbfb17ec6/attachment/b00cde56-c1dc-47f2-a7d5-826c92f9d3da/media/EVA_Documentation_1.x.pdf>
 
 ## Changelog
+### v1.6.0 (2019-05-20)
+* Improved stability of "Deploy to IBM Cloud" feature
+* Added language choice on deploy & english default workspaces (BREAKING: changed internal answer IDs to be consistent between languages)
+* Fixed minor translation & display bugs
+
 ### v1.5.0 (2019-04-02)
 * Fixed "Deploy to IBM Cloud"-Button: Moved to Resource Groups (from CF)
 * Added script to update the dialog nodes of the Watson Assistant with the answer text stored in the answer store

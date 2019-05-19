@@ -72,11 +72,11 @@ There are basically three requirements for your business WCS workspace:
       "output": {
         "text": {
           "values": [
-            "Back_to_topic_prompt"
+            "back_to_topic_prompt"
           ],
           "selection_policy": "random"
         },
-        "answer_id": "<? output.answer_id.append('Back_to_topic_prompt') ?>",
+        "answer_id": "<? output.answer_id.append('back_to_topic_prompt') ?>",
         "prevent_override": true
       }
     }
@@ -130,12 +130,12 @@ There are basically three requirements for your business WCS workspace:
       "output": {
         "text": {
           "values": [
-            "Gesprächserhaltung_01"
+            "maintain_conversation_01"
           ],
           "selection_policy": "random"
         },
         "actions": "<? output.actions.append('purgeOldContext') ?>",
-        "answer_id": "<? output.answer_id.append('Gesprächserhaltung_01') ?>",
+        "answer_id": "<? output.answer_id.append('maintain_conversation_01') ?>",
         "prevent_override": true
       }
     }

@@ -16,11 +16,15 @@
   
 'use strict';
 
-var express = require('express');
-var cfenv = require('cfenv');
+const cfenv = require('cfenv');
+const express = require('express');
 
-var app = express();
+const app = express();
 
-app.listen(cfenv.getAppEnv().port, function () {
-    console.log('Fake server started.');
+app.get('*', function(req, res) {
+  res.send('If you see this message, EVA has not successfully set up yet.');
+});
+
+app.listen(cfenv.getAppEnv().port, function() {
+  console.log('EVA dummy server started.');
 });

@@ -1,0 +1,2411 @@
+{
+    "name": "EVA Business English",
+    "intents": [
+        {
+            "intent": "eva",
+            "examples": [
+                {
+                    "text": "why is EVA advantageous to use?"
+                },
+                {
+                    "text": "why should I use EVA?"
+                },
+                {
+                    "text": "what is EVA good for"
+                },
+                {
+                    "text": "is EVA useful?"
+                },
+                {
+                    "text": "what are the advantages of the enhanced conversation asset?"
+                },
+                {
+                    "text": "what is the value of eva?"
+                }
+            ],
+            "description": ""
+        },
+        {
+            "intent": "eva_how_can_you_help_me",
+            "examples": [
+                {
+                    "text": "I moustache you a question"
+                },
+                {
+                    "text": "Can you advise me?"
+                },
+                {
+                    "text": "Can you give me some advice?"
+                },
+                {
+                    "text": "Can you answer questions?"
+                },
+                {
+                    "text": "I need help"
+                },
+                {
+                    "text": "I need your help"
+                },
+                {
+                    "text": "I need your assistance"
+                },
+                {
+                    "text": "What can you do to help me?"
+                },
+                {
+                    "text": "What subjects are you dealing with?"
+                },
+                {
+                    "text": "Exactly what can you help with?"
+                },
+                {
+                    "text": "What can you do?"
+                },
+                {
+                    "text": "What are you supposed to do?"
+                },
+                {
+                    "text": "What type of information can you tell me?"
+                },
+                {
+                    "text": "Can you help me out?"
+                },
+                {
+                    "text": "What is your purpose?"
+                },
+                {
+                    "text": "what can I ask you?"
+                },
+                {
+                    "text": "What kind of information can you provide?"
+                },
+                {
+                    "text": "help me"
+                },
+                {
+                    "text": "Can you please send me an overview of what topics we can talk about?"
+                },
+                {
+                    "text": "Could you give me some advice?"
+                },
+                {
+                    "text": "Can you clarify something for me?"
+                },
+                {
+                    "text": "What kinds of things do you know?"
+                },
+                {
+                    "text": "What topics can we talk about Eva?"
+                },
+                {
+                    "text": "Why are you answering my questions?"
+                },
+                {
+                    "text": "Can you help me?"
+                },
+                {
+                    "text": "What else can you talk about?"
+                },
+                {
+                    "text": "How can you help me?"
+                }
+            ]
+        },
+        {
+            "intent": "eva_unsure",
+            "examples": [
+                {
+                    "text": "haven't the slightest"
+                },
+                {
+                    "text": "I have completely forgotten"
+                },
+                {
+                    "text": "no idea"
+                },
+                {
+                    "text": "I don't know that"
+                },
+                {
+                    "text": "Unfortunately that has slipped my mind"
+                },
+                {
+                    "text": "slipped in one ear and out the other"
+                },
+                {
+                    "text": "I don't know any more"
+                },
+                {
+                    "text": "I forgot it"
+                },
+                {
+                    "text": "I don't know yet"
+                },
+                {
+                    "text": "I don't have a clue"
+                },
+                {
+                    "text": "not coming to me"
+                },
+                {
+                    "text": "I am unsure"
+                },
+                {
+                    "text": "I have no idea"
+                }
+            ]
+        },
+        {
+            "intent": "anaphora",
+            "examples": [
+                {
+                    "text": "tell me more about"
+                },
+                {
+                    "text": "and a dividend"
+                },
+                {
+                    "text": "I actually meant fixed assets"
+                },
+                {
+                    "text": "and what about bonds?"
+                },
+                {
+                    "text": "I was referencing the expensive listing"
+                },
+                {
+                    "text": "what is with"
+                },
+                {
+                    "text": "and when I am under 18?"
+                },
+                {
+                    "text": "do you have a special price for students?"
+                },
+                {
+                    "text": "Tell me more about the Samsung"
+                },
+                {
+                    "text": "what is the cheapest rate?"
+                },
+                {
+                    "text": "and for the premium tariff?"
+                },
+                {
+                    "text": "what are the costs"
+                },
+                {
+                    "text": "how much notice do you have to give for this contract?"
+                },
+                {
+                    "text": "how easy is it to cancel?"
+                },
+                {
+                    "text": "does that also count for"
+                },
+                {
+                    "text": "does this include additional costs?"
+                },
+                {
+                    "text": "what does that involve?"
+                },
+                {
+                    "text": "can I get a refund"
+                },
+                {
+                    "text": "and in"
+                },
+                {
+                    "text": "what is your basic offer"
+                },
+                {
+                    "text": "what about the last price?"
+                },
+                {
+                    "text": "and the other rates?"
+                },
+                {
+                    "text": "and when is the contract extended"
+                },
+                {
+                    "text": "I was talking about the previous offer"
+                },
+                {
+                    "text": "how long does the basic contract last?"
+                },
+                {
+                    "text": "what about"
+                }
+            ]
+        },
+        {
+            "intent": "ibm",
+            "examples": [
+                {
+                    "text": "what is IBM?"
+                },
+                {
+                    "text": "Who is IBM?"
+                },
+                {
+                    "text": "do you know what IBM is?"
+                },
+                {
+                    "text": "what does IBM stand for?"
+                },
+                {
+                    "text": "ibm stands for international business machines"
+                }
+            ],
+            "description": ""
+        },
+        {
+			"intent": "functional_scope",
+			"examples": [{
+					"text": "Can you jump between dialogs?"
+				}, {
+					"text": "Can you handle anaphora?"
+				}, {
+					"text": "you can do that?"
+				}, {
+					"text": "Can you deliver that?"
+				}, {
+					"text": "Can you suggest a question?"
+				}, {
+					"text": "Can you understand anaphoric references?"
+				}
+			],
+			"description": ""
+		},
+        {
+			"intent": "definition",
+			"examples": [{
+					"text": "What is a dialog jump"
+				}, {
+					"text": "What is an anaphora?"
+				}, {
+					"text": "What is the single word search?"
+				}, {
+					"text": "What is this?"
+				}
+			],
+			"description": ""
+		},
+        {
+            "intent": "eva_farewell",
+            "examples": [
+                {
+                    "text": "Thats it, thanks"
+                },
+                {
+                    "text": "That was all"
+                },
+                {
+                    "text": "I don't need anything else"
+                },
+                {
+                    "text": "Thank you for the advice, I am all set"
+                },
+                {
+                    "text": "I think I have asked all the questions"
+                },
+                {
+                    "text": "I'm all set, thanks"
+                },
+                {
+                    "text": "I don't have any remaining questions"
+                },
+                {
+                    "text": "I have to get going"
+                },
+                {
+                    "text": "I need to head out now"
+                },
+                {
+                    "text": "I'll say farewell for now"
+                },
+                {
+                    "text": "and goodbye"
+                },
+                {
+                    "text": "Thank you very much for the information and goodbye"
+                },
+                {
+                    "text": "Now I've gotta go"
+                },
+                {
+                    "text": "Now I have everything I need"
+                },
+                {
+                    "text": "I can't think of anything else"
+                },
+                {
+                    "text": "Now I understand everything."
+                },
+                {
+                    "text": "until next time"
+                },
+                {
+                    "text": "Thank you, I don't have any more questions"
+                },
+                {
+                    "text": "Ta Ta for now"
+                },
+                {
+                    "text": "Seeya"
+                },
+                {
+                    "text": "Goodbye!"
+                },
+                {
+                    "text": "I hope you have a great day!"
+                },
+                {
+                    "text": "I'll be heading home now"
+                },
+                {
+                    "text": "thanks and bye"
+                },
+                {
+                    "text": "Thats all for now"
+                },
+                {
+                    "text": "Thats all"
+                },
+                {
+                    "text": "I don't need anymore help"
+                },
+                {
+                    "text": "I have all the information I need, thank you"
+                },
+                {
+                    "text": "Im outta here!"
+                }
+            ]
+        },
+        {
+            "intent": "eva_dissatisfaction_withEVA",
+            "examples": [
+                {
+                    "text": "Eva do you know anything?"
+                },
+                {
+                    "text": "What do I do when you cannot further help?"
+                },
+                {
+                    "text": "why don't you know the answer"
+                },
+                {
+                    "text": "Why am I not getting any answers?"
+                },
+                {
+                    "text": "I don't understand"
+                },
+                {
+                    "text": "you are completely dysfunctional"
+                },
+                {
+                    "text": "I am tired of your questions"
+                },
+                {
+                    "text": "You don't know anything!"
+                },
+                {
+                    "text": "You are not understanding any of my questions"
+                },
+                {
+                    "text": "you frustrate me"
+                },
+                {
+                    "text": "this is a waste of time"
+                },
+                {
+                    "text": "this is pointless"
+                },
+                {
+                    "text": "you really can't help me"
+                },
+                {
+                    "text": "You didn't help me at all"
+                },
+                {
+                    "text": "that is something I didn't want to know"
+                },
+                {
+                    "text": "EVA, you are not helping me anymore"
+                },
+                {
+                    "text": "I think you are really stupid"
+                },
+                {
+                    "text": "Eva you are useless"
+                },
+                {
+                    "text": "that doesn't interest me"
+                },
+                {
+                    "text": "You are brainless"
+                },
+                {
+                    "text": "Fuck you, man"
+                },
+                {
+                    "text": "I don't like this anymore"
+                },
+                {
+                    "text": "that was really stupid"
+                },
+                {
+                    "text": "that answer is not very convincing"
+                },
+                {
+                    "text": "That wasn't what I was asking about"
+                },
+                {
+                    "text": "Can you please answer my question?"
+                },
+                {
+                    "text": "I don't want to talk to a call center"
+                },
+                {
+                    "text": "you are mad"
+                },
+                {
+                    "text": "Bugger off!"
+                },
+                {
+                    "text": "Daft Cow"
+                },
+                {
+                    "text": "Are you taking the piss?"
+                },
+                {
+                    "text": "Are you mad?"
+                },
+                {
+                    "text": "Have you lost the plot?"
+                },
+                {
+                    "text": "That's rubbish"
+                },
+                {
+                    "text": "this is so frustrating"
+                },
+                {
+                    "text": "this is awful service"
+                },
+                {
+                    "text": "that wasn't helpful"
+                },
+                {
+                    "text": "Are you kidding me?"
+                },
+                {
+                    "text": "stop asking me"
+                },
+                {
+                    "text": "shut your mouth"
+                },
+                {
+                    "text": "shut up"
+                },
+                {
+                    "text": "you useless waste of space"
+                },
+                {
+                    "text": "you are entirely incompetent"
+                },
+                {
+                    "text": "you are dumb"
+                },
+                {
+                    "text": "you're stupid"
+                },
+                {
+                    "text": "I was asking about something else"
+                },
+                {
+                    "text": "that was stupid"
+                },
+                {
+                    "text": "that angers me"
+                },
+                {
+                    "text": "that is a bunch of garbage"
+                },
+                {
+                    "text": "that is no help to me now"
+                },
+                {
+                    "text": "that is not what i meant"
+                },
+                {
+                    "text": "that is absurd"
+                },
+                {
+                    "text": "I am not satisfied"
+                }
+            ]
+        },
+        {
+            "intent": "Off_Topic",
+            "examples": [
+                {
+                    "text": "How often should I go to church?"
+                },
+                {
+                    "text": "What will the weather be like?"
+                },
+                {
+                    "text": "How are you?"
+                },
+                {
+                    "text": "What is the weather like in Thailand?"
+                },
+                {
+                    "text": "Where do you come from?"
+                },
+                {
+                    "text": "Are you well paid?"
+                },
+                {
+                    "text": "Will you marry me?"
+                },
+                {
+                    "text": "Why are you called Eva?"
+                },
+                {
+                    "text": "Shall we meet up one time?"
+                },
+                {
+                    "text": "Where do you live?"
+                },
+                {
+                    "text": "Hallo Eva"
+                },
+                {
+                    "text": "Do you speak english?"
+                },
+                {
+                    "text": "Cool"
+                },
+                {
+                    "text": "test"
+                },
+                {
+                    "text": "A spider just landed on me, what should I do?"
+                },
+                {
+                    "text": "Thank you very much!"
+                },
+                {
+                    "text": "Are you in a good mood?"
+                },
+                {
+                    "text": "How rich can a meal be?"
+                },
+                {
+                    "text": "Tell me something"
+                },
+                {
+                    "text": "Tell me a joke"
+                },
+                {
+                    "text": "I'll be right back"
+                },
+                {
+                    "text": "You can call me"
+                },
+                {
+                    "text": "You are wonderful"
+                },
+                {
+                    "text": "Thanks"
+                },
+                {
+                    "text": "There you are"
+                },
+                {
+                    "text": "Do I need an umbrella?"
+                },
+                {
+                    "text": "All is well"
+                },
+                {
+                    "text": "whatevs"
+                },
+                {
+                    "text": "What are the winning lotto numbers?"
+                },
+                {
+                    "text": "What are your hobbies"
+                },
+                {
+                    "text": "And then I found five dollars"
+                },
+                {
+                    "text": "Who build you?"
+                },
+                {
+                    "text": "Who is your father?"
+                },
+                {
+                    "text": "What day was yesterday?"
+                },
+                {
+                    "text": "Who will win the Super Bowl?"
+                },
+                {
+                    "text": "Why does the earth revolve around the sun?"
+                },
+                {
+                    "text": "How do you know so much?"
+                },
+                {
+                    "text": "How many teeth does a human have?"
+                },
+                {
+                    "text": "What is my favorite sport?"
+                },
+                {
+                    "text": "Can you keep a secret?"
+                },
+                {
+                    "text": "Do you know Adam?"
+                },
+                {
+                    "text": "I am doing well."
+                },
+                {
+                    "text": "What makes it rain?"
+                },
+                {
+                    "text": "I am not doing so well"
+                },
+                {
+                    "text": "To whom am I speaking?"
+                },
+                {
+                    "text": "Can I always talk to you?"
+                },
+                {
+                    "text": "Is it raining?"
+                },
+                {
+                    "text": "It's going to rain tomorrow"
+                },
+                {
+                    "text": "Send me a photo"
+                },
+                {
+                    "text": "Good to see you"
+                },
+                {
+                    "text": "Very good"
+                },
+                {
+                    "text": "Are your systems ready?"
+                },
+                {
+                    "text": "What are the odds of successfully navigating an asteroid field?"
+                },
+                {
+                    "text": "Why do you exist?"
+                },
+                {
+                    "text": "Why eva?"
+                },
+                {
+                    "text": "What is going on?"
+                },
+                {
+                    "text": "What is the prettiest country in the world?"
+                },
+                {
+                    "text": "What is the meaning of life?"
+                },
+                {
+                    "text": "What are the lotto numbers for next saturday?"
+                },
+                {
+                    "text": "Can you tell me what the weather will be like tomorrow?"
+                },
+                {
+                    "text": "Can you speak English?"
+                },
+                {
+                    "text": "Can you speak german?"
+                },
+                {
+                    "text": "Do you speak Turkish?"
+                },
+                {
+                    "text": "Can you speak other languages?"
+                },
+                {
+                    "text": "Can I put tomatoes in my fridge?"
+                },
+                {
+                    "text": "I want to wait again!"
+                },
+                {
+                    "text": "I'm headed home"
+                },
+                {
+                    "text": "I want to have your baby"
+                },
+                {
+                    "text": "I would like to tell you more about myself"
+                },
+                {
+                    "text": "Do planets have another dimension?"
+                },
+                {
+                    "text": "Eva you are great!"
+                }
+            ]
+        },
+        {
+            "intent": "watson",
+            "examples": [
+                {
+                    "text": "What can Watson do?"
+                },
+                {
+                    "text": "Is Watson a cognitive system?"
+                },
+                {
+                    "text": "Who is Watson?"
+                },
+                {
+                    "text": "What is Watson?"
+                },
+                {
+                    "text": "what does Watson stand for?"
+                }
+            ],
+            "description": ""
+        },
+        {
+            "intent": "eva_furtherClientquestions",
+            "examples": [
+                {
+                    "text": "Wait, there is still something I would like to know"
+                },
+                {
+                    "text": "Wait, I need to know one more thing"
+                },
+                {
+                    "text": "I have something else to ask"
+                },
+                {
+                    "text": "I still have one more question"
+                },
+                {
+                    "text": "Can I ask a few more?"
+                },
+                {
+                    "text": "I have another question about this"
+                },
+                {
+                    "text": "I would like to keep chatting"
+                },
+                {
+                    "text": "I still have a couple questions"
+                },
+                {
+                    "text": "I still have some questions"
+                },
+                {
+                    "text": "One more question came to mind"
+                },
+                {
+                    "text": "I have a few more questions"
+                },
+                {
+                    "text": "Something else just occurred to me"
+                },
+                {
+                    "text": "In fact, you can help me with something"
+                }
+            ]
+        }
+    ],
+    "entities": [
+        {
+            "entity": "gender",
+            "values": [
+                {
+                    "type": "synonyms",
+                    "value": "man",
+                    "synonyms": [
+                        "Men",
+                        "Boy",
+                        "Boys",
+                        "Sir",
+                        "Him",
+                        "He",
+                        "Guy",
+                        "Lad",
+                        "Fellow",
+                        "Dude",
+                        "Chap",
+                        "Male"
+                    ]
+                },
+                {
+                    "type": "synonyms",
+                    "value": "woman",
+                    "synonyms": [
+                        "Lady",
+                        "Ladies",
+                        "Women",
+                        "Girl",
+                        "Girls",
+                        "Ms",
+                        "Miss",
+                        "Mrs",
+                        "Misses",
+                        "Missus",
+                        "Dame",
+                        "Gal",
+                        "She",
+                        "Her",
+                        "Female"
+                    ]
+                }
+            ]
+        },
+        {
+			"entity": "functional_scope",
+			"values": [{
+					"type": "synonyms",
+					"value": "anaphora_solution",
+					"metadata": null,
+					"synonyms": ["Anaphora", "Intent-Anaphora", "Entity-Anaphora", "Anaphoras", "Aanaphoric"]
+				}, {
+					"type": "synonyms",
+					"value": "dialog_jump",
+					"metadata": null,
+					"synonyms": ["dialog jumps", "jump", "jumping", "spring", "springing"]
+				}, {
+					"type": "synonyms",
+					"value": "single_word_search",
+					"metadata": null,
+					"synonyms": ["suggested question", "question suggestion"]
+				}
+			],
+			"metadata": null,
+			"description": null,
+			"fuzzy_match": true
+		},
+        {
+			"entity": "global_relativ_pronoun",
+			"values": [{
+					"type": "synonyms",
+					"value": "global_relative_pronoun",
+					"metadata": null,
+					"synonyms": ["the", "those", "these", "who", "whom", "whose", "which", "that"]
+				}
+			],
+			"metadata": null,
+			"description": null,
+			"fuzzy_match": true
+		},
+        {
+			"entity": "farewell",
+			"values": [{
+					"type": "synonyms",
+					"value": "farewell",
+					"metadata": null,
+					"synonyms": ["byebye", "Bye", "seeya!", "goodbye", "Good Night", "farewell", "Adios", "end chat", "until next time", "peace out", "so long", "later", "Au revoir", "Sayonara", "Ciao", "Catch you later", "Have a good one", "buh bye", "Cheerio", "Ta Ta", "Have a nice evening"]
+				}
+			],
+			"metadata": null,
+			"description": null,
+			"fuzzy_match": true
+		},
+        {
+            "entity": "global_yes_no",
+            "values": [
+                {
+                    "type": "synonyms",
+                    "value": "yes",
+                    "synonyms": [
+                        "Very Well",
+                        "Yep",
+                        "True",
+                        "Correct",
+                        "OK",
+                        "Precisely",
+                        "Yea",
+                        "Totally",
+                        "Gladly",
+                        "Exactly",
+                        "Affirmative",
+                        "Of course",
+                        "Understood",
+                        "si",
+                        "Perfect",
+                        "For sure",
+                        "Okay",
+                        "Definitely",
+                        "Sure",
+                        "yessss",
+                        "Yessir",
+                        "Ya",
+                        "Yeah",
+                        "Aye",
+                        "Yup"
+                    ]
+                },
+                {
+                    "type": "synonyms",
+                    "value": "don't know",
+                    "synonyms": [
+                        "Unfortunately",
+                        "No Idea",
+                        "Dunno",
+                        "No plan",
+                        "Unsure",
+                        "Don't know",
+                        "No clue",
+                        "Who knows?",
+                        "Beats me",
+                        "Anyone's guess",
+                        "Not sure"
+                    ]
+                },
+                {
+                    "type": "synonyms",
+                    "value": "no",
+                    "synonyms": [
+                        "Neither",
+                        "Nahhhh",
+                        "Noooo",
+                        "On no account",
+                        "I don't need",
+                        "False",
+                        "By no means",
+                        "Negative",
+                        "Nah",
+                        "Nope",
+                        "Not yet",
+                        "No way",
+                        "Not at all",
+                        "Not helping",
+                        "Nix",
+                        "Nay",
+                        "Nothing at all",
+                        "Nein",
+                        "None",
+                        "Never",
+                        "Negatory",
+                        "Not on your life",
+                        "Veto",
+                        "Thumbs down",
+                        "uh-uh"
+                    ]
+                }
+            ]
+        },
+        {
+            "entity": "eva_farewell",
+            "values": [
+                {
+                    "type": "synonyms",
+                    "value": "farewell",
+                    "synonyms": [
+                        "Byebye",
+                        "Bye",
+                        "Good night!",
+                        "Good Bye",
+                        "See ya",
+                        "I gotta run",
+                        "Ciao",
+                        "See you later",
+                        "Go away",
+                        "Night",
+                        "Have a good one",
+                        "Chat end",
+                        "Adios",
+                        "Sayonara",
+                        "Au Revoir",
+                        "Buh bye",
+                        "Byeee",
+                        "Take care!",
+                        "Goodbye",
+                        "Toodles",
+                        "Seeya",
+                        "Catch you later",
+                        "Peace out",
+                        "So long!",
+                        "Auf Wiedersehen",
+                        "Adieu",
+                        "Ta",
+                        "Cheers for that",
+                        "Hasta la Vista"
+                    ]
+                }
+            ],
+            "fuzzy_match": true
+        },
+        {
+            "entity": "global_age",
+            "values": [
+                {
+                    "type": "synonyms",
+                    "value": "minor",
+                    "synonyms": [
+                        "Juvenile",
+                        "Teen",
+                        "Under18",
+                        "Kid",
+                        "Adolescents",
+                        "Todler",
+                        "Teenager",
+                        "Child",
+                        "Youth",
+                        "Infant",
+                        "Children",
+                        "Kindes",
+                        "Tot",
+                        "Baby",
+                        "Tyke",
+                        "Preteen"
+                    ]
+                },
+                {
+                    "type": "synonyms",
+                    "value": "adult",
+                    "synonyms": [
+                        "Adults",
+                        "Over 18",
+                        "Legal Age",
+                        "Grownup"
+                    ]
+                },
+                {
+                    "type": "synonyms",
+                    "value": "60",
+                    "synonyms": [
+                        "Grandfather",
+                        "Grandmother",
+                        "Gma",
+                        "Gpa",
+                        "Pensioner",
+                        "Retired",
+                        "Senior",
+                        "Senior Citizens",
+                        "Geriatric",
+                        "Elderly",
+                        "Over the Hill",
+                        "Old Folks",
+                        "Gramps",
+                        "Granddad",
+                        "Granny"
+                    ]
+                }
+            ]
+        }
+    ],
+    "language": "en",
+    "metadata": {
+        "api_version": {
+            "major_version": "v1",
+            "minor_version": "2018-07-10"
+        }
+    },
+    "description": "EVA Asset Business Workspace",
+    "dialog_nodes": [{
+        "type": "standard",
+        "title": null,
+        "output": {
+            "text": {
+                "values": [""],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('function_2') ?>",
+            "prevent_override": true
+        },
+        "parent": "node_10_1524835536442",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "maintain_conversation_01"
+        },
+        "conditions": "@functional_scope:single_word_search || (@global_relativ_pronoun && ($previousEntities?.contains('functional_scope--single_word_search')))",
+        "description": null,
+        "dialog_node": "node_12_1524836166878",
+        "previous_sibling": "node_11_1524836162778"
+    }, {
+        "type": "standard",
+        "title": null,
+        "output": {
+            "text": {
+                "values": [""],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('function_4') ?>",
+            "prevent_override": true
+        },
+        "parent": "node_10_1524835536442",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "maintain_conversation_01"
+        },
+        "conditions": "anything_else",
+        "description": null,
+        "dialog_node": "node_14_1524836172790",
+        "previous_sibling": "node_13_1524836168782"
+    }, {
+        "type": "standard",
+        "title": null,
+        "output": {
+            "text": {
+                "values": [""],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('function_3') ?>",
+            "prevent_override": true
+        },
+        "parent": "node_10_1524835536442",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "maintain_conversation_01"
+        },
+        "conditions": "@functional_scope:anaphora_solution || (@global_relativ_pronoun && ($previousEntities?.contains('functional_scope--anaphora_solution') ))",
+        "description": null,
+        "dialog_node": "node_13_1524836168782",
+        "previous_sibling": "node_12_1524836166878"
+    }, {
+        "type": "standard",
+        "title": "Dialog jump",
+        "output": {
+            "text": {
+                "values": [""],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('function_1') ?>",
+            "prevent_override": true
+        },
+        "parent": "node_10_1524835536442",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "maintain_conversation_01"
+        },
+        "conditions": "@functional_scope:dialog_jump || (@global_relativ_pronoun && ($previousEntities?.contains('functional_scope--dialog_jump')))",
+        "description": null,
+        "dialog_node": "node_11_1524836162778",
+        "previous_sibling": null
+    }, {
+        "type": "response_condition",
+        "title": null,
+        "output": {},
+        "parent": "AnythingElse Technical",
+        "context": null,
+        "metadata": null,
+        "next_step": null,
+        "conditions": null,
+        "description": null,
+        "dialog_node": "node_7_1505316909332",
+        "previous_sibling": "node_1_1502878240656"
+    }, {
+        "type": "response_condition",
+        "title": null,
+        "output": {
+            "text": {
+                "values": ["anything_else_3"],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('anything_else_3') ?>"
+        },
+        "parent": "AnythingElse Technical",
+        "context": {
+            "is_business_question": false
+        },
+        "metadata": {},
+        "next_step": null,
+        "conditions": "$sequent_wrong_answer_counter== 2",
+        "description": null,
+        "dialog_node": "node_1_1502878240656",
+        "previous_sibling": "node_1_1501845422209"
+    }, {
+        "type": "response_condition",
+        "title": null,
+        "output": {
+            "text": {
+                "values": ["anything_else_1"],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('anything_else_1') ?>"
+        },
+        "parent": "AnythingElse Technical",
+        "context": {
+            "is_business_question": false
+        },
+        "metadata": {},
+        "next_step": null,
+        "conditions": "$sequent_wrong_answer_counter == 0",
+        "description": null,
+        "dialog_node": "node_1_1503327567976",
+        "previous_sibling": "node_1_1502891917892"
+    }, {
+        "type": "response_condition",
+        "title": null,
+        "output": {
+            "text": {
+                "values": ["anything_else_2"],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('anything_else_2') ?>"
+        },
+        "parent": "AnythingElse Technical",
+        "context": {
+            "is_business_question": false
+        },
+        "metadata": {},
+        "next_step": null,
+        "conditions": "$sequent_wrong_answer_counter== 1",
+        "description": null,
+        "dialog_node": "node_1_1501845422209",
+        "previous_sibling": "node_1_1503327567976"
+    }, {
+        "type": "standard",
+        "title": "NO_FURTHER_ANSWER_WANTED",
+        "output": {},
+        "parent": "AnythingElse Technical",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "body",
+            "dialog_node": "node_68_1513726403302"
+        },
+        "conditions": "@global_yes_no:no && input.text.length() < 13",
+        "description": null,
+        "dialog_node": "node_1_1502891917892",
+        "previous_sibling": null
+    }, {
+        "type": "standard",
+        "title": "FAREWELL_INTENT",
+        "output": {
+            "text": {
+                "values": ["farewell_01"],
+                "selection_policy": "random"
+            },
+            "actions": "<? (output.actions?:new JsonArray()).append('requestConversationFeedback').append('preventJump') ?>",
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('farewell_01') ?>",
+            "prevent_override": true
+        },
+        "parent": "node_65_1513726299243",
+        "context": {
+            "is_business_question": false
+        },
+        "metadata": {},
+        "next_step": null,
+        "conditions": "$topIntent==\"eva_farewell\"",
+        "description": null,
+        "dialog_node": "node_68_1513726403302",
+        "previous_sibling": "node_10_1524835536442"
+    }, {
+        "type": "standard",
+        "title": "HOW_CAN_YOU_HELP_ME",
+        "output": {
+            "text": {
+                "values": ["how_can_you_help_me_01"],
+                "selection_policy": "sequential"
+            },
+            "actions": "<? (output.actions?:new JsonArray()).append('deadEnd') ?>",
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('how_can_you_help_me_01') ?>",
+            "prevent_override": true
+        },
+        "parent": "node_65_1513726299243",
+        "context": {
+            "is_business_question": false
+        },
+        "metadata": {},
+        "next_step": null,
+        "conditions": "$topIntent==\"eva_how_can_you_help_me\"",
+        "description": null,
+        "dialog_node": "node_69_1513726576742",
+        "previous_sibling": "node_68_1513726403302"
+    }, {
+        "type": "standard",
+        "title": "JUMP_TO_PARENT",
+        "output": {},
+        "parent": "node_65_1513726299243",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "body",
+            "dialog_node": "JUMP TO ROOT"
+        },
+        "conditions": "anything_else",
+        "description": null,
+        "dialog_node": "node_72_1513728649011",
+        "previous_sibling": "node_70_1513726703787"
+    }, {
+        "type": "standard",
+        "title": "DISSATISFACTION",
+        "output": {
+            "text": {
+                "values": ["dissatisfaction_eva_01"],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('dissatisfaction_eva_01') ?>"
+        },
+        "parent": "node_65_1513726299243",
+        "context": {
+            "is_business_question": false
+        },
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "maintain_conversation_01"
+        },
+        "conditions": "$topIntent==\"eva_dissatisfaction_withEVA\"",
+        "description": null,
+        "dialog_node": "node_70_1513726703787",
+        "previous_sibling": "node_69_1513726576742"
+    }, {
+        "type": "standard",
+        "title": "RANGE_OF_FUNCTIONALITY",
+        "output": {},
+        "parent": "node_65_1513726299243",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "node_11_1524836162778"
+        },
+        "conditions": "$topIntent==\"functional_scope\"",
+        "description": null,
+        "dialog_node": "node_10_1524835536442",
+        "previous_sibling": "node_1_1524835284094"
+    }, {
+        "type": "standard",
+        "title": "DEFINITION",
+        "output": {},
+        "parent": "node_65_1513726299243",
+        "context": null,
+        "metadata": {
+            "_customization": {
+                "mcr": true
+            }
+        },
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "node_6_1524835420340"
+        },
+        "conditions": "$topIntent==\"definition\"",
+        "description": null,
+        "dialog_node": "node_1_1524835284094",
+        "digress_out": "allow_all",
+        "previous_sibling": "node_67_1513726353899"
+    }, {
+        "type": "standard",
+        "title": "FURTHER_QUESTIONS",
+        "output": {
+            "text": {
+                "values": ["further_questions_01"],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('further_questions_01') ?>",
+            "prevent_override": true
+        },
+        "parent": "node_65_1513726299243",
+        "context": null,
+        "metadata": {},
+        "next_step": null,
+        "conditions": "$topIntent==\"eva_furtherClientquestions\"",
+        "description": null,
+        "dialog_node": "node_67_1513726353899",
+        "previous_sibling": null
+    }, {
+        "type": "standard",
+        "title": "PROMPT",
+        "output": {},
+        "parent": "maintain_conversation_01",
+        "context": null,
+        "metadata": {},
+        "next_step": null,
+        "conditions": "anything_else",
+        "description": null,
+        "dialog_node": "Inquiry",
+        "previous_sibling": "RestoreOldContext"
+    }, {
+        "type": "standard",
+        "title": "RESTORE_OLD_CONTEXT",
+        "output": {},
+        "parent": "maintain_conversation_01",
+        "context": null,
+        "metadata": {},
+        "next_step": null,
+        "conditions": "$oldContext",
+        "description": null,
+        "dialog_node": "RestoreOldContext",
+        "previous_sibling": null
+    }, {
+        "type": "response_condition",
+        "title": null,
+        "output": {
+            "text": {
+                "values": ["welcome_01"],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('welcome_01') ?>",
+            "isWelcome": true,
+            "prevent_override": true
+        },
+        "parent": "Greeting",
+        "context": null,
+        "metadata": {},
+        "next_step": null,
+        "conditions": null,
+        "description": null,
+        "dialog_node": "node_1_1505928613487",
+        "previous_sibling": null
+    }, {
+        "type": "response_condition",
+        "title": null,
+        "output": {},
+        "parent": "JUMP TO ROOT",
+        "context": {
+            "classifyJargon": false,
+            "classifySentiment": false
+        },
+        "metadata": {},
+        "next_step": null,
+        "conditions": " ",
+        "description": null,
+        "dialog_node": "node_1_1500036321142",
+        "previous_sibling": null
+    }, {
+        "type": "standard",
+        "title": "JUMP_TO_DIALOG_DRIVEN_NODES",
+        "output": {},
+        "parent": "node_58_1513706195578",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "body",
+            "dialog_node": "DIALOG DRIVEN NODES"
+        },
+        "conditions": "true",
+        "description": null,
+        "dialog_node": "node_60_1513706345030",
+        "previous_sibling": "node_59_1513706242649"
+    }, {
+        "type": "standard",
+        "title": "ANAPHORA-REASSURANCE",
+        "output": {},
+        "parent": "node_58_1513706195578",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "REASSURANCE"
+        },
+        "conditions": "$topConfidence<=$confidence_threshold && $topConfidence>$reassurance_threshold && $reassurance_threshold && $confidence_threshold && input.text.split(\" \").size()>2",
+        "description": null,
+        "dialog_node": "node_59_1513706242649",
+        "previous_sibling": null
+    }, {
+        "type": "standard",
+        "title": "ANYTHING_ELSE",
+        "output": {
+            "text": {
+                "values": ["eva_04"],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('eva_04') ?>",
+            "prevent_override": true
+        },
+        "parent": "node_73_1513729942209",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "user_input",
+            "dialog_node": "node_74_1513730384121"
+        },
+        "conditions": "anything_else",
+        "description": null,
+        "dialog_node": "node_1_1513760785102",
+        "previous_sibling": "node_75_1513730441803"
+    }, {
+        "type": "standard",
+        "title": "EVA_FURTHER_INFO_NO",
+        "output": {
+            "text": {
+                "values": ["eva_03"],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('eva_03') ?>",
+            "prevent_override": true
+        },
+        "parent": "node_73_1513729942209",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "maintain_conversation_01"
+        },
+        "conditions": "@global_yes_no:no || @global_yes_no:(don't know)",
+        "description": null,
+        "dialog_node": "node_75_1513730441803",
+        "previous_sibling": "node_74_1513730384121"
+    }, {
+        "type": "standard",
+        "title": "EVA_FURTHER_INFO_YES",
+        "output": {
+            "text": {
+                "values": ["eva_02"],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('eva_02') ?>",
+            "prevent_override": true
+        },
+        "parent": "node_73_1513729942209",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "maintain_conversation_01"
+        },
+        "conditions": "@global_yes_no:yes",
+        "description": null,
+        "dialog_node": "node_74_1513730384121",
+        "previous_sibling": null
+    }, {
+        "type": "response_condition",
+        "title": null,
+        "output": {},
+        "parent": "Dialog Jump - yes",
+        "context": {
+            "topIntent": "<? context.reassurance_intent ?>",
+            "tempPrevInput": "<? input.text = input.text.replace('Yes, that is what I meant',$initialReassuranceInput) >?"
+        },
+        "metadata": {},
+        "next_step": null,
+        "conditions": "entities=$entities",
+        "description": null,
+        "dialog_node": "node_1_1502985882269",
+        "previous_sibling": null
+    }, {
+        "type": "standard",
+        "title": "JUMP_TO_ROOT",
+        "output": {},
+        "parent": "QA DRIVEN NODES",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "REASSURANCE"
+        },
+        "conditions": "anything_else",
+        "description": null,
+        "dialog_node": "JUMP TO ROOT",
+        "previous_sibling": "node_65_1513726299243"
+    }, {
+        "type": "standard",
+        "title": "EVA_CHATBOT",
+        "output": {},
+        "parent": "QA DRIVEN NODES",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "node_67_1513726353899"
+        },
+        "conditions": "false",
+        "description": null,
+        "dialog_node": "node_65_1513726299243",
+        "previous_sibling": "Online Deal"
+    }, {
+        "type": "standard",
+        "title": "IBM_&_WATSON",
+        "output": {},
+        "parent": "QA DRIVEN NODES",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "Trigger_Online Deal"
+        },
+        "conditions": "true",
+        "description": null,
+        "dialog_node": "Online Deal",
+        "previous_sibling": null
+    }, {
+        "type": "standard",
+        "title": "PROMPT_DONT_KNOW",
+        "output": {},
+        "parent": "Inquiry",
+        "context": null,
+        "metadata": {},
+        "next_step": null,
+        "conditions": "@global_yes_no:(don't know) && input.text.length() < 13",
+        "description": null,
+        "dialog_node": "node_15_1507643992053",
+        "previous_sibling": "Prompt_noHelp"
+    }, {
+        "type": "standard",
+        "title": "PROMPT_JUMP_TO_TOP",
+        "output": {
+            "actions": "<? (output.actions?:new JsonArray()).append('purgeOldContext') ?>"
+        },
+        "parent": "Inquiry",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "PROFANITY"
+        },
+        "conditions": "anything_else",
+        "description": null,
+        "dialog_node": "Nachfrage_jumpTop",
+        "previous_sibling": "node_15_1507643992053"
+    }, {
+        "type": "response_condition",
+        "title": null,
+        "output": {
+            "text": {
+                "values": ["maintain_conversation_01"],
+                "selection_policy": "random"
+            },
+            "actions": "<? (output.actions?:new JsonArray()).append('purgeOldContext') ?>",
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('maintain_conversation_01') ?>",
+            "prevent_override": true
+        },
+        "parent": "Inquiry",
+        "context": {
+            "currentOffer": false
+        },
+        "metadata": {},
+        "next_step": null,
+        "conditions": " anything_else",
+        "description": null,
+        "dialog_node": "node_4_1503506390780",
+        "previous_sibling": "Nachfrage_jumpTop"
+    }, {
+        "type": "standard",
+        "title": "PROMPT_NO_FURTHER_HELP",
+        "output": {
+            "prevent_override": true
+        },
+        "parent": "Inquiry",
+        "context": {},
+        "metadata": {},
+        "next_step": null,
+        "conditions": "@global_yes_no:no && input.text.length() < 13",
+        "description": null,
+        "dialog_node": "Prompt_noHelp",
+        "previous_sibling": null
+    }, {
+        "type": "response_condition",
+        "title": null,
+        "output": {
+            "text": {
+                "values": ["ibm_01"],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('ibm_01') ?>"
+        },
+        "parent": "Trigger_Online Deal",
+        "context": {},
+        "metadata": {},
+        "next_step": null,
+        "conditions": null,
+        "description": null,
+        "dialog_node": "node_12_1507814610501",
+        "previous_sibling": null
+    }, {
+        "type": "response_condition",
+        "title": null,
+        "output": {
+            "actions": "<? (output.actions?:new JsonArray()).append('restoreOldContext') ?>",
+            "prevent_override": true
+        },
+        "parent": "node_1_1499254664916",
+        "context": null,
+        "metadata": null,
+        "next_step": null,
+        "conditions": "",
+        "description": null,
+        "dialog_node": "node_2_1499254697527",
+        "previous_sibling": null
+    }, {
+        "type": "standard",
+        "title": null,
+        "output": {
+            "text": {
+                "values": [""],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('definition_2') ?>",
+            "prevent_override": true
+        },
+        "parent": "node_1_1524835284094",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "maintain_conversation_01"
+        },
+        "conditions": "@functional_scope:single_word_search || (@global_relativ_pronoun && ($previousEntities?.contains('functional_scope--single_word_search') ))",
+        "description": null,
+        "dialog_node": "node_7_1524835431566",
+        "previous_sibling": "node_6_1524835420340"
+    }, {
+        "type": "standard",
+        "title": null,
+        "output": {
+            "text": {
+                "values": [""],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('definition_3') ?>",
+            "prevent_override": true
+        },
+        "parent": "node_1_1524835284094",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "maintain_conversation_01"
+        },
+        "conditions": "@functional_scope:anaphora_solution || (@global_relativ_pronoun && ($previousEntities?.contains('functional_scope--anaphora_solution') ))",
+        "description": null,
+        "dialog_node": "node_8_1524835434344",
+        "previous_sibling": "node_7_1524835431566"
+    }, {
+        "type": "standard",
+        "title": null,
+        "output": {
+            "text": {
+                "values": [""],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('definition_4') ?>",
+            "prevent_override": true
+        },
+        "parent": "node_1_1524835284094",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "maintain_conversation_01"
+        },
+        "conditions": "anything_else",
+        "description": null,
+        "dialog_node": "node_9_1524835480526",
+        "previous_sibling": "node_8_1524835434344"
+    }, {
+        "type": "response_condition",
+        "title": null,
+        "output": {
+            "text": {
+                "values": [""],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": "node_1_1524835284094",
+        "context": null,
+        "metadata": {},
+        "next_step": null,
+        "conditions": null,
+        "description": null,
+        "dialog_node": "node_2_1524835367360",
+        "previous_sibling": "node_9_1524835480526"
+    }, {
+        "type": "standard",
+        "title": "Dialog jump",
+        "output": {
+            "text": {
+                "values": [""],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('definition_1') ?>",
+            "prevent_override": true
+        },
+        "parent": "node_1_1524835284094",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "maintain_conversation_01"
+        },
+        "conditions": "@functional_scope:dialog_jump || (@global_relativ_pronoun && ($previousEntities?.contains('functional_scope--dialog_jump') ))",
+        "description": null,
+        "dialog_node": "node_6_1524835420340",
+        "previous_sibling": null
+    }, {
+        "type": "response_condition",
+        "title": null,
+        "output": {
+            "text": {
+                "values": ["profanity_01"],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('profanity_01') ?>",
+            "prevent_override": true
+        },
+        "parent": "PROFANITY",
+        "context": null,
+        "metadata": {},
+        "next_step": null,
+        "conditions": "",
+        "description": null,
+        "dialog_node": "node_1_1504771579876",
+        "previous_sibling": "node_2_1504771581350"
+    }, {
+        "type": "response_condition",
+        "title": null,
+        "output": {
+            "text": {
+                "values": ["profanity_02"],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('profanity_02') ?>",
+            "prevent_override": true
+        },
+        "parent": "PROFANITY",
+        "context": null,
+        "metadata": {},
+        "next_step": null,
+        "conditions": "$profanity.wordCluster==\"suicide\"",
+        "description": null,
+        "dialog_node": "node_2_1504771581350",
+        "previous_sibling": null
+    }, {
+        "type": "standard",
+        "title": "DIALOG_REASSURANCE_YES",
+        "output": {},
+        "parent": "Dialog Jump",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "body",
+            "dialog_node": "DIALOG DRIVEN NODES"
+        },
+        "conditions": "@global_yes_no:yes",
+        "description": null,
+        "dialog_node": "Dialog Jump - yes",
+        "previous_sibling": "Dialog Jump - no"
+    }, {
+        "type": "standard",
+        "title": "DIALOG_REASSURANCE_NO",
+        "output": {
+            "text": {
+                "values": ["reassurance_dialog_02"],
+                "selection_policy": "sequential"
+            },
+            "actions": "<? (output.actions?:new JsonArray()).append('preventJump') ?>",
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('reassurance_dialog_02') ?>",
+            "prevent_override": true
+        },
+        "parent": "Dialog Jump",
+        "context": null,
+        "metadata": {},
+        "next_step": null,
+        "conditions": "@global_yes_no:no",
+        "description": null,
+        "dialog_node": "Dialog Jump - no",
+        "previous_sibling": null
+    }, {
+        "type": "response_condition",
+        "title": null,
+        "output": {
+            "text": {
+                "values": ["back_to_topic_prompt"],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('back_to_topic_prompt') ?>",
+            "prevent_override": true
+        },
+        "parent": "RestoreOldContext",
+        "context": null,
+        "metadata": {},
+        "next_step": null,
+        "conditions": "",
+        "description": null,
+        "dialog_node": "node_4_1499190949072",
+        "previous_sibling": "node_1_1505912446182"
+    }, {
+        "type": "standard",
+        "title": "JUMP_TO_TOP",
+        "output": {
+            "actions": "<? (output.actions?:new JsonArray()).append('purgeOldContext') ?>",
+            "prevent_override": true
+        },
+        "parent": "RestoreOldContext",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "PROFANITY"
+        },
+        "conditions": "true",
+        "description": null,
+        "dialog_node": "node_1_1505912446182",
+        "previous_sibling": "node_2_1499266597278"
+    }, {
+        "type": "standard",
+        "title": "NO",
+        "output": {
+            "actions": "<? (output.actions?:new JsonArray()).append('purgeOldContext') ?>",
+            "prevent_override": true
+        },
+        "parent": "RestoreOldContext",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "Inquiry"
+        },
+        "conditions": "@global_yes_no:no || @global_yes_no:(don't know)",
+        "description": null,
+        "dialog_node": "node_2_1499266597278",
+        "previous_sibling": "node_1_1499254664916"
+    }, {
+        "type": "standard",
+        "title": "YES",
+        "output": {},
+        "parent": "RestoreOldContext",
+        "context": null,
+        "metadata": {},
+        "next_step": null,
+        "conditions": "@global_yes_no:yes",
+        "description": null,
+        "dialog_node": "node_1_1499254664916",
+        "previous_sibling": null
+    }, {
+        "type": "standard",
+        "title": "ANAPHORA_TRUE",
+        "output": {},
+        "parent": "node_55_1513705882076",
+        "context": {
+            "topIntent": "<? context.previousIntent ?>"
+        },
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "body",
+            "dialog_node": "DIALOG DRIVEN NODES"
+        },
+        "conditions": "$topIntent==\"anaphora\" && $previousIntent!=null",
+        "description": null,
+        "dialog_node": "node_57_1513706113397",
+        "previous_sibling": "node_56_1513706038271"
+    }, {
+        "type": "standard",
+        "title": "ANAPHORA_FALSE",
+        "output": {},
+        "parent": "node_55_1513705882076",
+        "context": {
+            "previousIntent": "<? context.topIntent ?>"
+        },
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "node_59_1513706242649"
+        },
+        "conditions": "$topConfidence>$reassurance_threshold && $reassurance_threshold",
+        "description": null,
+        "dialog_node": "node_58_1513706195578",
+        "previous_sibling": "node_57_1513706113397"
+    }, {
+        "type": "standard",
+        "title": "JUMP_TO_OFFTOPIC",
+        "output": {},
+        "parent": "node_55_1513705882076",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "AnythingElse Technical"
+        },
+        "conditions": "$topIntent==\"Off_Topic\"",
+        "description": null,
+        "dialog_node": "node_56_1513706038271",
+        "previous_sibling": null
+    }, {
+        "type": "standard",
+        "title": "JUMP_TO_QA_DRIVEN_NODES",
+        "output": {},
+        "parent": "DIALOG DRIVEN NODES",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "body",
+            "dialog_node": "QA DRIVEN NODES"
+        },
+        "conditions": "anything_else",
+        "description": null,
+        "dialog_node": "JUMP TO QA DRIVEN NODES",
+        "previous_sibling": "node_73_1513729942209"
+    }, {
+        "type": "standard",
+        "title": "EVA",
+        "output": {
+            "text": {
+                "values": ["eva_01"],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('eva_01') ?>"
+        },
+        "parent": "DIALOG DRIVEN NODES",
+        "context": null,
+        "metadata": {},
+        "next_step": null,
+        "conditions": "$topIntent==\"eva\"",
+        "description": null,
+        "dialog_node": "node_73_1513729942209",
+        "previous_sibling": null
+    }, {
+        "type": "standard",
+        "title": "JUMP_TO_PARENT",
+        "output": {},
+        "parent": "Online Deal",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "body",
+            "dialog_node": "node_65_1513726299243"
+        },
+        "conditions": "true",
+        "description": null,
+        "dialog_node": "JUMP TO QUESTIONS ABOUT CONTRACT",
+        "previous_sibling": "Navigation"
+    }, {
+        "type": "standard",
+        "title": "WATSON",
+        "output": {
+            "text": {
+                "values": ["watson_01"],
+                "selection_policy": "random"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('watson_01') ?>"
+        },
+        "parent": "Online Deal",
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "maintain_conversation_01"
+        },
+        "conditions": "$topIntent==\"watson\"",
+        "description": null,
+        "dialog_node": "Navigation",
+        "previous_sibling": "Trigger_Online Deal"
+    }, {
+        "type": "standard",
+        "title": "IBM",
+        "output": {},
+        "parent": "Online Deal",
+        "context": null,
+        "metadata": {
+            "_customization": {
+                "mcr": true
+            }
+        },
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "body",
+            "dialog_node": "maintain_conversation_01"
+        },
+        "conditions": "$topIntent==\"ibm\"",
+        "description": null,
+        "dialog_node": "Trigger_Online Deal",
+        "previous_sibling": null
+    }, {
+        "type": "standard",
+        "title": "DIALOG_REASSURANCE",
+        "output": {
+            "text": {
+                "values": ["reassurance_dialog_01"],
+                "selection_policy": "sequential"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('reassurance_dialog_01') ?>",
+            "prevent_override": true
+        },
+        "parent": "REASSURANCE",
+        "context": {
+            "initialReassuranceInput": "<?input_text?>"
+        },
+        "metadata": {},
+        "next_step": null,
+        "conditions": "anything_else",
+        "description": null,
+        "dialog_node": "Dialog Jump",
+        "previous_sibling": "QA Jump 2"
+    }, {
+        "type": "standard",
+        "title": "QA_REASSURANCE",
+        "output": {
+            "text": {
+                "values": ["reassurance_qa_01"],
+                "selection_policy": "sequential"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('reassurance_qa_01') ?>",
+            "prevent_override": true
+        },
+        "parent": "REASSURANCE",
+        "context": {},
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "body",
+            "dialog_node": "QA DRIVEN NODES"
+        },
+        "conditions": "$topIntent.matches('nfd_basiswissen_(.*)') || $topIntent==\"nfd_zahlungsmoeglichkeit\"",
+        "description": null,
+        "dialog_node": "QA Jump 2",
+        "previous_sibling": "node_2_1502785140748"
+    }, {
+        "type": "response_condition",
+        "title": null,
+        "output": {
+            "text": {
+                "values": ["Reassurance"],
+                "selection_policy": "sequential"
+            },
+            "prevent_override": true
+        },
+        "parent": "REASSURANCE",
+        "context": {
+            "entities": "<? entities ?>",
+            "reassurance_intent": "<? intents[0].intent ?>",
+            "reassurance_confidence": "<? intents[0].confidence ?>"
+        },
+        "metadata": {},
+        "next_step": null,
+        "conditions": null,
+        "description": null,
+        "dialog_node": "node_2_1502785140748",
+        "previous_sibling": null
+    }, {
+        "type": "standard",
+        "title": "INPUT_TOO_LONG",
+        "output": {
+            "text": {
+                "values": ["long_input_01"],
+                "selection_policy": "sequential"
+            },
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('long_input_01') ?>",
+            "prevent_override": true
+        },
+        "parent": null,
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "maintain_conversation_01"
+        },
+        "conditions": "input.text.length() > 150 && intents[0].confidence<$reassurance_threshold",
+        "description": null,
+        "dialog_node": "node_2_1506333687435",
+        "previous_sibling": "Farewell_Entity"
+    }, {
+        "type": "standard",
+        "title": "CONVERSATION_CONTINUATION",
+        "output": {
+            "actions": "<? (output.actions?:new JsonArray()).append('checkForOldContext') ?>",
+            "prevent_override": true
+        },
+        "parent": null,
+        "context": null,
+        "metadata": {},
+        "next_step": null,
+        "conditions": "true",
+        "description": null,
+        "dialog_node": "maintain_conversation_01",
+        "previous_sibling": "AnythingElse Technical"
+    }, {
+        "type": "standard",
+        "title": "PROFANITY",
+        "output": {},
+        "parent": null,
+        "context": null,
+        "metadata": null,
+        "next_step": null,
+        "conditions": "$profanity && $profanity!=null && $profanity.profanityFound",
+        "description": null,
+        "dialog_node": "PROFANITY",
+        "previous_sibling": "Greeting"
+    }, {
+        "type": "standard",
+        "title": "REASSURANCE",
+        "output": {},
+        "parent": null,
+        "context": null,
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "QA Jump 2"
+        },
+        "conditions": "intents[0].confidence<=$confidence_threshold && intents[0].confidence>$reassurance_threshold && $confidence_threshold && $reassurance_threshold && $topIntent!=\"Off_Topic\" && $topIntent!=\"eva_farewell\" && $topIntent!=\"eva_dissatisfaction_withEVA\" && input.text.split(\" \").size()>2 && $topIntent!=\"anaphora\" && $topIntent!=\"eva_unsure\"",
+        "description": null,
+        "dialog_node": "REASSURANCE",
+        "previous_sibling": "QA DRIVEN NODES"
+    }, {
+        "type": "standard",
+        "title": "ANAPHORA",
+        "output": {},
+        "parent": null,
+        "context": {
+            "topIntent": "<? intents[0].intent ?>",
+            "confidence": "<? intents[0].confidence ?>",
+            "loop_counter": 0,
+            "topConfidence": "<? intents[0].confidence ?>"
+        },
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "node_56_1513706038271"
+        },
+        "conditions": "intents[0].confidence>$reassurance_threshold && $reassurance_threshold",
+        "description": null,
+        "dialog_node": "node_55_1513705882076",
+        "previous_sibling": "node_2_1506333687435"
+    }, {
+        "type": "standard",
+        "title": "FAREWELL_ENTITY",
+        "output": {
+            "text": {
+                "values": ["farewell_01"],
+                "selection_policy": "random"
+            },
+            "actions": "<? (output.actions?:new JsonArray()).append('requestConversationFeedback') ?>",
+            "answer_id": "<? (output.answer_id?:new JsonArray()).append('farewell_01') ?>",
+            "prevent_override": true
+        },
+        "parent": null,
+        "context": {
+            "topIntent": "eva_farewell",
+            "confidence": 1,
+            "topConfidence": 1,
+            "is_business_question": false,
+            "is_non_business_question": false
+        },
+        "metadata": {},
+        "next_step": null,
+        "conditions": "@eva_farewell",
+        "description": null,
+        "dialog_node": "Farewell_Entity",
+        "previous_sibling": "PROFANITY"
+    }, {
+        "type": "standard",
+        "title": "DIALOG_DRIVEN_NODES",
+        "output": {},
+        "parent": null,
+        "context": {
+            "isDialog": true,
+            "is_business_question": true
+        },
+        "metadata": {},
+        "next_step": {
+            "behavior": "skip_user_input",
+            "dialog_node": "node_73_1513729942209"
+        },
+        "conditions": "false",
+        "description": null,
+        "dialog_node": "DIALOG DRIVEN NODES",
+        "previous_sibling": "node_55_1513705882076"
+    }, {
+        "type": "standard",
+        "title": "QA_DRIVEN_NODES",
+        "output": {},
+        "parent": null,
+        "context": {
+            "isDialog": false,
+            "is_business_question": true
+        },
+        "metadata": {},
+        "next_step": {
+            "behavior": "jump_to",
+            "selector": "condition",
+            "dialog_node": "Online Deal"
+        },
+        "conditions": "false",
+        "description": null,
+        "dialog_node": "QA DRIVEN NODES",
+        "previous_sibling": "DIALOG DRIVEN NODES"
+    }, {
+        "type": "standard",
+        "title": "ANYTHING_ELSE_BUSINESS",
+        "output": {},
+        "parent": null,
+        "context": null,
+        "metadata": {},
+        "next_step": null,
+        "conditions": "anything_else",
+        "description": null,
+        "dialog_node": "AnythingElse Technical",
+        "previous_sibling": "REASSURANCE"
+    }, {
+        "type": "standard",
+        "title": "WELCOME",
+        "output": {},
+        "parent": null,
+        "context": null,
+        "metadata": {
+            "_customization": {
+                "mcr": true
+            }
+        },
+        "next_step": null,
+        "conditions": "welcome || input.text==\"\" || input.text==null && !$welcomeMessageFromConfig",
+        "description": null,
+        "dialog_node": "Greeting",
+        "previous_sibling": null
+    }
+],
+    "workspace_id": "ce8fc553-ede5-4d48-8b6f-cc5cb425b0e3",
+    "counterexamples": [
+        {
+            "text": "6 bis 13"
+        }
+    ],
+    "learning_opt_out": false
+}

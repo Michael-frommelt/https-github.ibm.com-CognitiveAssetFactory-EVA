@@ -16,7 +16,7 @@ template:
     git branch: >-
       [master](https://github.ibm.com/CognitiveAssetFactory/EVA/tree/master)
 toolchain:
-  name: 'Enhanced_conVersation_Asset'
+  name: 'Enhanced conVersation Asset'
   template:
     getting_started:
       $ref: "#/messages/template.gettingStarted"
@@ -42,19 +42,25 @@ services:
           $text: pipeline.yml
         env:
           EVA_REPO: eva-repo
-          DATABASE_TYPE: '{{form.pipeline.parameters.database-type}}'
+          API_KEY: '{{form.pipeline.parameters.api-key}}'
+          APPLICATION_NAME: '{{form.pipeline.parameters.application-name}}'
           USERNAME: '{{form.pipeline.parameters.username}}'
           PASSWORD: '{{form.pipeline.parameters.password}}'
-          PROD_RESOURCE_GROUP_NAME: '{{form.pipeline.parameters.prod-resource-group}}'
-          PROD_ORG_NAME: '{{form.pipeline.parameters.prod-organization}}'
-          PROD_SPACE_NAME: '{{form.pipeline.parameters.prod-space}}'
-          PROD_REGION_ID: '{{form.pipeline.parameters.prod-region}}'
-          API_KEY: '{{form.pipeline.parameters.api-key}}'
-          PROD_APP_NAME: '{{form.pipeline.parameters.prod-app-name}}'
+          PROD_REGION: '{{form.pipeline.parameters.prod-region}}'
+          PROD_ORGANIZATION: '{{form.pipeline.parameters.prod-organization}}'
+          PROD_SPACE: '{{form.pipeline.parameters.prod-space}}'
+          DATABASE_TYPE: '{{form.pipeline.parameters.database-type}}'
+          PROD_RESOURCE_GROUP: '{{form.pipeline.parameters.prod-resource-group}}'
+          LANGUAGE: '{{form.pipeline.parameters.language}}'
         execute: true
   webide:
     service_id: orion
 form:
   pipeline:
     schema:
-      $ref: deploy.json
+      $ref: deploy.json 
+    parameters:
+      application-name: '{{services.eva-repo.parameters.repo_name}}'  
+      # form defaults for selects, since they are considered null until changed otherwise
+      database-type: 'IBM Cloudant'
+      language: 'de'

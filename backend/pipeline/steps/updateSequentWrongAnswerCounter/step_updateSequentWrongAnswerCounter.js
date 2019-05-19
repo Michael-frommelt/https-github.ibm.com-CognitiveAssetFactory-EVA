@@ -25,8 +25,8 @@ exports.call = function(resultHolder, callback) {
         return callback(null, resultHolder);
     }
 
-    if (resultHolder.output.answer_id && ((resultHolder.output.answer_id.indexOf("Anything_else_1") != -1) || (resultHolder.output.answer_id.indexOf("Anything_else_2") != -1) || (resultHolder.output.answer_id.indexOf("Anything_else_3") != -1))) {
-        if (resultHolder.output.answer_id.indexOf("Anything_else_1") == -1) {
+    if (resultHolder.output.answer_id && ((resultHolder.output.answer_id.indexOf("anything_else_1") != -1) || (resultHolder.output.answer_id.indexOf("anything_else_2") != -1) || (resultHolder.output.answer_id.indexOf("anything_else_3") != -1))) {
+        if (resultHolder.output.answer_id.indexOf("anything_else_1") == -1) {
             resultHolder.debug.anythingElse = {};
             resultHolder.debug.anythingElse.result = [];
 

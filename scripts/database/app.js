@@ -18,14 +18,15 @@
 
 var argv = require('minimist')(process.argv.slice(2));
 var bcrypt = require('bcrypt-nodejs');
-var config = require('./config.json');
+var general = require('./config.json');
+var lng = require('./config_' + argv.language + '.json');
+var config = Object.assign(general, lng);
 var design_docs = require('./design_docs.json');
 var containers = ["users", "conversation_logs", "clients", "config", "test_results", "test_files", "test_sessions", "variables", "apps", "sessions", "profanity", "question_proposals", "kfold_results", "roles", "conversation_feedback", "answers_chitchat_asset", "answers_chitchat_asset_versions", "answers_business_asset", "answers_business_asset_versions"];
 var cloudantHelperContainer = ["test", "view_result_testing", "view_result_statistics"];
 
 var mongoClient = require('mongodb').MongoClient;
 var cloudantClient = require('cloudant');
-
 var async = require('async');
 
 insertCredentials();
@@ -300,6 +301,8 @@ function insertCredentials() {
 
     testing.conversation.api_key = argv.conversation_api_key;
     testing.conversation.url = argv.wcs_url;
+    testing.conversation.workspaces.dialog_business = argv.business_workspace;
+    testing.conversation.workspaces.dialog_chitchat = argv.chitchat_workspace;
 
     var standardClient = config.clients.find(function(element) {
       return element.id === "standard";

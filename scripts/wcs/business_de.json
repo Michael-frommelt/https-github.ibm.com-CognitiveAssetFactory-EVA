@@ -510,8 +510,6 @@
 				}, {
 					"text": "Wie ist das Wetter in Thailand?"
 				}, {
-					"text": "Wie oft muss ich Zähne putzen?"
-				}, {
 					"text": "Wie oft sollte ich in die Kirche gehen?"
 				}, {
 					"text": "Wie reichhaltig darf eine Mahlzeit sein?"
@@ -519,8 +517,6 @@
 					"text": "Wieso dreht sich die Erde um die Sonne?"
 				}, {
 					"text": "Wieso heißt du Eva?"
-				}, {
-					"text": "Wie viele Zähne hat der Mensch?"
 				}, {
 					"text": "Wie wird das Wetter?"
 				}, {
@@ -665,7 +661,7 @@
 					"values": [""],
 					"selection_policy": "random"
 				},
-				"answer_id": "<? (output.answer_id?:new JsonArray()).append('funktion_2') ?>",
+				"answer_id": "<? (output.answer_id?:new JsonArray()).append('function_2') ?>",
 				"prevent_override": true
 			},
 			"parent": "node_10_1524835536442",
@@ -688,7 +684,7 @@
 					"values": [""],
 					"selection_policy": "random"
 				},
-				"answer_id": "<? (output.answer_id?:new JsonArray()).append('funktion_4') ?>",
+				"answer_id": "<? (output.answer_id?:new JsonArray()).append('function_4') ?>",
 				"prevent_override": true
 			},
 			"parent": "node_10_1524835536442",
@@ -711,7 +707,7 @@
 					"values": [""],
 					"selection_policy": "random"
 				},
-				"answer_id": "<? (output.answer_id?:new JsonArray()).append('funktion_3') ?>",
+				"answer_id": "<? (output.answer_id?:new JsonArray()).append('function_3') ?>",
 				"prevent_override": true
 			},
 			"parent": "node_10_1524835536442",
@@ -734,7 +730,7 @@
 					"values": [""],
 					"selection_policy": "random"
 				},
-				"answer_id": "<? (output.answer_id?:new JsonArray()).append('funktion_1') ?>",
+				"answer_id": "<? (output.answer_id?:new JsonArray()).append('function_1') ?>",
 				"prevent_override": true
 			},
 			"parent": "node_10_1524835536442",
@@ -766,10 +762,10 @@
 			"title": null,
 			"output": {
 				"text": {
-					"values": ["Anything_else_3"],
+					"values": ["anything_else_3"],
 					"selection_policy": "random"
 				},
-				"answer_id": "<? (output.answer_id?:new JsonArray()).append('Anything_else_3') ?>"
+				"answer_id": "<? (output.answer_id?:new JsonArray()).append('anything_else_3') ?>"
 			},
 			"parent": "AnythingElse Fachlich",
 			"context": {
@@ -786,10 +782,10 @@
 			"title": null,
 			"output": {
 				"text": {
-					"values": ["Anything_else_1"],
+					"values": ["anything_else_1"],
 					"selection_policy": "random"
 				},
-				"answer_id": "<? (output.answer_id?:new JsonArray()).append('Anything_else_1') ?>"
+				"answer_id": "<? (output.answer_id?:new JsonArray()).append('anything_else_1') ?>"
 			},
 			"parent": "AnythingElse Fachlich",
 			"context": {
@@ -806,10 +802,10 @@
 			"title": null,
 			"output": {
 				"text": {
-					"values": ["Anything_else_2"],
+					"values": ["anything_else_2"],
 					"selection_policy": "random"
 				},
-				"answer_id": "<? (output.answer_id?:new JsonArray()).append('Anything_else_2') ?>"
+				"answer_id": "<? (output.answer_id?:new JsonArray()).append('anything_else_2') ?>"
 			},
 			"parent": "AnythingElse Fachlich",
 			"context": {
@@ -1235,11 +1231,11 @@
 			"title": null,
 			"output": {
 				"text": {
-					"values": ["Gesprächserhaltung_01"],
+					"values": ["maintain_conversation_01"],
 					"selection_policy": "random"
 				},
 				"actions": "<? (output.actions?:new JsonArray()).append('purgeOldContext') ?>",
-				"answer_id": "<? (output.answer_id?:new JsonArray()).append('Gesprächserhaltung_01') ?>",
+				"answer_id": "<? (output.answer_id?:new JsonArray()).append('maintain_conversation_01') ?>",
 				"prevent_override": true
 			},
 			"parent": "Nachfrage",
@@ -1487,10 +1483,10 @@
 			"title": null,
 			"output": {
 				"text": {
-					"values": ["Back_to_topic_prompt"],
+					"values": ["back_to_topic_prompt"],
 					"selection_policy": "random"
 				},
-				"answer_id": "<? (output.answer_id?:new JsonArray()).append('Back_to_topic_prompt') ?>",
+				"answer_id": "<? (output.answer_id?:new JsonArray()).append('back_to_topic_prompt') ?>",
 				"prevent_override": true
 			},
 			"parent": "RestoreOldContext",

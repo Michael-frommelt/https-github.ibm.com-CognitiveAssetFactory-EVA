@@ -187,7 +187,7 @@ exports.handleJump = function(newInput, conversationStore, callback) {
                             if (err) return handleError(err, newInput, callback);
 
                             if (jumpConfig.announceAutoMerge) {
-                                output.output.answer_id = merger.answer_id.concat(['Back_to_topic_automatic']).concat(output.output.answer_id);
+                                output.output.answer_id = merger.answer_id.concat(['back_to_topic_automatic']).concat(output.output.answer_id);
                             } else {
                                 output.output.answer_id = merger.answer_id.concat(output.output.answer_id);
                             }
@@ -375,7 +375,7 @@ function mergeNewResultWithOldResult(newInput, merger, jumpConfig, callback) {
 
     newInput.input = merger.input;
     if (jumpConfig.announceAutoMerge) {
-        newInput.output.answer_id = newInput.output.answer_id.concat(['Back_to_topic_automatic']).concat(merger.output.answer_id);
+        newInput.output.answer_id = newInput.output.answer_id.concat(['back_to_topic_automatic']).concat(merger.output.answer_id);
     } else {
         newInput.output.answer_id = newInput.output.answer_id.concat(merger.output.answer_id);
     }
@@ -404,7 +404,7 @@ function mergeNewResultWithChitChat(answersBusiness, answersChitChat, jumpConfig
     answersBusiness.debug.handleJump.action = "mergeNewResultWithChitChat";
     logMergeDwithCC();
 
-    if (jumpConfig.announceAutoMerge) answersBusiness.output.answer_id = ['Back_to_topic_automatic'].concat(answersBusiness.output.answer_id);
+    if (jumpConfig.announceAutoMerge) answersBusiness.output.answer_id = ['back_to_topic_automatic'].concat(answersBusiness.output.answer_id);
 
     if (answersBusiness.output.answer_id.length > 0) answersBusiness.output.answer_id = specifyClientOnAnswerLevel(answersBusiness.output.answer_id, answersBusiness.clientId, answersBusiness.answerFrom);
     if (answersChitChat.output.answer_id.length > 0) answersChitChat.output.answer_id = specifyClientOnAnswerLevel(answersChitChat.output.answer_id, answersChitChat.clientId, answersChitChat.answerFrom);

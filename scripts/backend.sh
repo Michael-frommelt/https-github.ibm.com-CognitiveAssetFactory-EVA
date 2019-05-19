@@ -4,10 +4,10 @@ echo ""
 echo "########### CLEAN DIRECTORY ############"
 echo ""
 
+rm -R .bluemix
 rm -R docs
 rm -R external_frontend
 rm -R frontend
-rm -R resources
 
 echo ""
 echo "######### MOVE BACKEND TO ROOT #########"
