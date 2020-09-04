@@ -4,7 +4,7 @@
     "dependencies": {
         "@cloudant/cloudant": "2.1.0",
         "dotenv": "6.0.0",
-        "mongodb": "3.1.10",
+        "mongodb": "3.1.13",
         "watson-developer-cloud": "^3.15.0"
     },
     "engines": {
