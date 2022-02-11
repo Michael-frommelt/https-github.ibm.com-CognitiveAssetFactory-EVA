@@ -6,7 +6,7 @@
     "dependencies": {
         "@cloudant/cloudant": "2.1.0",
         "@sendgrid/mail": "6.2.1",
-        "ajv": "6.5.5",
+        "ajv": "6.12.3",
         "async": "2.6.1",
         "bcrypt-nodejs": "0.0.3",
         "body-parser": "1.18.3",
