@@ -7,7 +7,7 @@
         "@cloudant/cloudant": "2.1.0",
         "@sendgrid/mail": "6.2.1",
         "ajv": "6.5.5",
-        "async": "2.6.1",
+        "async": "2.6.4",
         "bcrypt-nodejs": "0.0.3",
         "body-parser": "1.18.3",
         "bootstrap-sass": "3.3.7",
