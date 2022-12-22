@@ -17,7 +17,7 @@
         "express": "4.16.4",
         "express-session": "1.15.6",
         "http-proxy-middleware": "0.18.0",
-        "jsonwebtoken": "8.3.0",
+        "jsonwebtoken": "9.0.0",
         "memorystore": "1.6.0",
         "messenger-bot": "2.5.0",
         "method-override": "2.3.10",
